@@ -284,5 +284,9 @@ document.getElementById("nUC").textContent=ALLUC.length;
 function applyHash(){const h=decodeURIComponent((location.hash||"").replace("#",""));if(!h)return;const toks=h.split(/[+,\/]/).filter(Boolean);const ucs=toks.filter(t=>UCMAP[t]);const ars=toks.filter(t=>AREAMAP[t]&&!UCMAP[t]);const nds=toks.filter(t=>NMAP[t]);if(ucs.length){state.filter=new Set(ucs);}if(ars.length){state.areaOn=new Set([...ars,"found"]);}if(nds.length){state.sel=nds[0];autoRot=false;}syncLegend();updatePanel();}
 applyHash();window.addEventListener("hashchange",applyHash);
 </script>
+
+<!-- Vercel Web Analytics (turn on Web Analytics in the Vercel project for this to load) -->
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
