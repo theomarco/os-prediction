@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Everything it takes to predict</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#EAEEF3;--muted:#98A2AE;--faint:#5E6874;
+    --display:"Space Grotesk","Inter",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;overflow:hidden;background:#06080b}
+  body{font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased}
+  #stage{position:fixed;inset:0}
+  canvas{display:block;width:100%;height:100%;cursor:grab}
+  canvas.drag{cursor:grabbing}
+
+  .overlay{position:fixed;z-index:5;pointer-events:none}
+  .tl{left:44px;top:38px;max-width:440px}
+  .pill{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#0a0c10;background:#43C67D;font-weight:700;padding:4px 9px;border-radius:999px;margin-bottom:14px}
+  h1{font-family:var(--display);font-weight:600;font-size:clamp(32px,4.2vw,50px);line-height:.98;letter-spacing:-.02em;margin:0 0 14px}
+  .lede{font-size:14px;line-height:1.5;color:var(--muted);max-width:40ch}
+  .lede b{color:var(--ink);font-weight:600}
+  .stat{margin-top:13px;font-size:13px;color:var(--muted);line-height:1.6}
+  .stat b{color:var(--ink);font-weight:600}
+  .hint{font-size:12.5px;color:var(--faint);margin-top:7px;max-width:40ch}
+  .hint b{color:var(--muted);font-weight:500}
+
+  .legend{left:44px;top:344px;pointer-events:auto}
+  .lh{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+  .legwrap{max-height:calc(100vh - 628px);min-height:70px;overflow-y:auto;padding-right:8px}
+  .legwrap::-webkit-scrollbar{width:6px}
+  .legwrap::-webkit-scrollbar-thumb{background:rgba(150,164,182,.22);border-radius:3px}
+  .lg{display:flex;align-items:center;gap:9px;padding:2.5px 0;cursor:pointer;user-select:none;transition:opacity .15s ease;width:274px}
+  .lg[data-on="false"]{opacity:.3}
+  .lg .d{width:10px;height:10px;border-radius:50%;flex:none;box-shadow:0 0 9px 0 currentColor}
+  .lg .nm{font-size:12.5px;color:var(--ink);flex:1}
+  .lg .ct{font-family:var(--mono);font-size:10px;color:var(--faint)}
+  .lg.lockrow{cursor:default}
+  .lg.dom{font-weight:600;margin-top:6px;cursor:pointer}
+  .lg.dom .nm{color:var(--ink);font-size:12px}
+  .lg.uc{padding-left:14px;width:274px}
+  .lg.uc .nm{font-size:12px;color:var(--muted);font-weight:400}
+  .lg.reset{margin-top:9px;color:var(--muted);font-family:var(--mono);font-size:11px}
+  .keyhead{margin-top:14px}
+
+  .br{right:40px;bottom:34px;text-align:right;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.02em;line-height:1.9}
+  .br b{color:var(--muted);font-weight:500}
+  .by{right:44px;top:44px;text-align:right;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.05em}
+
+  .tip{position:fixed;z-index:8;pointer-events:none;background:#0d1117;border:1px solid rgba(150,164,182,.18);border-radius:10px;padding:10px 12px;width:250px;opacity:0;transform:translateY(4px);transition:opacity .12s ease,transform .12s ease;box-shadow:0 20px 44px -18px rgba(0,0,0,.8)}
+  .tip.show{opacity:1;transform:translateY(0)}
+  .tip .tn{font-family:var(--display);font-weight:600;font-size:14px;margin-bottom:6px;line-height:1.2}
+  .tip .tarea{font-family:var(--mono);font-size:9.5px;letter-spacing:.04em;display:inline-flex;align-items:center;gap:5px;margin-bottom:6px}
+  .tip .tarea .dd{width:8px;height:8px;border-radius:50%}
+  .tip .tsrc{font-family:var(--mono);font-size:9.5px;color:#7f8894;line-height:1.35}
+
+  .panel{position:fixed;right:40px;bottom:96px;width:300px;pointer-events:auto;z-index:6;background:#0d1117;border:1px solid rgba(150,164,182,.16);border-radius:12px;padding:16px 17px;opacity:0;transform:translateY(6px);transition:opacity .16s ease,transform .16s ease}
+  .panel.show{opacity:1;transform:translateY(0)}
+  .panel .pk{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;display:inline-flex;align-items:center;gap:6px}
+  .panel .pk .dd{width:9px;height:9px;border-radius:50%}
+  .panel .pt{font-family:var(--display);font-weight:600;font-size:18px;line-height:1.15;margin-bottom:12px}
+  .panel .sec{font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin:12px 0 6px}
+  .panel .chips{display:flex;flex-wrap:wrap;gap:5px}
+  .panel .chip{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:999px;color:var(--muted);border:1px solid rgba(150,164,182,.16)}
+  .panel .prq{font-size:12.5px;color:var(--muted);line-height:1.7}
+  .panel .srcs{display:flex;flex-direction:column;gap:6px}
+  .panel .srclink{font-size:12px;color:#9fb4d8;text-decoration:none;line-height:1.3}
+  .panel .srclink:hover{color:#c3d3ec}
+  .panel .srclink .c{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:1px}
+  .panel .close{position:absolute;top:12px;right:14px;font-family:var(--mono);font-size:14px;color:var(--faint);cursor:pointer}
+  @media (max-width:900px){.tl{max-width:66vw}.panel,.br,.by{display:none}}
+</style>
+</head>
+<body>
+<div id="stage"><canvas id="c"></canvas></div>
+
+<div class="overlay tl">
+  <span class="pill">● Grounded · opinionated · real sources</span>
+  <h1>Everything it<br>takes to predict</h1>
+  <p class="lede">Every enterprise prediction problem, and the <b>knowledge blocks</b> behind it. Colour = the <b>kind of knowledge</b>; height = basics at the base, frontier up top; every link says <b>what to learn first</b>.</p>
+  <p class="stat"><b id="nNodes">0</b> knowledge blocks · <b id="nEdges">0</b> prerequisite links · <b id="nUC">0</b> use cases</p>
+  <p class="hint"><b>Tap any dot</b> to trace what it needs first.</p>
+</div>
+
+<div class="overlay by">A field map by Théo Marcolini · vendor-neutral</div>
+
+<div class="overlay legend" id="legend">
+  <div class="lh">Colour = knowledge area · click to isolate</div>
+  <div id="areakey"></div>
+  <div class="lh keyhead">Filter by use case · click to isolate</div>
+  <div class="legwrap" id="legwrap"></div>
+  <div class="lg reset" id="resetRow"><span class="nm" style="color:var(--muted)">↺ Show all</span></div>
+</div>
+
+<div class="overlay br">
+  <b>Drag</b> to spin · <b>right-drag</b> to pan<br><b>Scroll</b> to zoom · <b>tap</b> a dot · <b>double-click</b> reset
+</div>
+
+<div class="tip" id="tip"></div>
+<div class="panel" id="panel"><span class="close" id="pClose">✕</span><div id="pInner"></div></div>
+
+<script src="pmm_data.js"></script>
+<script>
+const DATA=window.PMM_DATA;
+const AREAMAP={};DATA.areas.forEach(a=>AREAMAP[a.k]=a);
+const REALAREAS=DATA.areas.filter(a=>a.k!=="found").map(a=>a.k);
+const DOMMAP={};DATA.domains.forEach(d=>DOMMAP[d.k]=d);
+const REALDOM=DATA.domains.filter(d=>d.k!=="fnd").map(d=>d.k);
+const UCMAP={};DATA.useCases.forEach(u=>UCMAP[u.k]=u);
+const ALLUC=DATA.useCases.map(u=>u.k);
+const NODES=DATA.knowledgeBlocks.map(b=>({id:b.id,label:b.label,area:b.area,shared:(b.ucs==="ALL"),ucs:(b.ucs==="ALL"?ALLUC.slice():b.ucs),diff:b.difficulty,imp:b.importance,prereqs:b.prereqs||[],src:b.sources}));
+const NMAP={};NODES.forEach(n=>NMAP[n.id]=n);
+const EDGES=[];const parents={};NODES.forEach(n=>parents[n.id]=n.prereqs.slice());
+NODES.forEach(n=>n.prereqs.forEach(p=>{if(NMAP[p])EDGES.push([p,n.id]);}));
+function ancestors(id){const seen=new Set(),eset=new Set(),st=[id];while(st.length){const cur=st.pop();for(const p of parents[cur]){eset.add(p+">"+cur);if(!seen.has(p)){seen.add(p);st.push(p);}}}return{nodes:seen,edges:eset};}
+
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const rand=mulberry32(20260712);
+
+/* layout: cluster by knowledge area, height by difficulty */
+const ANCH=210, WY=600;
+const areaAngle={};REALAREAS.forEach((k,i)=>areaAngle[k]=Math.PI*2*i/REALAREAS.length-Math.PI/2);
+NODES.forEach(n=>{
+  const isF=n.area==="found";
+  const ang=isF?rand()*Math.PI*2:areaAngle[n.area]+(rand()-.5)*0.7;
+  const r=isF?40+rand()*62:ANCH*(0.5+rand()*0.6);
+  n.x=Math.cos(ang)*r;n.z=Math.sin(ang)*r;n.y=(n.diff-0.5)*WY+(rand()-.5)*34;n.vx=0;n.vz=0;
+  n.ax=isF?0:Math.cos(areaAngle[n.area])*ANCH;n.az=isF?0:Math.sin(areaAngle[n.area])*ANCH;
+});
+(function simulate(){
+  const KR=1700,KS=.022,REST=66,KC=.021,KG=.0045,DT=.42,DAMP=.82;
+  for(let it=0;it<340;it++){
+    for(const n of NODES){n.fx=0;n.fz=0;}
+    for(let i=0;i<NODES.length;i++)for(let j=i+1;j<NODES.length;j++){const a=NODES[i],b=NODES[j];let dx=a.x-b.x,dz=a.z-b.z,dy=a.y-b.y;let d2=dx*dx+dz*dz+dy*dy+12;let d=Math.sqrt(d2);let f=KR/d2;let ux=dx/d,uz=dz/d;a.fx+=f*ux;a.fz+=f*uz;b.fx-=f*ux;b.fz-=f*uz;}
+    for(const [aid,bid] of EDGES){const a=NMAP[aid],b=NMAP[bid];let dx=a.x-b.x,dz=a.z-b.z,dy=a.y-b.y;let d=Math.sqrt(dx*dx+dz*dz+dy*dy)+.01;let f=KS*(d-REST);let ux=dx/d,uz=dz/d;a.fx-=f*ux;a.fz-=f*uz;b.fx+=f*ux;b.fz+=f*uz;}
+    for(const n of NODES){n.fx+=(n.ax-n.x)*KC;n.fz+=(n.az-n.z)*KC;n.fx+=-n.x*KG;n.fz+=-n.z*KG;n.vx=(n.vx+n.fx*DT)*DAMP;n.vz=(n.vz+n.fz*DT)*DAMP;n.x+=n.vx;n.z+=n.vz;n.x=Math.max(-520,Math.min(520,n.x));n.z=Math.max(-520,Math.min(520,n.z));}
+  }
+})();
+
+const cv=document.getElementById("c"),ctx=cv.getContext("2d");
+let W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
+function resize(){W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);}
+window.addEventListener("resize",resize);resize();
+
+let yaw=0.5,pitch=0.16,zoom=1.25,panX=0,panY=0,autoRot=true;
+const FOCAL=780;
+function project(n){
+  let x=n.x,y=n.y,z=n.z;
+  let x1=x*Math.cos(yaw)-z*Math.sin(yaw), z1=x*Math.sin(yaw)+z*Math.cos(yaw);
+  let y2=y*Math.cos(pitch)-z1*Math.sin(pitch), z2=y*Math.sin(pitch)+z1*Math.cos(pitch);
+  let f=FOCAL/(FOCAL+z2);
+  return {sx:W*0.60+panX + x1*f*zoom, sy:H*0.50+panY - y2*f*zoom, sr:(3.0+n.imp*2.0)*f*zoom, z:z2, f};
+}
+const state={filter:new Set(ALLUC),areaOn:new Set(DATA.areas.map(a=>a.k)),sel:null,hover:null};
+function nodeActive(n){ if(!state.areaOn.has(n.area)) return false; if(n.shared) return true; for(const u of n.ucs) if(state.filter.has(u)) return true; return false; }
+
+function draw(){
+  if(autoRot && !drag.on && !state.hover){yaw+=0.0022;}
+  ctx.clearRect(0,0,W,H);
+  const g=ctx.createRadialGradient(W/2,H*0.42,80,W/2,H*0.5,Math.max(W,H)*0.75);
+  g.addColorStop(0,"#0b0f15");g.addColorStop(1,"#06080b");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  const tr=state.sel?ancestors(state.sel):null; if(tr)tr.nodes.add(state.sel);
+  for(const n of NODES){const p=project(n);n._sx=p.sx;n._sy=p.sy;n._sr=p.sr;n._z=p.z;n._f=p.f;}
+  const order=[...NODES].sort((a,b)=>b._z-a._z);
+  ctx.lineWidth=1;
+  for(const [aid,bid] of EDGES){
+    const a=NMAP[aid],b=NMAP[bid];const act=nodeActive(a)&&nodeActive(b);const inTr=tr&&tr.edges.has(aid+">"+bid);
+    let al=0.10;if(!act)al=0.03;if(tr){al=inTr?0.55:0.02;}
+    const depth=(a._f+b._f)/2;al*=(0.5+depth*0.6);
+    ctx.strokeStyle=inTr?"rgba(230,238,246,"+al+")":"rgba(150,164,182,"+al+")";
+    ctx.beginPath();ctx.moveTo(a._sx,a._sy);ctx.lineTo(b._sx,b._sy);ctx.stroke();
+  }
+  for(const n of order){
+    const act=nodeActive(n);let al=(0.35+0.65*Math.min(1,n._f*0.95));
+    if(!act)al*=0.09;
+    if(tr){ if(n.id===state.sel){} else if(tr.nodes.has(n.id)){} else al*=0.12; }
+    const col=AREAMAP[n.area].color;const isFocus=n.id===state.sel||n.id===state.hover;const inTr=tr&&tr.nodes.has(n.id);
+    ctx.globalAlpha=al*(isFocus?0.9:0.5);ctx.fillStyle=col;ctx.beginPath();ctx.arc(n._sx,n._sy,n._sr*(isFocus?2.6:1.9),0,7);ctx.fill();
+    ctx.globalAlpha=Math.min(1,al*(isFocus||inTr?1.5:1));ctx.fillStyle=col;ctx.beginPath();ctx.arc(n._sx,n._sy,n._sr,0,7);ctx.fill();
+    if(isFocus||inTr){ctx.globalAlpha=1;ctx.lineWidth=1.5;ctx.strokeStyle="rgba(255,255,255,"+(isFocus?.95:.5)+")";ctx.beginPath();ctx.arc(n._sx,n._sy,n._sr+2.5,0,7);ctx.stroke();}
+    ctx.globalAlpha=1;
+  }
+  const fid=state.hover||state.sel;
+  if(fid){const n=NMAP[fid];ctx.globalAlpha=1;ctx.font="600 12.5px Inter,system-ui";ctx.textAlign="left";
+    const tx=n._sx+n._sr+8,ty=n._sy+4,w=ctx.measureText(n.label).width;
+    ctx.fillStyle="rgba(6,8,11,.72)";ctx.fillRect(tx-4,ty-12,w+8,18);ctx.fillStyle="#EAEEF3";ctx.fillText(n.label,tx,ty);}
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+
+const drag={on:false,pan:false,x:0,y:0,moved:0};
+cv.addEventListener("pointerdown",e=>{drag.on=true;drag.pan=(e.button===2||e.shiftKey);drag.x=e.clientX;drag.y=e.clientY;drag.moved=0;cv.classList.add("drag");cv.setPointerCapture(e.pointerId);});
+cv.addEventListener("pointermove",e=>{
+  if(drag.on){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;drag.moved+=Math.abs(dx)+Math.abs(dy);
+    if(drag.pan){panX+=dx;panY+=dy;}else{yaw+=dx*0.006;autoRot=false;}/* spin only around the vertical axis */
+  } else { hitTest(e); }
+});
+cv.addEventListener("pointerup",e=>{drag.on=false;cv.classList.remove("drag");if(drag.moved<5){clickAt(e);}});
+cv.addEventListener("wheel",e=>{e.preventDefault();zoom=Math.max(0.5,Math.min(2.8,zoom*(1-e.deltaY*0.0012)));},{passive:false});
+cv.addEventListener("contextmenu",e=>e.preventDefault());
+cv.addEventListener("dblclick",()=>{yaw=0.5;pitch=0.16;zoom=1.25;panX=0;panY=0;autoRot=true;state.sel=null;updatePanel();});
+
+const tip=document.getElementById("tip");
+function pick(e){let best=null,bd=1e9;for(const n of NODES){if(!nodeActive(n))continue;const dx=e.clientX-n._sx,dy=e.clientY-n._sy;const d=Math.hypot(dx,dy);if(d<n._sr+6 && d-n._sr<bd){bd=d-n._sr;best=n;}}return best;}
+function hitTest(e){const n=pick(e);state.hover=n?n.id:null;
+  if(n){tip.classList.add("show");tip.style.left=Math.min(window.innerWidth-262,e.clientX+16)+"px";tip.style.top=(e.clientY+14)+"px";
+    const a=AREAMAP[n.area];const s0=n.src&&n.src[0];
+    tip.innerHTML=`<div class="tn">${n.label}</div><div class="tarea" style="color:${a.color}"><span class="dd" style="background:${a.color}"></span>${a.label}</div>${s0?`<div class="tsrc">${s0.corpus} · ${s0.unit}</div>`:""}`;
+  } else tip.classList.remove("show");
+}
+function clickAt(e){const n=pick(e);state.sel=n?n.id:null;updatePanel();}
+
+const panel=document.getElementById("panel"),pInner=document.getElementById("pInner");
+document.getElementById("pClose").addEventListener("click",()=>{state.sel=null;updatePanel();});
+function updatePanel(){
+  if(!state.sel){panel.classList.remove("show");return;}
+  const n=NMAP[state.sel];panel.classList.add("show");const a=AREAMAP[n.area];
+  const usedIn=n.shared?`<span class="chip">All ${ALLUC.length} use cases</span>`:n.ucs.map(k=>`<span class="chip">${UCMAP[k].label}</span>`).join("");
+  const prq=n.prereqs.map(p=>NMAP[p]?NMAP[p].label:p);
+  const src=n.src.map(s=>`<a class="srclink" href="${s.url}" target="_blank" rel="noopener"><span class="c">${s.corpus}</span>${s.unit}</a>`).join("");
+  pInner.innerHTML=`<div class="pk" style="color:${a.color}"><span class="dd" style="background:${a.color}"></span>${a.label}</div>
+    <div class="pt">${n.label}</div>
+    <div class="sec">Used in</div><div class="chips">${usedIn}</div>
+    <div class="sec">Learn first</div><div class="prq">${prq.length?prq.join(" · "):"Nothing — a starting point."}</div>
+    <div class="sec">Sourced from</div><div class="srcs">${src}</div>`;
+}
+
+/* --- colour key (knowledge areas): click isolates, then adds --- */
+const areakey=document.getElementById("areakey");const arows={};
+const ALLAREAS=DATA.areas.map(a=>a.k);
+function isAllAreas(){return ALLAREAS.every(k=>state.areaOn.has(k));}
+function clickAreas(keys){
+  keys=keys.filter(k=>k!=="found");           // Foundations & data is pinned on
+  if(!keys.length)return;
+  if(isAllAreas()){state.areaOn=new Set([...keys,"found"]);}
+  else{const allIn=keys.every(k=>state.areaOn.has(k));if(allIn)keys.forEach(k=>state.areaOn.delete(k));else keys.forEach(k=>state.areaOn.add(k));state.areaOn.add("found");if(state.areaOn.size<=1)state.areaOn=new Set(ALLAREAS);}
+  syncLegend();
+}
+DATA.areas.forEach(a=>{
+  const isBase=a.k==="found";
+  const row=document.createElement("div");row.className="lg"+(isBase?" lockrow":"");row.dataset.on="true";
+  const badge=isBase?`<span class="ct">always on</span>`:`<span class="ct">${NODES.filter(n=>n.area===a.k).length}</span>`;
+  row.innerHTML=`<span class="d" style="background:${a.color};color:${a.color}"></span><span class="nm">${a.label}</span>${badge}`;
+  if(!isBase)row.addEventListener("click",()=>clickAreas([a.k]));
+  areakey.appendChild(row);arows[a.k]=row;
+});
+
+/* --- use-case filter (neutral): click isolates, then adds --- */
+const legwrap=document.getElementById("legwrap");const rows={};
+function ucCount(k){return NODES.filter(n=>!n.shared&&n.ucs.includes(k)).length;}
+function isAll(){return ALLUC.every(k=>state.filter.has(k));}
+function clickKeys(keys){
+  if(isAll()){state.filter=new Set(keys);}
+  else{const allIn=keys.every(k=>state.filter.has(k));if(allIn)keys.forEach(k=>state.filter.delete(k));else keys.forEach(k=>state.filter.add(k));if(state.filter.size===0)state.filter=new Set(ALLUC);}
+  syncLegend();
+}
+REALDOM.forEach(dk=>{
+  const dr=document.createElement("div");dr.className="lg dom";dr.dataset.on="true";
+  dr.innerHTML=`<span class="nm">${DOMMAP[dk].label}</span>`;
+  dr.addEventListener("click",()=>clickKeys(DATA.useCases.filter(u=>u.domain===dk).map(u=>u.k)));
+  legwrap.appendChild(dr);rows["dom_"+dk]=dr;
+  DATA.useCases.filter(u=>u.domain===dk).forEach(u=>{
+    const r=document.createElement("div");r.className="lg uc";r.dataset.on="true";
+    r.innerHTML=`<span class="nm">${u.label}</span><span class="ct">+${ucCount(u.k)}</span>`;
+    r.addEventListener("click",()=>clickKeys([u.k]));
+    legwrap.appendChild(r);rows["uc_"+u.k]=r;
+  });
+});
+document.getElementById("resetRow").addEventListener("click",()=>{state.filter=new Set(ALLUC);state.areaOn=new Set(DATA.areas.map(a=>a.k));syncLegend();});
+function syncLegend(){
+  DATA.areas.forEach(a=>{arows[a.k].dataset.on=state.areaOn.has(a.k);});
+  REALDOM.forEach(dk=>{const ucs=DATA.useCases.filter(u=>u.domain===dk).map(u=>u.k);rows["dom_"+dk].dataset.on=ucs.some(k=>state.filter.has(k));});
+  DATA.useCases.forEach(u=>{rows["uc_"+u.k].dataset.on=state.filter.has(u.k);});
+}
+
+document.getElementById("nNodes").textContent=NODES.length;
+document.getElementById("nEdges").textContent=EDGES.length;
+document.getElementById("nUC").textContent=ALLUC.length;
+
+/* deep-link: #fraud isolates a use case, #fraud+cate also selects a node */
+function applyHash(){const h=decodeURIComponent((location.hash||"").replace("#",""));if(!h)return;const toks=h.split(/[+,\/]/).filter(Boolean);const ucs=toks.filter(t=>UCMAP[t]);const ars=toks.filter(t=>AREAMAP[t]&&!UCMAP[t]);const nds=toks.filter(t=>NMAP[t]);if(ucs.length){state.filter=new Set(ucs);}if(ars.length){state.areaOn=new Set([...ars,"found"]);}if(nds.length){state.sel=nds[0];autoRot=false;}syncLegend();updatePanel();}
+applyHash();window.addEventListener("hashchange",applyHash);
+</script>
+</body>
+</html>
