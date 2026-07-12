@@ -83,7 +83,7 @@
 
 <div class="overlay tl">
   <h1>Everything it<br>takes to predict</h1>
-  <p class="lede"><b>The model is the easy part.</b> Every enterprise prediction — fraud, churn, demand, machine failure — rests on a stack of knowledge most teams underestimate. Here it is, whole: from the basics at the base to the frontier up top, <b>every block traced to the course it comes from</b>.</p>
+  <p class="lede"><b>Every prediction problem needs its own body of knowledge, and no one has ever mapped it.</b> Courses teach you all of ML. Use-case guides teach you one trick. Nothing connects them into what a given problem actually requires, in what order. So teams rebuild it from scratch, every time. <b>Here's the map</b>, for the humans and agents who have to.</p>
   <p class="stat"><b id="nNodes">0</b> knowledge blocks · <b id="nEdges">0</b> prerequisite links · <b id="nUC">0</b> use cases</p>
   <p class="hint"><b>Tap any dot</b> to trace what it needs first.</p>
 </div>
@@ -225,7 +225,7 @@ function updatePanel(){
   pInner.innerHTML=`<div class="pk" style="color:${a.color}"><span class="dd" style="background:${a.color}"></span>${a.label}</div>
     <div class="pt">${n.label}</div>
     <div class="sec">Used in</div><div class="chips">${usedIn}</div>
-    <div class="sec">Learn first</div><div class="prq">${prq.length?prq.join(" · "):"Nothing — a starting point."}</div>
+    <div class="sec">Learn first</div><div class="prq">${prq.length?prq.join(" · "):"Nothing. A starting point."}</div>
     <div class="sec">Sourced from</div><div class="srcs">${src}</div>`;
 }
 

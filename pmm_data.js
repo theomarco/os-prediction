@@ -1,7 +1,7 @@
-/* AUTO-GENERATED from corpus.json — do not edit by hand. */
+/* AUTO-GENERATED from corpus.json. Do not edit by hand. */
 window.PMM_DATA = {
   "meta": {
-    "title": "Predictive Mastery Map — grounded corpus (v2)",
+    "title": "Predictive Mastery Map: grounded corpus (v2)",
     "description": "Knowledge blocks for enterprise ML prediction. Each block maps to a real, named unit in a reputable ML/DL corpus (corpus+unit+URL). difficulty = foundations(0) -> frontier(1). domain drives colour; ucs = which of the 25 use cases require the block; prereqs = hand-curated direct prerequisites (the 'learn first' edges).",
     "sourcing": "No invented blocks. Vision/NLP-only units excluded as out-of-scope for tabular/time-series enterprise prediction. Prerequisites are hand-authored, not auto-derived.",
     "version": "0.2",
@@ -417,7 +417,7 @@ window.PMM_DATA = {
     },
     {
       "id": "bias_var",
-      "label": "Bias–variance trade-off",
+      "label": "Bias-variance trade-off",
       "domain": "fnd",
       "ucs": "ALL",
       "difficulty": 0.23,
@@ -866,7 +866,7 @@ window.PMM_DATA = {
       "sources": [
         {
           "corpus": "DeepLearning.AI",
-          "unit": "Improving DNNs — Hyperparameter Tuning",
+          "unit": "Improving DNNs: Hyperparameter Tuning",
           "url": "https://www.coursera.org/learn/deep-neural-network"
         }
       ],
@@ -1397,7 +1397,7 @@ window.PMM_DATA = {
       "sources": [
         {
           "corpus": "DeepLearning.AI",
-          "unit": "Improving DNNs — Practical Aspects",
+          "unit": "Improving DNNs: Practical Aspects",
           "url": "https://www.coursera.org/learn/deep-neural-network"
         },
         {
@@ -1463,7 +1463,7 @@ window.PMM_DATA = {
       "sources": [
         {
           "corpus": "DeepLearning.AI",
-          "unit": "Improving DNNs — Optimization",
+          "unit": "Improving DNNs: Optimization",
           "url": "https://www.coursera.org/learn/deep-neural-network"
         },
         {
@@ -1590,7 +1590,7 @@ window.PMM_DATA = {
       "sources": [
         {
           "corpus": "DeepLearning.AI",
-          "unit": "Improving DNNs — Batch Normalization",
+          "unit": "Improving DNNs: Batch Normalization",
           "url": "https://www.coursera.org/learn/deep-neural-network"
         }
       ],
@@ -1660,7 +1660,7 @@ window.PMM_DATA = {
       "sources": [
         {
           "corpus": "DeepLearning.AI",
-          "unit": "Sequence Models — RNNs",
+          "unit": "Sequence Models: RNNs",
           "url": "https://www.coursera.org/learn/nlp-sequence-models"
         },
         {
@@ -1870,7 +1870,7 @@ window.PMM_DATA = {
       "sources": [
         {
           "corpus": "DeepLearning.AI",
-          "unit": "Sequence Models — Transformer Network",
+          "unit": "Sequence Models: Transformer Network",
           "url": "https://www.coursera.org/learn/nlp-sequence-models"
         },
         {
