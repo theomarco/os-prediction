@@ -1,6 +1,6 @@
 # os-prediction
 
-**Everything it takes to predict.** Every prediction problem needs its own body of knowledge, and no one has ever mapped it. This is that map: an open, grounded graph of what each enterprise machine-learning prediction problem actually requires, built for humans and agents.
+**Everything it takes to predict.** Every prediction problem needs its own body of knowledge, and no one has ever mapped it. This is that map: an open, grounded **knowledge graph** of what each enterprise machine-learning prediction problem actually requires, built for humans and agents.
 
 Courses teach you all of ML. Use-case guides teach you one trick. Nothing connects them into "for this problem, here is the knowledge you need, in what order." `os-prediction` is that missing bridge: **83 knowledge blocks, 135 prerequisite links**, across **25 enterprise prediction use cases** and **8 knowledge areas**, laid out from the basics at the base to the frontier at the top. Every block maps to a **real, named unit** in a reputable curriculum (fast.ai, DeepLearning.AI, ISLR, Hands-On ML, scikit-learn, d2l.ai, FPP3, lifelines, EconML, PyOD, and more), and every link says *what to learn first*. It is a true DAG you can compute learning paths on.
 
@@ -46,6 +46,10 @@ plus `areas[]` (the 8 knowledge areas and colours), `useCases[]` (25 use cases g
 - **8 areas:** Foundations & data · Classical ML · Evaluation & tuning · Deep learning · Time-series · Survival / time-to-event · Causal & uplift · Anomaly & unsupervised
 - **25 use cases** across Financial services, Marketing & customer, Supply chain & pricing, Manufacturing & assets, Healthcare & workforce.
 - **Scope:** tabular and time-series enterprise prediction. Vision and NLP-only material is intentionally out of scope.
+
+## Roadmap
+
+Today os-prediction is a **knowledge graph**: typed blocks, prerequisite links, use-case memberships, and citations. The direction is to publish its schema as a formal, machine-readable **ontology** (named relation types, then RDF/OWL) so AI agents can reason over what a given prediction problem requires, not just humans reading a map.
 
 ## Contributing
 
