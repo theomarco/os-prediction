@@ -4,7 +4,7 @@ window.PMM_DATA = {
     "title": "Predictive Mastery Map: grounded corpus (v2)",
     "description": "Knowledge blocks for enterprise ML prediction. Each block maps to a real, named unit in a reputable ML/DL corpus (corpus+unit+URL). difficulty = foundations(0) -> frontier(1). domain drives colour; ucs = which of the 25 use cases require the block; prereqs = hand-curated direct prerequisites (the 'learn first' edges).",
     "sourcing": "No invented blocks. Vision/NLP-only units excluded as out-of-scope for tabular/time-series enterprise prediction. Prerequisites are hand-authored, not auto-derived.",
-    "version": "0.2",
+    "version": "0.3 (V2, fine-grained + selective)",
     "generated": "2026-07-12"
   },
   "domains": [
@@ -168,1482 +168,4756 @@ window.PMM_DATA = {
   ],
   "knowledgeBlocks": [
     {
-      "id": "math_found",
-      "label": "Math & probability foundations",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.04,
+      "id": "found_probability_fundamentals",
+      "label": "Probability fundamentals: random variables, conditional probability, Bayes rule",
+      "area": "found",
+      "difficulty": 0.35,
       "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "claims",
+        "churn",
+        "lead",
+        "readmission"
+      ],
       "prereqs": [],
       "sources": [
         {
-          "corpus": "d2l.ai",
-          "unit": "Preliminaries",
-          "url": "https://d2l.ai/chapter_preliminaries/index.html"
+          "corpus": "ISLR",
+          "unit": "Chapter 2: Statistical Learning",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Prerequisites and probability basics",
+          "url": "https://developers.google.com/machine-learning/crash-course"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "stat_learning",
-      "label": "Statistical learning: prediction vs inference",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.07,
+      "id": "found_probability_distributions",
+      "label": "Probability distributions: normal, Bernoulli, Poisson, gamma, lognormal and when each applies",
+      "area": "found",
+      "difficulty": 0.4,
       "importance": 2,
+      "ucs": [
+        "uw",
+        "claims",
+        "lgd",
+        "demand",
+        "sales_fc",
+        "energy",
+        "inventory"
+      ],
       "prereqs": [
-        "math_found"
+        "found_probability_fundamentals"
+      ],
+      "sources": [
+        {
+          "corpus": "ESL",
+          "unit": "Chapter 2: Overview of Supervised Learning",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "ISLR",
+          "unit": "Chapter 4: Classification",
+          "url": "https://www.statlearning.com/"
+        }
+      ]
+    },
+    {
+      "id": "found_hypothesis_testing",
+      "label": "Hypothesis testing, p-values, confidence intervals and A/B testing",
+      "area": "found",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "attribution",
+        "nba",
+        "pricing",
+        "lead",
+        "xsell"
+      ],
+      "prereqs": [
+        "found_probability_fundamentals"
       ],
       "sources": [
         {
           "corpus": "ISLR",
-          "unit": "Ch.2 Statistical Learning",
+          "unit": "Chapter 13: Multiple Testing",
           "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Chapter 18: High-Dimensional Problems",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "end2end",
-      "label": "End-to-end ML project workflow",
-      "domain": "fnd",
+      "id": "found_statistical_learning",
+      "label": "Statistical learning framework: f(X), reducible vs irreducible error, prediction vs inference",
+      "area": "found",
+      "difficulty": 0.4,
+      "importance": 3,
       "ucs": "ALL",
-      "difficulty": 0.1,
-      "importance": 2,
+      "prereqs": [],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Chapter 2: Statistical Learning",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Chapter 2: Overview of Supervised Learning",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "found_bias_variance",
+      "label": "Bias-variance tradeoff and error decomposition",
+      "area": "found",
+      "difficulty": 0.5,
+      "importance": 3,
+      "ucs": "ALL",
       "prereqs": [
-        "stat_learning"
+        "found_statistical_learning"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Chapter 2: Assessing Model Accuracy",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Chapter 7: Model Assessment and Selection",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "found_overfitting",
+      "label": "Overfitting, underfitting, generalization gap and learning curves",
+      "area": "found",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": "ALL",
+      "prereqs": [
+        "found_statistical_learning",
+        "found_bias_variance"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Chapter 2: Assessing Model Accuracy",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Generalization and overfitting",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        }
+      ]
+    },
+    {
+      "id": "found_ml_workflow",
+      "label": "End-to-end ML workflow: framing the problem, target and horizon definition, lifecycle stages",
+      "area": "found",
+      "difficulty": 0.2,
+      "importance": 3,
+      "ucs": "ALL",
+      "prereqs": [],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: End-to-End Machine Learning Project",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Framing an ML problem",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        }
+      ]
+    },
+    {
+      "id": "found_eda",
+      "label": "Exploratory data analysis: distributions, correlations and visual inspection",
+      "area": "found",
+      "difficulty": 0.25,
+      "importance": 3,
+      "ucs": "ALL",
+      "prereqs": [
+        "found_ml_workflow"
       ],
       "sources": [
         {
           "corpus": "Hands-On ML",
-          "unit": "Ch.2 End-to-End ML Project",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch02.html"
-        }
-      ],
-      "area": "found"
-    },
-    {
-      "id": "num_data",
-      "label": "Working with numerical data",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.12,
-      "importance": 1,
-      "prereqs": [
-        "end2end"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "Working with Numerical Data",
-          "url": "https://developers.google.com/machine-learning/crash-course/numerical-data"
-        }
-      ],
-      "area": "found"
-    },
-    {
-      "id": "cat_data",
-      "label": "Categorical encoding",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.13,
-      "importance": 1,
-      "prereqs": [
-        "end2end"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "Working with Categorical Data",
-          "url": "https://developers.google.com/machine-learning/crash-course/categorical-data"
+          "unit": "Chapter 2: Discover and Visualize the Data",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
         },
         {
-          "corpus": "scikit-learn",
-          "unit": "Preprocessing data",
-          "url": "https://scikit-learn.org/stable/modules/preprocessing.html"
+          "corpus": "ISLR",
+          "unit": "Chapter 2: Lab, Introduction to data",
+          "url": "https://www.statlearning.com/"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "scaling",
-      "label": "Feature scaling & preprocessing",
-      "domain": "fnd",
+      "id": "found_data_cleaning",
+      "label": "Data cleaning: errors, duplicates, inconsistent units and type fixes",
+      "area": "found",
+      "difficulty": 0.3,
+      "importance": 3,
       "ucs": "ALL",
-      "difficulty": 0.14,
-      "importance": 1,
       "prereqs": [
-        "num_data"
+        "found_eda"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: Prepare the Data for ML Algorithms",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Working with data",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        }
+      ]
+    },
+    {
+      "id": "found_outlier_treatment",
+      "label": "Outlier detection and treatment: capping, winsorizing and robust statistics",
+      "area": "found",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "uw",
+        "claims",
+        "lgd",
+        "fraud",
+        "pricing",
+        "energy",
+        "demand",
+        "quality",
+        "pdm"
+      ],
+      "prereqs": [
+        "found_eda",
+        "found_data_cleaning"
       ],
       "sources": [
         {
           "corpus": "scikit-learn",
-          "unit": "Preprocessing data",
-          "url": "https://scikit-learn.org/stable/modules/preprocessing.html"
+          "unit": "Novelty and outlier detection",
+          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Chapter 6: Kernel Smoothing and Robustness",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "impute",
-      "label": "Missing-value imputation",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.15,
-      "importance": 1,
+      "id": "found_sampling_bias",
+      "label": "Sampling and selection bias, representativeness, reject inference and survivorship",
+      "area": "found",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "lgd",
+        "uw",
+        "collections",
+        "lead",
+        "claims",
+        "clv"
+      ],
       "prereqs": [
-        "end2end"
+        "found_eda",
+        "found_statistical_learning"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Data collection and sampling bias",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        },
+        {
+          "corpus": "ISLR",
+          "unit": "Chapter 5: Resampling Methods",
+          "url": "https://www.statlearning.com/"
+        }
+      ]
+    },
+    {
+      "id": "found_missing_data_handling",
+      "label": "Missing data: MCAR/MAR/MNAR, simple imputation and missingness indicators",
+      "area": "found",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "lgd",
+        "uw",
+        "claims",
+        "fraud",
+        "aml",
+        "collections",
+        "churn",
+        "clv",
+        "lead",
+        "xsell",
+        "nba",
+        "attrition",
+        "readmission",
+        "los",
+        "pdm",
+        "quality"
+      ],
+      "prereqs": [
+        "found_data_cleaning"
       ],
       "sources": [
         {
           "corpus": "scikit-learn",
           "unit": "Imputation of missing values",
           "url": "https://scikit-learn.org/stable/modules/impute.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: Data Cleaning and Imputation",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "train_test",
-      "label": "Train / validation / test split",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.16,
+      "id": "found_feature_scaling",
+      "label": "Feature scaling: standardization, min-max and robust scaling for scale-sensitive models",
+      "area": "found",
+      "difficulty": 0.25,
       "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "lgd",
+        "reco",
+        "anomaly",
+        "pdm",
+        "quality",
+        "energy",
+        "demand"
+      ],
       "prereqs": [
-        "stat_learning"
+        "found_data_cleaning"
       ],
       "sources": [
         {
-          "corpus": "Google MLCC",
-          "unit": "Datasets, Generalization & Overfitting",
-          "url": "https://developers.google.com/machine-learning/crash-course/overfitting"
+          "corpus": "scikit-learn",
+          "unit": "Preprocessing data: standardization and scaling",
+          "url": "https://scikit-learn.org/stable/modules/preprocessing.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: Feature Scaling",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "lin_reg",
-      "label": "Linear regression",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.18,
+      "id": "found_feature_transforms",
+      "label": "Feature transforms: log, power, Box-Cox and quantile transforms for skew and heavy tails",
+      "area": "found",
+      "difficulty": 0.4,
       "importance": 2,
+      "ucs": [
+        "uw",
+        "claims",
+        "lgd",
+        "clv",
+        "pricing",
+        "demand",
+        "sales_fc",
+        "energy",
+        "inventory"
+      ],
       "prereqs": [
-        "stat_learning",
-        "num_data"
+        "found_feature_scaling"
       ],
       "sources": [
         {
-          "corpus": "ISLR",
-          "unit": "Ch.3 Linear Regression",
-          "url": "https://www.statlearning.com/"
+          "corpus": "scikit-learn",
+          "unit": "Preprocessing: non-linear transformations",
+          "url": "https://scikit-learn.org/stable/modules/preprocessing.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: Transforming Skewed Features",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "found_binning_woe",
+      "label": "Binning and discretization with weight-of-evidence for scorecards",
+      "area": "found",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "lgd",
+        "uw",
+        "collections",
+        "claims",
+        "fraud"
+      ],
+      "prereqs": [
+        "found_feature_engineering"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Preprocessing: discretization (KBinsDiscretizer)",
+          "url": "https://scikit-learn.org/stable/modules/preprocessing.html"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Chapter 3: Linear Methods for Regression",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "found_feature_engineering",
+      "label": "Feature engineering fundamentals: ratios, domain features and derived attributes",
+      "area": "found",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": "ALL",
+      "prereqs": [
+        "found_eda"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: Feature Engineering",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
         },
         {
           "corpus": "Google MLCC",
-          "unit": "Linear Regression",
-          "url": "https://developers.google.com/machine-learning/crash-course/linear-regression"
+          "unit": "Feature engineering",
+          "url": "https://developers.google.com/machine-learning/crash-course"
         }
-      ],
-      "area": "classical"
+      ]
     },
     {
-      "id": "overfit",
-      "label": "Overfitting & generalization",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.2,
-      "importance": 2,
+      "id": "found_aggregation_features",
+      "label": "Aggregation features: group-by rollups, RFM and transaction-history summaries",
+      "area": "found",
+      "difficulty": 0.4,
+      "importance": 3,
+      "ucs": [
+        "churn",
+        "clv",
+        "fraud",
+        "aml",
+        "cs",
+        "collections",
+        "xsell",
+        "nba",
+        "lead"
+      ],
       "prereqs": [
-        "train_test"
+        "found_feature_engineering"
       ],
       "sources": [
         {
-          "corpus": "Google MLCC",
-          "unit": "Datasets, Generalization & Overfitting",
-          "url": "https://developers.google.com/machine-learning/crash-course/overfitting"
-        }
-      ],
-      "area": "found"
-    },
-    {
-      "id": "log_reg",
-      "label": "Logistic regression",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.21,
-      "importance": 2,
-      "prereqs": [
-        "lin_reg"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "Logistic Regression",
-          "url": "https://developers.google.com/machine-learning/crash-course/logistic-regression"
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: Combining and Aggregating Features",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
         },
         {
-          "corpus": "ISLR",
-          "unit": "Ch.4 Classification",
-          "url": "https://www.statlearning.com/"
+          "corpus": "fast.ai",
+          "unit": "Tabular modeling and feature creation",
+          "url": "https://course.fast.ai/"
         }
-      ],
-      "area": "classical"
+      ]
     },
     {
-      "id": "gradient_descent",
-      "label": "Gradient descent & SGD",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.22,
-      "importance": 2,
+      "id": "found_datetime_features",
+      "label": "Calendar and datetime features: day-of-week, month, holidays and seasonality flags",
+      "area": "found",
+      "difficulty": 0.3,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "pdm",
+        "anomaly",
+        "clv",
+        "pricing"
+      ],
       "prereqs": [
-        "lin_reg",
-        "math_found"
+        "found_feature_engineering"
       ],
       "sources": [
         {
           "corpus": "fast.ai",
-          "unit": "Lesson 3: Neural net foundations",
-          "url": "https://course.fast.ai/Lessons/lesson3.html"
+          "unit": "Tabular: date part feature engineering",
+          "url": "https://course.fast.ai/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Preprocessing: encoding cyclical and time features",
+          "url": "https://scikit-learn.org/stable/modules/preprocessing.html"
+        }
+      ]
+    },
+    {
+      "id": "found_lag_rolling_features",
+      "label": "Lag, rolling-window and expanding features for time series",
+      "area": "found",
+      "difficulty": 0.45,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "pdm",
+        "anomaly",
+        "clv",
+        "churn"
+      ],
+      "prereqs": [
+        "found_datetime_features",
+        "found_feature_engineering"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Sequence models and autoregressive features",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "fast.ai",
+          "unit": "Tabular time series features",
+          "url": "https://course.fast.ai/"
+        }
+      ]
+    },
+    {
+      "id": "found_interaction_features",
+      "label": "Interaction features and feature crosses for linear models",
+      "area": "found",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "pricing",
+        "attribution",
+        "nba",
+        "lead",
+        "reco"
+      ],
+      "prereqs": [
+        "found_feature_engineering"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Preprocessing: polynomial and interaction features",
+          "url": "https://scikit-learn.org/stable/modules/preprocessing.html"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Chapter 5: Basis Expansions and Interactions",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "found_text_features_tfidf",
+      "label": "Text feature extraction: tokenization, bag-of-words, TF-IDF and n-grams",
+      "area": "found",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "reco",
+        "lead",
+        "nba",
+        "attribution",
+        "claims",
+        "aml"
+      ],
+      "prereqs": [
+        "found_feature_engineering"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Feature extraction from text",
+          "url": "https://scikit-learn.org/stable/modules/feature_extraction.html"
         },
         {
           "corpus": "d2l.ai",
-          "unit": "Optimization Algorithms",
-          "url": "https://d2l.ai/chapter_optimization/index.html"
+          "unit": "Natural language processing: text preprocessing",
+          "url": "https://d2l.ai/"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "bias_var",
-      "label": "Bias-variance trade-off",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.23,
-      "importance": 1,
-      "prereqs": [
-        "overfit",
-        "train_test"
-      ],
-      "sources": [
-        {
-          "corpus": "ESL",
-          "unit": "Ch.7 Model Assessment and Selection",
-          "url": "https://hastie.su.domains/ElemStatLearn/"
-        }
-      ],
-      "area": "found"
-    },
-    {
-      "id": "naive_bayes",
-      "label": "Naive Bayes",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.24,
-      "importance": 1,
-      "prereqs": [
-        "math_found",
-        "stat_learning"
-      ],
-      "sources": [
-        {
-          "corpus": "scikit-learn",
-          "unit": "Naive Bayes",
-          "url": "https://scikit-learn.org/stable/modules/naive_bayes.html"
-        }
-      ],
-      "area": "classical"
-    },
-    {
-      "id": "knn",
-      "label": "k-nearest neighbors",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.25,
-      "importance": 1,
-      "prereqs": [
-        "stat_learning"
-      ],
-      "sources": [
-        {
-          "corpus": "scikit-learn",
-          "unit": "Nearest Neighbors",
-          "url": "https://scikit-learn.org/stable/modules/neighbors.html"
-        }
-      ],
-      "area": "classical"
-    },
-    {
-      "id": "cross_val",
-      "label": "Cross-validation & resampling",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.26,
+      "id": "found_embeddings_intro",
+      "label": "Embeddings for text, entities and high-cardinality categoricals",
+      "area": "found",
+      "difficulty": 0.55,
       "importance": 2,
-      "prereqs": [
-        "train_test",
-        "overfit"
-      ],
-      "sources": [
-        {
-          "corpus": "ISLR",
-          "unit": "Ch.5 Resampling Methods",
-          "url": "https://www.statlearning.com/"
-        },
-        {
-          "corpus": "scikit-learn",
-          "unit": "Cross-validation",
-          "url": "https://scikit-learn.org/stable/modules/cross_validation.html"
-        }
-      ],
-      "area": "found"
-    },
-    {
-      "id": "dtrees",
-      "label": "Decision trees",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.28,
-      "importance": 2,
-      "prereqs": [
-        "stat_learning"
-      ],
-      "sources": [
-        {
-          "corpus": "ISLR",
-          "unit": "Ch.8 Tree-Based Methods",
-          "url": "https://www.statlearning.com/"
-        },
-        {
-          "corpus": "scikit-learn",
-          "unit": "Decision Trees",
-          "url": "https://scikit-learn.org/stable/modules/tree.html"
-        }
-      ],
-      "area": "classical"
-    },
-    {
-      "id": "class_metrics",
-      "label": "Classification metrics (precision / recall / F1)",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.28,
-      "importance": 2,
-      "prereqs": [
-        "log_reg"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "Classification",
-          "url": "https://developers.google.com/machine-learning/crash-course/classification"
-        },
-        {
-          "corpus": "scikit-learn",
-          "unit": "Metrics & scoring",
-          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
-        }
-      ],
-      "area": "eval"
-    },
-    {
-      "id": "regularize",
-      "label": "Regularization (ridge / lasso)",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.3,
-      "importance": 2,
-      "prereqs": [
-        "lin_reg",
-        "overfit"
-      ],
-      "sources": [
-        {
-          "corpus": "ISLR",
-          "unit": "Ch.6 Linear Model Selection & Regularization",
-          "url": "https://www.statlearning.com/"
-        }
-      ],
-      "area": "classical"
-    },
-    {
-      "id": "roc_pr",
-      "label": "ROC & PR curves",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.32,
-      "importance": 2,
-      "prereqs": [
-        "class_metrics"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "Classification",
-          "url": "https://developers.google.com/machine-learning/crash-course/classification"
-        }
-      ],
-      "area": "eval"
-    },
-    {
-      "id": "pipelines",
-      "label": "Pipelines & avoiding leakage",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.32,
-      "importance": 2,
-      "prereqs": [
-        "scaling",
-        "cat_data",
-        "cross_val"
-      ],
-      "sources": [
-        {
-          "corpus": "scikit-learn",
-          "unit": "Pipelines & composite estimators",
-          "url": "https://scikit-learn.org/stable/modules/compose.html"
-        }
-      ],
-      "area": "found"
-    },
-    {
-      "id": "feat_eng",
-      "label": "Feature engineering",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.34,
-      "importance": 3,
-      "prereqs": [
-        "num_data",
-        "cat_data",
-        "scaling"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "Working with Categorical Data (feature crosses)",
-          "url": "https://developers.google.com/machine-learning/crash-course/categorical-data"
-        },
-        {
-          "corpus": "Hands-On ML",
-          "unit": "Ch.2 End-to-End ML Project",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch02.html"
-        }
-      ],
-      "area": "found"
-    },
-    {
-      "id": "rforest",
-      "label": "Random forests & bagging",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.34,
-      "importance": 2,
-      "prereqs": [
-        "dtrees",
-        "cross_val"
-      ],
-      "sources": [
-        {
-          "corpus": "Hands-On ML",
-          "unit": "Ch.7 Ensemble Learning & Random Forests",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch07.html"
-        },
-        {
-          "corpus": "ESL",
-          "unit": "Ch.15 Random Forests",
-          "url": "https://hastie.su.domains/ElemStatLearn/"
-        }
-      ],
-      "area": "classical"
-    },
-    {
-      "id": "clustering",
-      "label": "Clustering (k-means / DBSCAN)",
-      "domain": "mkt",
       "ucs": [
-        "churn",
-        "clv",
-        "nba",
         "reco",
-        "anomaly",
+        "nba",
+        "attribution",
+        "lead",
+        "claims",
+        "fraud",
         "aml"
       ],
-      "difficulty": 0.36,
-      "importance": 1,
       "prereqs": [
-        "scaling"
+        "found_text_features_tfidf"
       ],
       "sources": [
         {
+          "corpus": "d2l.ai",
+          "unit": "Word embeddings and representation learning",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "fast.ai",
+          "unit": "Tabular entity embeddings",
+          "url": "https://course.fast.ai/"
+        }
+      ]
+    },
+    {
+      "id": "found_onehot_ordinal_encoding",
+      "label": "One-hot and ordinal encoding for low-cardinality categoricals",
+      "area": "found",
+      "difficulty": 0.25,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "lgd",
+        "claims",
+        "collections",
+        "churn",
+        "lead",
+        "xsell",
+        "attrition",
+        "readmission",
+        "los",
+        "clv"
+      ],
+      "prereqs": [
+        "found_feature_engineering"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Preprocessing: encoding categorical features",
+          "url": "https://scikit-learn.org/stable/modules/preprocessing.html"
+        },
+        {
           "corpus": "Hands-On ML",
-          "unit": "Ch.9 Unsupervised Learning",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch09.html"
+          "unit": "Chapter 2: Handling Text and Categorical Attributes",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "found_target_encoding",
+      "label": "Target and mean encoding with smoothing and out-of-fold fitting to avoid leakage",
+      "area": "found",
+      "difficulty": 0.5,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "fraud",
+        "aml",
+        "churn",
+        "xsell",
+        "nba",
+        "reco",
+        "lead"
+      ],
+      "prereqs": [
+        "found_onehot_ordinal_encoding",
+        "found_data_leakage"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Preprocessing: target encoder",
+          "url": "https://scikit-learn.org/stable/modules/preprocessing.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: Encoding High-Cardinality Categories",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "found_high_cardinality_encoding",
+      "label": "High-cardinality encoding: hashing, frequency and count encoding for IDs",
+      "area": "found",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "reco",
+        "nba",
+        "fraud",
+        "aml",
+        "cs",
+        "xsell",
+        "churn",
+        "pricing"
+      ],
+      "prereqs": [
+        "found_onehot_ordinal_encoding"
+      ],
+      "sources": [
+        {
+          "corpus": "fast.ai",
+          "unit": "Tabular: high-cardinality categorical handling",
+          "url": "https://course.fast.ai/"
         },
         {
           "corpus": "scikit-learn",
-          "unit": "Clustering",
-          "url": "https://scikit-learn.org/stable/modules/clustering.html"
+          "unit": "Feature extraction: feature hashing",
+          "url": "https://scikit-learn.org/stable/modules/feature_extraction.html"
         }
-      ],
-      "area": "anomaly"
+      ]
     },
     {
-      "id": "feat_select",
-      "label": "Feature selection",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.38,
-      "importance": 1,
+      "id": "found_feature_selection",
+      "label": "Feature selection: filter, wrapper and embedded methods",
+      "area": "found",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "claims",
+        "churn",
+        "fraud",
+        "attrition",
+        "readmission",
+        "pdm",
+        "quality"
+      ],
       "prereqs": [
-        "feat_eng"
+        "found_feature_engineering"
       ],
       "sources": [
         {
           "corpus": "scikit-learn",
           "unit": "Feature selection",
           "url": "https://scikit-learn.org/stable/modules/feature_selection.html"
+        },
+        {
+          "corpus": "ISLR",
+          "unit": "Chapter 6: Linear Model Selection and Regularization",
+          "url": "https://www.statlearning.com/"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "fairness",
-      "label": "Fairness, bias & responsible AI",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.4,
-      "importance": 1,
+      "id": "found_multicollinearity",
+      "label": "Multicollinearity, VIF and its effect on linear model coefficients",
+      "area": "found",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "lgd",
+        "claims",
+        "attrition",
+        "readmission",
+        "los"
+      ],
       "prereqs": [
-        "class_metrics"
+        "found_eda",
+        "found_feature_selection"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Chapter 3: Linear Regression, collinearity",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Chapter 3: Linear Methods for Regression",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "found_pca",
+      "label": "Principal component analysis for dimensionality reduction and decorrelation",
+      "area": "found",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "anomaly",
+        "pdm",
+        "quality",
+        "energy",
+        "fraud",
+        "reco"
+      ],
+      "prereqs": [
+        "found_feature_scaling"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Chapter 12: Unsupervised Learning, PCA",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Decomposition: principal component analysis",
+          "url": "https://scikit-learn.org/stable/modules/decomposition.html"
+        }
+      ]
+    },
+    {
+      "id": "found_train_test_split",
+      "label": "Train, validation and test split with stratification",
+      "area": "found",
+      "difficulty": 0.2,
+      "importance": 3,
+      "ucs": "ALL",
+      "prereqs": [
+        "found_statistical_learning"
       ],
       "sources": [
         {
           "corpus": "Google MLCC",
-          "unit": "ML Fairness",
-          "url": "https://developers.google.com/machine-learning/crash-course/fairness"
+          "unit": "Training, validation and test sets",
+          "url": "https://developers.google.com/machine-learning/crash-course"
         },
         {
-          "corpus": "fast.ai",
-          "unit": "Data ethics",
-          "url": "https://course.fast.ai/Lessons/lesson8a.html"
+          "corpus": "scikit-learn",
+          "unit": "Cross-validation: train/test split",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "error_analysis",
-      "label": "Error analysis & ML strategy",
-      "domain": "fnd",
+      "id": "found_cross_validation",
+      "label": "Cross-validation: k-fold, stratified and nested cross-validation",
+      "area": "found",
+      "difficulty": 0.35,
+      "importance": 3,
       "ucs": "ALL",
-      "difficulty": 0.4,
-      "importance": 1,
       "prereqs": [
-        "cross_val",
-        "class_metrics"
+        "found_train_test_split"
       ],
       "sources": [
         {
-          "corpus": "DeepLearning.AI",
-          "unit": "Structuring ML Projects",
-          "url": "https://www.coursera.org/learn/machine-learning-projects"
-        }
-      ],
-      "area": "eval"
-    },
-    {
-      "id": "dim_reduce",
-      "label": "Dimensionality reduction (PCA)",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.4,
-      "importance": 1,
-      "prereqs": [
-        "scaling",
-        "math_found"
-      ],
-      "sources": [
-        {
-          "corpus": "Hands-On ML",
-          "unit": "Ch.8 Dimensionality Reduction",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch08.html"
+          "corpus": "scikit-learn",
+          "unit": "Cross-validation: evaluating estimator performance",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html"
         },
         {
           "corpus": "ISLR",
-          "unit": "Ch.12 Unsupervised Learning",
+          "unit": "Chapter 5: Resampling Methods",
           "url": "https://www.statlearning.com/"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "ts_decomp",
-      "label": "Time-series decomposition",
-      "domain": "scm",
+      "id": "found_timeseries_validation",
+      "label": "Time-based validation: rolling and expanding window CV with purge and embargo",
+      "area": "found",
+      "difficulty": 0.5,
+      "importance": 3,
       "ucs": [
         "demand",
         "sales_fc",
         "inventory",
         "energy",
         "pdm",
-        "anomaly"
+        "anomaly",
+        "clv",
+        "churn",
+        "pricing"
       ],
-      "difficulty": 0.4,
-      "importance": 1,
       "prereqs": [
-        "stat_learning"
+        "found_cross_validation"
       ],
       "sources": [
         {
-          "corpus": "FPP3",
-          "unit": "Ch.3 Time series decomposition",
-          "url": "https://otexts.com/fpp3/decomposition.html"
-        }
-      ],
-      "area": "ts"
-    },
-    {
-      "id": "svm",
-      "label": "Support vector machines",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.4,
-      "importance": 1,
-      "prereqs": [
-        "regularize",
-        "gradient_descent"
-      ],
-      "sources": [
-        {
-          "corpus": "ISLR",
-          "unit": "Ch.9 Support Vector Machines",
-          "url": "https://www.statlearning.com/"
+          "corpus": "scikit-learn",
+          "unit": "Cross-validation of time series data",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html"
         },
         {
-          "corpus": "Hands-On ML",
-          "unit": "Ch.5 Support Vector Machines",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch05.html"
+          "corpus": "d2l.ai",
+          "unit": "Sequence models: training and evaluation",
+          "url": "https://d2l.ai/"
         }
-      ],
-      "area": "classical"
+      ]
     },
     {
-      "id": "gbm",
-      "label": "Gradient boosting (XGBoost / LightGBM)",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.42,
-      "importance": 3,
+      "id": "found_grouped_validation",
+      "label": "Grouped and entity-aware validation to prevent group leakage across folds",
+      "area": "found",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "reco",
+        "churn",
+        "fraud",
+        "aml",
+        "clv",
+        "pdm",
+        "readmission",
+        "los"
+      ],
       "prereqs": [
-        "dtrees",
-        "cross_val"
+        "found_cross_validation"
       ],
       "sources": [
         {
-          "corpus": "ESL",
-          "unit": "Ch.10 Boosting and Additive Trees",
-          "url": "https://hastie.su.domains/ElemStatLearn/"
+          "corpus": "scikit-learn",
+          "unit": "Cross-validation iterators for grouped data",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Splitting data to avoid leakage",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        }
+      ]
+    },
+    {
+      "id": "found_data_leakage",
+      "label": "Data leakage: target leakage, train-test contamination and temporal leakage",
+      "area": "found",
+      "difficulty": 0.4,
+      "importance": 3,
+      "ucs": "ALL",
+      "prereqs": [
+        "found_train_test_split"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Data leakage and its causes",
+          "url": "https://developers.google.com/machine-learning/crash-course"
         },
         {
           "corpus": "scikit-learn",
-          "unit": "Ensembles: gradient boosting",
-          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+          "unit": "Common pitfalls: data leakage",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html"
         }
-      ],
-      "area": "classical"
+      ]
     },
     {
-      "id": "hyperparam",
-      "label": "Hyperparameter tuning",
-      "domain": "fnd",
+      "id": "found_pipelines",
+      "label": "ML pipelines: Pipeline and ColumnTransformer, fit-on-train and reproducibility",
+      "area": "found",
+      "difficulty": 0.35,
+      "importance": 3,
       "ucs": "ALL",
-      "difficulty": 0.42,
-      "importance": 1,
       "prereqs": [
-        "cross_val"
+        "found_data_leakage"
       ],
       "sources": [
         {
-          "corpus": "DeepLearning.AI",
-          "unit": "Improving DNNs: Hyperparameter Tuning",
-          "url": "https://www.coursera.org/learn/deep-neural-network"
-        }
-      ],
-      "area": "eval"
-    },
-    {
-      "id": "splines_gam",
-      "label": "Beyond linearity: splines & GAMs",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.42,
-      "importance": 1,
-      "prereqs": [
-        "lin_reg",
-        "regularize"
-      ],
-      "sources": [
+          "corpus": "scikit-learn",
+          "unit": "Pipelines and composite estimators",
+          "url": "https://scikit-learn.org/stable/modules/compose.html"
+        },
         {
-          "corpus": "ISLR",
-          "unit": "Ch.7 Moving Beyond Linearity",
-          "url": "https://www.statlearning.com/"
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: Transformation Pipelines",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
         }
-      ],
-      "area": "classical"
+      ]
     },
     {
-      "id": "imbalance",
-      "label": "Class-imbalance handling",
-      "domain": "fs",
+      "id": "found_class_imbalance",
+      "label": "Class imbalance: why accuracy misleads, class weights and threshold implications",
+      "area": "found",
+      "difficulty": 0.4,
+      "importance": 3,
       "ucs": [
-        "fraud",
-        "aml",
         "cs",
         "uw",
+        "fraud",
+        "aml",
         "collections",
+        "churn",
         "pdm",
         "quality",
         "anomaly",
         "readmission"
       ],
-      "difficulty": 0.44,
-      "importance": 2,
       "prereqs": [
-        "class_metrics",
-        "roc_pr"
+        "found_statistical_learning"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Imbalanced datasets",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 3: Classification with skewed classes",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "found_resampling_smote",
+      "label": "Resampling for imbalance: over-sampling, under-sampling and SMOTE inside CV",
+      "area": "found",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "aml",
+        "pdm",
+        "quality",
+        "anomaly",
+        "collections",
+        "readmission"
+      ],
+      "prereqs": [
+        "found_class_imbalance",
+        "found_cross_validation"
       ],
       "sources": [
         {
           "corpus": "scikit-learn",
-          "unit": "Metrics & scoring (imbalance)",
-          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
-        }
-      ],
-      "area": "eval"
-    },
-    {
-      "id": "ts_features",
-      "label": "Lag & window features",
-      "domain": "scm",
-      "ucs": [
-        "demand",
-        "sales_fc",
-        "inventory",
-        "energy",
-        "pdm",
-        "anomaly"
-      ],
-      "difficulty": 0.44,
-      "importance": 2,
-      "prereqs": [
-        "ts_decomp",
-        "feat_eng"
-      ],
-      "sources": [
-        {
-          "corpus": "Hands-On ML",
-          "unit": "Ch.15 Processing Sequences (RNNs/CNNs)",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch15.html"
-        }
-      ],
-      "area": "ts"
-    },
-    {
-      "id": "ensembles",
-      "label": "Ensembling & stacking",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.46,
-      "importance": 1,
-      "prereqs": [
-        "rforest",
-        "gbm"
-      ],
-      "sources": [
-        {
-          "corpus": "Hands-On ML",
-          "unit": "Ch.7 Ensemble Learning",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch07.html"
+          "unit": "Resampling and imbalanced data handling",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html"
         },
         {
-          "corpus": "ESL",
-          "unit": "Ch.16 Ensemble Learning",
-          "url": "https://hastie.su.domains/ElemStatLearn/"
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 3: Resampling strategies",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
         }
-      ],
-      "area": "classical"
+      ]
     },
     {
-      "id": "calibration",
-      "label": "Probability calibration",
-      "domain": "fs",
+      "id": "found_gradient_descent",
+      "label": "Gradient descent and SGD: cost functions, learning rate and mini-batches",
+      "area": "found",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "lead",
+        "churn",
+        "reco",
+        "energy",
+        "demand",
+        "pdm",
+        "fraud"
+      ],
+      "prereqs": [
+        "found_statistical_learning"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Reducing loss: gradient descent",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        },
+        {
+          "corpus": "d2l.ai",
+          "unit": "Optimization: gradient descent and SGD",
+          "url": "https://d2l.ai/"
+        }
+      ]
+    },
+    {
+      "id": "found_fairness",
+      "label": "Fairness: protected attributes, disparate impact metrics and bias mitigation",
+      "area": "found",
+      "difficulty": 0.5,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "lead",
+        "attrition",
+        "claims",
+        "collections",
+        "readmission"
+      ],
+      "prereqs": [
+        "found_eda"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Fairness",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: Fairness and responsible AI",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "found_explainability_global",
+      "label": "Global explainability: permutation importance and partial dependence plots",
+      "area": "found",
+      "difficulty": 0.45,
+      "importance": 3,
       "ucs": [
         "cs",
         "uw",
         "fraud",
+        "claims",
+        "churn",
+        "pdm",
+        "attrition",
+        "readmission"
+      ],
+      "prereqs": [
+        "found_eda"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Inspection: permutation importance",
+          "url": "https://scikit-learn.org/stable/modules/permutation_importance.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: Interpreting the model",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "found_shap",
+      "label": "SHAP values and local additive feature attributions",
+      "area": "found",
+      "difficulty": 0.55,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "claims",
+        "churn",
+        "pdm",
+        "attrition",
+        "readmission"
+      ],
+      "prereqs": [
+        "found_explainability_global"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: SHAP and local explanations",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Inspection: model explanation",
+          "url": "https://scikit-learn.org/stable/modules/partial_dependence.html"
+        }
+      ]
+    },
+    {
+      "id": "found_model_deployment",
+      "label": "Model deployment: batch vs real-time serving, APIs and train-serve skew",
+      "area": "found",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "claims",
+        "pdm",
+        "reco"
+      ],
+      "prereqs": [
+        "found_ml_workflow",
+        "found_pipelines"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 19: Deploying Models to Production",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Production ML systems",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        }
+      ]
+    },
+    {
+      "id": "found_drift_monitoring",
+      "label": "Data and concept drift detection and production monitoring",
+      "area": "found",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "claims",
+        "pdm",
+        "demand",
+        "reco"
+      ],
+      "prereqs": [
+        "found_model_deployment"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Production ML: monitoring and drift",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 19: Monitoring and maintenance",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "found_model_retraining",
+      "label": "Model retraining: scheduled vs event-driven triggers and feedback loops",
+      "area": "found",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "claims",
+        "pdm",
+        "reco",
+        "demand"
+      ],
+      "prereqs": [
+        "found_drift_monitoring"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Production ML: retraining strategies",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 19: Automating retraining",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "found_automl",
+      "label": "AutoML: automated model selection, hyperparameter search and its limits",
+      "area": "found",
+      "difficulty": 0.4,
+      "importance": 1,
+      "ucs": [
+        "lead",
+        "xsell",
+        "clv",
+        "churn",
+        "quality",
+        "attrition",
+        "sales_fc"
+      ],
+      "prereqs": [
+        "found_cross_validation",
+        "found_feature_engineering"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 2: Hyperparameter search and AutoML",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Tuning hyperparameters of an estimator",
+          "url": "https://scikit-learn.org/stable/modules/grid_search.html"
+        }
+      ]
+    },
+    {
+      "id": "found_model_governance",
+      "label": "Model governance: model risk management, documentation and regulatory compliance",
+      "area": "found",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "lgd",
+        "uw",
+        "claims",
+        "fraud",
+        "aml",
+        "collections"
+      ],
+      "prereqs": [
+        "found_model_deployment",
+        "found_fairness"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Responsible AI and production governance",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Chapter 19: Model documentation and governance",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "classical_ols_linear_regression",
+      "label": "Ordinary Least Squares (Linear Regression)",
+      "area": "classical",
+      "difficulty": 0.1,
+      "importance": 3,
+      "ucs": [
         "lgd",
         "claims",
-        "pdm"
+        "clv",
+        "pricing",
+        "los",
+        "demand",
+        "sales_fc",
+        "energy"
       ],
-      "difficulty": 0.46,
-      "importance": 1,
       "prereqs": [
-        "log_reg",
-        "class_metrics"
+        "found_ml_workflow"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 3 Linear Regression",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 3 Linear Methods for Regression",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Ordinary Least Squares",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Linear Regression",
+          "url": "https://developers.google.com/machine-learning/crash-course/linear-regression"
+        }
+      ]
+    },
+    {
+      "id": "classical_polynomial_regression",
+      "label": "Polynomial Regression & Interaction Terms",
+      "area": "classical",
+      "difficulty": 0.2,
+      "importance": 1,
+      "ucs": [
+        "pricing",
+        "demand",
+        "energy"
+      ],
+      "prereqs": [
+        "classical_ols_linear_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 7 Moving Beyond Linearity",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Polynomial features",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_ridge_regression",
+      "label": "Ridge Regression (L2 Shrinkage)",
+      "area": "classical",
+      "difficulty": 0.3,
+      "importance": 3,
+      "ucs": [
+        "lgd",
+        "claims",
+        "clv",
+        "pricing",
+        "los",
+        "demand",
+        "sales_fc",
+        "energy"
+      ],
+      "prereqs": [
+        "classical_ols_linear_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 6 Linear Model Selection & Regularization",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 3 Shrinkage Methods",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Ridge regression",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_lasso_regression",
+      "label": "Lasso Regression (L1 Selection)",
+      "area": "classical",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "lgd",
+        "clv",
+        "pricing",
+        "claims",
+        "demand",
+        "sales_fc",
+        "energy"
+      ],
+      "prereqs": [
+        "classical_ols_linear_regression",
+        "classical_ridge_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 6 The Lasso",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 3 The Lasso",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Lasso",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_elastic_net",
+      "label": "Elastic Net Regularization",
+      "area": "classical",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "clv",
+        "pricing",
+        "claims",
+        "demand",
+        "energy",
+        "sales_fc"
+      ],
+      "prereqs": [
+        "classical_ridge_regression",
+        "classical_lasso_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 3 Elastic Net",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Elastic-Net",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 4 Regularized Linear Models",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "classical_quantile_regression",
+      "label": "Quantile Regression & Prediction Intervals",
+      "area": "classical",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "claims",
+        "pricing",
+        "energy",
+        "demand",
+        "lgd",
+        "inventory"
+      ],
+      "prereqs": [
+        "classical_ols_linear_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Quantile Regression",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 3 Linear Methods for Regression",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "classical_generalized_linear_models",
+      "label": "Generalized Linear Models (Link Functions & IRLS)",
+      "area": "classical",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "claims",
+        "lgd",
+        "pricing",
+        "readmission",
+        "demand"
+      ],
+      "prereqs": [
+        "classical_ols_linear_regression",
+        "classical_logistic_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 4 Generalized Linear Models",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 4 Linear Methods for Classification",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Generalized Linear Models",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_poisson_regression",
+      "label": "Poisson Regression (Count Models)",
+      "area": "classical",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "claims",
+        "demand",
+        "sales_fc",
+        "readmission",
+        "los"
+      ],
+      "prereqs": [
+        "classical_generalized_linear_models"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 4 Poisson Regression",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Poisson regression",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_gamma_tweedie_regression",
+      "label": "Gamma & Tweedie GLMs (Severity / Pure Premium)",
+      "area": "classical",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "claims",
+        "uw",
+        "pricing",
+        "lgd"
+      ],
+      "prereqs": [
+        "classical_generalized_linear_models",
+        "classical_poisson_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Tweedie regression",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 4 Linear Methods for Classification",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "classical_logistic_regression",
+      "label": "Logistic Regression (Binary Classification)",
+      "area": "classical",
+      "difficulty": 0.2,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "collections",
+        "churn",
+        "lead",
+        "xsell",
+        "attrition",
+        "readmission",
+        "quality",
+        "reco"
+      ],
+      "prereqs": [
+        "classical_ols_linear_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 4 Logistic Regression",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 4 Logistic Regression",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Logistic regression",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Logistic Regression",
+          "url": "https://developers.google.com/machine-learning/crash-course/logistic-regression"
+        }
+      ]
+    },
+    {
+      "id": "classical_multinomial_logistic",
+      "label": "Multinomial (Softmax) Logistic Regression",
+      "area": "classical",
+      "difficulty": 0.35,
+      "importance": 1,
+      "ucs": [
+        "quality",
+        "uw",
+        "reco"
+      ],
+      "prereqs": [
+        "classical_logistic_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 4 Multinomial Logistic Regression",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Multinomial case",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Multi-class classification",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification"
+        }
+      ]
+    },
+    {
+      "id": "classical_lda",
+      "label": "Linear Discriminant Analysis (LDA)",
+      "area": "classical",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "quality",
+        "readmission",
+        "attrition"
+      ],
+      "prereqs": [
+        "classical_logistic_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 4 Linear Discriminant Analysis",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 4 Linear Discriminant Analysis",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Linear Discriminant Analysis",
+          "url": "https://scikit-learn.org/stable/modules/lda_qda.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_qda",
+      "label": "Quadratic Discriminant Analysis (QDA)",
+      "area": "classical",
+      "difficulty": 0.4,
+      "importance": 1,
+      "ucs": [
+        "fraud",
+        "quality",
+        "uw"
+      ],
+      "prereqs": [
+        "classical_lda"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 4 Quadratic Discriminant Analysis",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Quadratic Discriminant Analysis",
+          "url": "https://scikit-learn.org/stable/modules/lda_qda.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_gaussian_naive_bayes",
+      "label": "Gaussian Naive Bayes",
+      "area": "classical",
+      "difficulty": 0.25,
+      "importance": 1,
+      "ucs": [
+        "fraud",
+        "aml",
+        "readmission",
+        "quality"
+      ],
+      "prereqs": [
+        "classical_logistic_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 4 Naive Bayes",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Gaussian Naive Bayes",
+          "url": "https://scikit-learn.org/stable/modules/naive_bayes.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_multinomial_naive_bayes",
+      "label": "Multinomial & Bernoulli Naive Bayes (Text)",
+      "area": "classical",
+      "difficulty": 0.3,
+      "importance": 1,
+      "ucs": [
+        "fraud",
+        "aml"
+      ],
+      "prereqs": [
+        "classical_gaussian_naive_bayes"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Multinomial Naive Bayes",
+          "url": "https://scikit-learn.org/stable/modules/naive_bayes.html"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 6 Kernel Smoothing Methods",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "classical_knn_classifier",
+      "label": "K-Nearest Neighbors Classifier",
+      "area": "classical",
+      "difficulty": 0.2,
+      "importance": 1,
+      "ucs": [
+        "cs",
+        "fraud",
+        "quality",
+        "readmission",
+        "reco"
+      ],
+      "prereqs": [
+        "classical_logistic_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 2 K-Nearest Neighbors",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 13 k-Nearest-Neighbor Classifiers",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Nearest Neighbors Classification",
+          "url": "https://scikit-learn.org/stable/modules/neighbors.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_knn_regressor",
+      "label": "K-Nearest Neighbors Regression",
+      "area": "classical",
+      "difficulty": 0.25,
+      "importance": 1,
+      "ucs": [
+        "pricing",
+        "clv",
+        "los",
+        "reco"
+      ],
+      "prereqs": [
+        "classical_knn_classifier"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 3 K-Nearest Neighbors Regression",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Nearest Neighbors Regression",
+          "url": "https://scikit-learn.org/stable/modules/neighbors.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_decision_tree_learning",
+      "label": "Decision Tree Learning (CART, Recursive Partitioning)",
+      "area": "classical",
+      "difficulty": 0.25,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "collections",
+        "churn",
+        "quality",
+        "readmission",
+        "los"
+      ],
+      "prereqs": [
+        "found_train_test_split"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 8 The Basics of Decision Trees",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 9 Tree-Based Methods",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Decision Trees",
+          "url": "https://scikit-learn.org/stable/modules/tree.html"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Decision Trees",
+          "url": "https://developers.google.com/machine-learning/decision-forests"
+        }
+      ]
+    },
+    {
+      "id": "classical_tree_pruning",
+      "label": "Tree Pruning & Complexity Control",
+      "area": "classical",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "churn",
+        "quality",
+        "los",
+        "readmission"
+      ],
+      "prereqs": [
+        "classical_decision_tree_learning"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 8 Tree Pruning",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 9 Tree-Based Methods",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Minimal cost-complexity pruning",
+          "url": "https://scikit-learn.org/stable/modules/tree.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_bagging",
+      "label": "Bagging (Bootstrap Aggregating)",
+      "area": "classical",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "quality",
+        "clv",
+        "cs"
+      ],
+      "prereqs": [
+        "classical_decision_tree_learning"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 8 Bagging",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 8 Bagging",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Bagging meta-estimator",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_random_forest_classifier",
+      "label": "Random Forest Classifier",
+      "area": "classical",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "collections",
+        "churn",
+        "lead",
+        "xsell",
+        "quality",
+        "attrition",
+        "readmission"
+      ],
+      "prereqs": [
+        "classical_bagging",
+        "classical_decision_tree_learning"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 8 Random Forests",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 15 Random Forests",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Random Forests",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Random Forests",
+          "url": "https://developers.google.com/machine-learning/decision-forests"
+        }
+      ]
+    },
+    {
+      "id": "classical_random_forest_regressor",
+      "label": "Random Forest Regressor",
+      "area": "classical",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "lgd",
+        "claims",
+        "clv",
+        "pricing",
+        "los"
+      ],
+      "prereqs": [
+        "classical_bagging",
+        "classical_decision_tree_learning"
+      ],
+      "sources": [
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 15 Random Forests",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Random Forests",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_extra_trees",
+      "label": "Extremely Randomized Trees (Extra-Trees)",
+      "area": "classical",
+      "difficulty": 0.4,
+      "importance": 1,
+      "ucs": [
+        "fraud",
+        "quality",
+        "cs"
+      ],
+      "prereqs": [
+        "classical_random_forest_classifier"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Extremely Randomized Trees",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 15 Random Forests",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "classical_feature_importance_trees",
+      "label": "Tree Feature Importance (MDI & Permutation)",
+      "area": "classical",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "churn",
+        "xsell",
+        "attrition",
+        "claims",
+        "lgd",
+        "quality"
+      ],
+      "prereqs": [
+        "classical_random_forest_classifier"
+      ],
+      "sources": [
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 15 Variable Importance",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Permutation feature importance",
+          "url": "https://scikit-learn.org/stable/modules/permutation_importance.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 7 Feature Importance",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "classical_adaboost",
+      "label": "AdaBoost",
+      "area": "classical",
+      "difficulty": 0.45,
+      "importance": 1,
+      "ucs": [
+        "fraud",
+        "quality",
+        "churn",
+        "cs"
+      ],
+      "prereqs": [
+        "classical_decision_tree_learning"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 8 Boosting",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 10 AdaBoost",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "AdaBoost",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_gradient_boosting_fundamentals",
+      "label": "Gradient Boosting Machines (Fundamentals)",
+      "area": "classical",
+      "difficulty": 0.5,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "collections",
+        "churn",
+        "lead",
+        "xsell",
+        "quality",
+        "attrition",
+        "readmission",
+        "reco",
+        "lgd",
+        "claims",
+        "clv",
+        "pricing",
+        "los"
+      ],
+      "prereqs": [
+        "classical_decision_tree_learning"
+      ],
+      "sources": [
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 10 Boosting and Additive Trees",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 7 Gradient Boosting",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Gradient Boosting",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Gradient Boosted Decision Trees",
+          "url": "https://developers.google.com/machine-learning/decision-forests"
+        }
+      ]
+    },
+    {
+      "id": "classical_gradient_boosting_classifier",
+      "label": "Gradient Boosting Classifier",
+      "area": "classical",
+      "difficulty": 0.5,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "collections",
+        "churn",
+        "lead",
+        "xsell",
+        "quality",
+        "attrition",
+        "readmission",
+        "reco"
+      ],
+      "prereqs": [
+        "classical_gradient_boosting_fundamentals"
+      ],
+      "sources": [
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 10 Boosting and Additive Trees",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "GradientBoostingClassifier",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_gradient_boosting_regressor",
+      "label": "Gradient Boosting Regressor",
+      "area": "classical",
+      "difficulty": 0.5,
+      "importance": 3,
+      "ucs": [
+        "lgd",
+        "claims",
+        "clv",
+        "pricing",
+        "los"
+      ],
+      "prereqs": [
+        "classical_gradient_boosting_fundamentals"
+      ],
+      "sources": [
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 10 Boosting and Additive Trees",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "GradientBoostingRegressor",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_xgboost",
+      "label": "XGBoost",
+      "area": "classical",
+      "difficulty": 0.55,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "collections",
+        "churn",
+        "lead",
+        "xsell",
+        "quality",
+        "attrition",
+        "readmission",
+        "reco",
+        "lgd",
+        "claims",
+        "clv",
+        "pricing",
+        "los"
+      ],
+      "prereqs": [
+        "classical_gradient_boosting_fundamentals"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 7 XGBoost",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 10 Boosting and Additive Trees",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Gradient Boosting",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_lightgbm",
+      "label": "LightGBM (Leaf-wise, Histogram Boosting)",
+      "area": "classical",
+      "difficulty": 0.55,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "collections",
+        "churn",
+        "lead",
+        "xsell",
+        "quality",
+        "attrition",
+        "readmission",
+        "reco",
+        "lgd",
+        "claims",
+        "clv",
+        "pricing",
+        "los"
+      ],
+      "prereqs": [
+        "classical_gradient_boosting_fundamentals",
+        "classical_xgboost"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 7 Histogram-Based Gradient Boosting",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Histogram-Based Gradient Boosting",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_catboost",
+      "label": "CatBoost (Ordered Boosting, Native Categoricals)",
+      "area": "classical",
+      "difficulty": 0.55,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "collections",
+        "churn",
+        "lead",
+        "xsell",
+        "quality",
+        "attrition",
+        "readmission",
+        "reco",
+        "lgd",
+        "claims",
+        "clv",
+        "pricing",
+        "los"
+      ],
+      "prereqs": [
+        "classical_gradient_boosting_fundamentals",
+        "classical_xgboost"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 7 Gradient Boosting",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 10 Boosting and Additive Trees",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "classical_boosting_early_stopping",
+      "label": "Early Stopping in Boosting",
+      "area": "classical",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "fraud",
+        "churn",
+        "lead",
+        "xsell",
+        "clv",
+        "claims",
+        "lgd"
+      ],
+      "prereqs": [
+        "classical_gradient_boosting_fundamentals"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 7 Early Stopping",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Early stopping in Gradient Boosting",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_boosting_regularization",
+      "label": "Boosting Regularization (Shrinkage, Subsampling, Tree Constraints)",
+      "area": "classical",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "fraud",
+        "churn",
+        "lead",
+        "xsell",
+        "clv",
+        "claims",
+        "lgd"
+      ],
+      "prereqs": [
+        "classical_gradient_boosting_fundamentals"
+      ],
+      "sources": [
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 10 Regularization",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 7 Gradient Boosting",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Shrinkage and subsampling",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_monotonic_constraints",
+      "label": "Monotonic Constraints in GBDT",
+      "area": "classical",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "pricing",
+        "claims",
+        "lgd",
+        "collections"
+      ],
+      "prereqs": [
+        "classical_gradient_boosting_fundamentals"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Monotonic Constraints",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 7 Gradient Boosting",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "classical_linear_svm",
+      "label": "Linear Support Vector Machines",
+      "area": "classical",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "aml",
+        "churn",
+        "quality",
+        "lead"
+      ],
+      "prereqs": [
+        "classical_logistic_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 9 Support Vector Classifier",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 12 Support Vector Machines",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Linear SVM",
+          "url": "https://scikit-learn.org/stable/modules/svm.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 5 Support Vector Machines",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "classical_kernel_svm",
+      "label": "Kernel SVM (RBF & Polynomial Kernels)",
+      "area": "classical",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "quality",
+        "uw",
+        "readmission",
+        "churn"
+      ],
+      "prereqs": [
+        "classical_linear_svm"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 9 Support Vector Machines",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 12 The SVM as a Penalization Method",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Kernel functions",
+          "url": "https://scikit-learn.org/stable/modules/svm.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_svr",
+      "label": "Support Vector Regression (SVR)",
+      "area": "classical",
+      "difficulty": 0.55,
+      "importance": 1,
+      "ucs": [
+        "pricing",
+        "clv",
+        "energy"
+      ],
+      "prereqs": [
+        "classical_kernel_svm"
+      ],
+      "sources": [
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 12 Support Vector Regression",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Regression (SVR)",
+          "url": "https://scikit-learn.org/stable/modules/svm.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 5 SVM Regression",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "classical_regression_splines",
+      "label": "Regression Splines & Basis Expansions",
+      "area": "classical",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "energy",
+        "demand",
+        "pricing",
+        "claims",
+        "los",
+        "clv"
+      ],
+      "prereqs": [
+        "classical_ols_linear_regression",
+        "classical_polynomial_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 7 Regression Splines",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 5 Basis Expansions and Regularization",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Spline transformer",
+          "url": "https://scikit-learn.org/stable/modules/preprocessing.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_smoothing_splines",
+      "label": "Smoothing Splines & Local Regression",
+      "area": "classical",
+      "difficulty": 0.55,
+      "importance": 1,
+      "ucs": [
+        "energy",
+        "demand"
+      ],
+      "prereqs": [
+        "classical_regression_splines"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 7 Smoothing Splines",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 5 Smoothing Splines",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "classical_gams",
+      "label": "Generalized Additive Models (GAMs)",
+      "area": "classical",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "claims",
+        "pricing",
+        "energy",
+        "demand",
+        "los",
+        "clv",
+        "readmission"
+      ],
+      "prereqs": [
+        "classical_regression_splines",
+        "classical_logistic_regression"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 7 Generalized Additive Models",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 9 Generalized Additive Models",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        }
+      ]
+    },
+    {
+      "id": "classical_voting_ensembles",
+      "label": "Voting & Averaging Ensembles",
+      "area": "classical",
+      "difficulty": 0.35,
+      "importance": 1,
+      "ucs": [
+        "cs",
+        "fraud",
+        "churn",
+        "clv"
+      ],
+      "prereqs": [
+        "classical_random_forest_classifier"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 7 Voting Classifiers",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Voting Classifier",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        }
+      ]
+    },
+    {
+      "id": "classical_stacking",
+      "label": "Stacking (Stacked Generalization)",
+      "area": "classical",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "fraud",
+        "aml",
+        "churn",
+        "clv",
+        "reco",
+        "lead"
+      ],
+      "prereqs": [
+        "classical_voting_ensembles"
+      ],
+      "sources": [
+        {
+          "corpus": "ESL",
+          "unit": "Ch. 8 Stacked Generalization",
+          "url": "https://hastie.su.domains/ElemStatLearn/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 7 Stacking",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Stacked generalization",
+          "url": "https://scikit-learn.org/stable/modules/ensemble.html"
+        }
+      ]
+    },
+    {
+      "id": "eval_confusion_matrix",
+      "label": "Confusion matrix (TP, FP, FN, TN)",
+      "area": "eval",
+      "difficulty": 0.1,
+      "importance": 3,
+      "ucs": "ALL",
+      "prereqs": [
+        "found_ml_workflow"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Model evaluation: confusion matrix",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#confusion-matrix"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Classification: Accuracy, precision, recall",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall"
+        }
+      ]
+    },
+    {
+      "id": "eval_accuracy_baseline",
+      "label": "Accuracy, base rate, and why accuracy misleads",
+      "area": "eval",
+      "difficulty": 0.15,
+      "importance": 3,
+      "ucs": "ALL",
+      "prereqs": [
+        "eval_confusion_matrix"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Classification: Accuracy, precision, recall",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Accuracy score",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#accuracy-score"
+        }
+      ]
+    },
+    {
+      "id": "eval_precision_recall",
+      "label": "Precision and recall",
+      "area": "eval",
+      "difficulty": 0.2,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "collections",
+        "churn",
+        "lead",
+        "xsell",
+        "quality",
+        "attrition",
+        "readmission",
+        "pdm",
+        "anomaly"
+      ],
+      "prereqs": [
+        "eval_confusion_matrix"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Precision, recall and F-measures",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-and-f-measures"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Classification: Accuracy, precision, recall",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall"
+        }
+      ]
+    },
+    {
+      "id": "eval_fbeta_score",
+      "label": "F1 and F-beta: weighting precision against recall",
+      "area": "eval",
+      "difficulty": 0.25,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "aml",
+        "collections",
+        "churn",
+        "lead",
+        "quality",
+        "pdm",
+        "anomaly",
+        "readmission"
+      ],
+      "prereqs": [
+        "eval_precision_recall"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Precision, recall and F-measures",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-and-f-measures"
+        },
+        {
+          "corpus": "ISLR",
+          "unit": "Ch 4 Classification",
+          "url": "https://www.statlearning.com/"
+        }
+      ]
+    },
+    {
+      "id": "eval_balanced_acc_mcc",
+      "label": "Balanced accuracy and Matthews correlation coefficient",
+      "area": "eval",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "aml",
+        "pdm",
+        "quality",
+        "anomaly",
+        "collections",
+        "readmission"
+      ],
+      "prereqs": [
+        "eval_confusion_matrix",
+        "eval_accuracy_baseline"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Balanced accuracy score",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#balanced-accuracy-score"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Matthews correlation coefficient",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#matthews-correlation-coefficient"
+        }
+      ]
+    },
+    {
+      "id": "eval_roc_auc",
+      "label": "ROC curve and AUC",
+      "area": "eval",
+      "difficulty": 0.3,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "aml",
+        "collections",
+        "churn",
+        "lead",
+        "xsell",
+        "attrition",
+        "readmission",
+        "pdm",
+        "quality"
+      ],
+      "prereqs": [
+        "eval_precision_recall",
+        "eval_confusion_matrix"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Receiver operating characteristic (ROC)",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#receiver-operating-characteristic-roc"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Classification: ROC and AUC",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc"
+        }
+      ]
+    },
+    {
+      "id": "eval_pr_auc",
+      "label": "Precision-Recall curve and average precision",
+      "area": "eval",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "fraud",
+        "aml",
+        "pdm",
+        "quality",
+        "anomaly",
+        "collections",
+        "readmission"
+      ],
+      "prereqs": [
+        "eval_precision_recall",
+        "eval_roc_auc"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Precision-Recall curve and average precision",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-and-f-measures"
+        },
+        {
+          "corpus": "ISLR",
+          "unit": "Ch 4 Classification",
+          "url": "https://www.statlearning.com/"
+        }
+      ]
+    },
+    {
+      "id": "eval_roc_vs_pr_imbalance",
+      "label": "Choosing ROC-AUC vs PR-AUC under class imbalance",
+      "area": "eval",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "aml",
+        "pdm",
+        "quality",
+        "anomaly",
+        "collections",
+        "readmission"
+      ],
+      "prereqs": [
+        "eval_roc_auc",
+        "eval_pr_auc"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Classification: ROC and AUC",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Precision-Recall vs ROC under imbalance",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#precision-recall-and-f-measures"
+        }
+      ]
+    },
+    {
+      "id": "eval_threshold_optimization",
+      "label": "Decision-threshold selection and operating points (recall@precision, precision@k)",
+      "area": "eval",
+      "difficulty": 0.4,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "fraud",
+        "aml",
+        "collections",
+        "quality",
+        "pdm",
+        "anomaly",
+        "readmission",
+        "lead"
+      ],
+      "prereqs": [
+        "eval_precision_recall",
+        "eval_pr_auc"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Classification: Thresholding",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification/thresholding"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Tuning the decision threshold",
+          "url": "https://scikit-learn.org/stable/modules/classification_threshold.html"
+        }
+      ]
+    },
+    {
+      "id": "eval_cost_matrix",
+      "label": "Cost-sensitive learning and the cost matrix (expected-cost-optimal threshold)",
+      "area": "eval",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "aml",
+        "pdm",
+        "quality",
+        "cs",
+        "collections"
+      ],
+      "prereqs": [
+        "eval_threshold_optimization",
+        "eval_confusion_matrix"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Cost-sensitive learning (business metric threshold)",
+          "url": "https://scikit-learn.org/stable/modules/classification_threshold.html"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Classification: Thresholding",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification/thresholding"
+        }
+      ]
+    },
+    {
+      "id": "eval_calibration_concept",
+      "label": "Probability calibration and reliability diagrams",
+      "area": "eval",
+      "difficulty": 0.4,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "pdm",
+        "readmission",
+        "claims",
+        "lgd"
+      ],
+      "prereqs": [
+        "eval_confusion_matrix",
+        "eval_roc_auc"
       ],
       "sources": [
         {
           "corpus": "scikit-learn",
           "unit": "Probability calibration",
           "url": "https://scikit-learn.org/stable/modules/calibration.html"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Calibration curves",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html#calibration-curves"
         }
-      ],
-      "area": "eval"
+      ]
     },
     {
-      "id": "explain",
-      "label": "Explainability (SHAP) & importance",
-      "domain": "fs",
+      "id": "eval_platt_scaling",
+      "label": "Platt (sigmoid) scaling",
+      "area": "eval",
+      "difficulty": 0.45,
+      "importance": 2,
       "ucs": [
         "cs",
         "uw",
         "fraud",
-        "claims",
-        "churn",
         "pdm",
-        "attrition"
+        "readmission"
       ],
-      "difficulty": 0.48,
-      "importance": 2,
       "prereqs": [
-        "rforest",
-        "feat_select"
+        "eval_calibration_concept"
       ],
       "sources": [
         {
-          "corpus": "fast.ai",
-          "unit": "Lesson 6: Random forests (feature importance)",
-          "url": "https://course.fast.ai/Lessons/lesson6.html"
+          "corpus": "scikit-learn",
+          "unit": "Sigmoid (Platt) calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html#sigmoid"
+        },
+        {
+          "corpus": "ISLR",
+          "unit": "Ch 4 Classification (logistic scores)",
+          "url": "https://www.statlearning.com/"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "threshold",
-      "label": "Threshold optimization",
-      "domain": "mfg",
+      "id": "eval_isotonic_regression",
+      "label": "Isotonic regression calibration",
+      "area": "eval",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "pdm",
+        "readmission",
+        "claims"
+      ],
+      "prereqs": [
+        "eval_calibration_concept",
+        "eval_platt_scaling"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Isotonic calibration",
+          "url": "https://scikit-learn.org/stable/modules/calibration.html#isotonic"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Isotonic regression",
+          "url": "https://scikit-learn.org/stable/modules/isotonic.html"
+        }
+      ]
+    },
+    {
+      "id": "eval_brier_logloss",
+      "label": "Brier score, log loss, and expected calibration error",
+      "area": "eval",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "pdm",
+        "readmission",
+        "claims"
+      ],
+      "prereqs": [
+        "eval_calibration_concept"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Log loss",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#log-loss"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Brier score loss",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#brier-score-loss"
+        }
+      ]
+    },
+    {
+      "id": "eval_imbalance_overview",
+      "label": "The class-imbalance problem",
+      "area": "eval",
+      "difficulty": 0.3,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "aml",
+        "pdm",
+        "quality",
+        "anomaly",
+        "collections",
+        "readmission"
+      ],
+      "prereqs": [
+        "eval_precision_recall",
+        "eval_pr_auc"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Imbalanced data",
+          "url": "https://developers.google.com/machine-learning/crash-course/overfitting/imbalanced-data"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "MLEP: Skewed datasets",
+          "url": "https://www.coursera.org/learn/introduction-to-machine-learning-in-production"
+        }
+      ]
+    },
+    {
+      "id": "eval_resampling_smote",
+      "label": "Resampling: oversampling, undersampling, and SMOTE",
+      "area": "eval",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "aml",
+        "pdm",
+        "quality",
+        "anomaly",
+        "collections",
+        "readmission"
+      ],
+      "prereqs": [
+        "eval_imbalance_overview"
+      ],
+      "sources": [
+        {
+          "corpus": "Google MLCC",
+          "unit": "Imbalanced data: downsampling and upweighting",
+          "url": "https://developers.google.com/machine-learning/crash-course/overfitting/imbalanced-data"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "MLEP: Handling class imbalance",
+          "url": "https://www.coursera.org/learn/introduction-to-machine-learning-in-production"
+        }
+      ]
+    },
+    {
+      "id": "eval_class_weights",
+      "label": "Class weights and cost-sensitive reweighting",
+      "area": "eval",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "aml",
+        "pdm",
+        "quality",
+        "anomaly",
+        "collections",
+        "readmission"
+      ],
+      "prereqs": [
+        "eval_imbalance_overview"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Cost-sensitive learning / class_weight",
+          "url": "https://scikit-learn.org/stable/modules/classification_threshold.html"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Imbalanced data: upweighting",
+          "url": "https://developers.google.com/machine-learning/crash-course/overfitting/imbalanced-data"
+        }
+      ]
+    },
+    {
+      "id": "eval_focal_loss",
+      "label": "Focal loss for extreme imbalance",
+      "area": "eval",
+      "difficulty": 0.65,
+      "importance": 1,
       "ucs": [
         "fraud",
         "aml",
         "anomaly",
         "quality",
-        "pdm",
-        "cs"
-      ],
-      "difficulty": 0.48,
-      "importance": 1,
-      "prereqs": [
-        "roc_pr",
-        "class_metrics"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "Classification (thresholding)",
-          "url": "https://developers.google.com/machine-learning/crash-course/classification"
-        }
-      ],
-      "area": "eval"
-    },
-    {
-      "id": "density",
-      "label": "Density estimation",
-      "domain": "mfg",
-      "ucs": [
-        "anomaly",
-        "fraud",
-        "aml"
-      ],
-      "difficulty": 0.48,
-      "importance": 1,
-      "prereqs": [
-        "math_found",
-        "dim_reduce"
-      ],
-      "sources": [
-        {
-          "corpus": "scikit-learn",
-          "unit": "Density Estimation",
-          "url": "https://scikit-learn.org/stable/modules/density.html"
-        }
-      ],
-      "area": "anomaly"
-    },
-    {
-      "id": "forecast_eval",
-      "label": "Forecast backtesting & accuracy",
-      "domain": "scm",
-      "ucs": [
-        "demand",
-        "sales_fc",
-        "inventory",
-        "energy",
         "pdm"
       ],
-      "difficulty": 0.48,
-      "importance": 1,
       "prereqs": [
-        "ts_decomp",
-        "cross_val"
+        "eval_imbalance_overview",
+        "eval_class_weights"
       ],
       "sources": [
         {
-          "corpus": "FPP3",
-          "unit": "Evaluating point-forecast accuracy",
-          "url": "https://otexts.com/fpp3/accuracy.html"
-        }
-      ],
-      "area": "ts"
-    },
-    {
-      "id": "expsmooth",
-      "label": "Exponential smoothing / ETS",
-      "domain": "scm",
-      "ucs": [
-        "demand",
-        "sales_fc",
-        "inventory",
-        "energy"
-      ],
-      "difficulty": 0.5,
-      "importance": 2,
-      "prereqs": [
-        "ts_decomp"
-      ],
-      "sources": [
-        {
-          "corpus": "FPP3",
-          "unit": "Ch.8 Exponential smoothing",
-          "url": "https://otexts.com/fpp3/expsmooth.html"
-        }
-      ],
-      "area": "ts"
-    },
-    {
-      "id": "cost_sensitive",
-      "label": "Cost-sensitive learning",
-      "domain": "fs",
-      "ucs": [
-        "fraud",
-        "aml",
-        "cs",
-        "uw",
-        "claims",
-        "pdm",
-        "collections"
-      ],
-      "difficulty": 0.5,
-      "importance": 2,
-      "prereqs": [
-        "class_metrics",
-        "threshold"
-      ],
-      "sources": [
+          "corpus": "DeepLearning.AI",
+          "unit": "MLEP: Loss weighting for imbalance",
+          "url": "https://www.coursera.org/learn/introduction-to-machine-learning-in-production"
+        },
         {
           "corpus": "Google MLCC",
-          "unit": "Classification (thresholding)",
-          "url": "https://developers.google.com/machine-learning/crash-course/classification"
+          "unit": "Imbalanced data",
+          "url": "https://developers.google.com/machine-learning/crash-course/overfitting/imbalanced-data"
         }
-      ],
-      "area": "eval"
+      ]
     },
     {
-      "id": "stl",
-      "label": "STL decomposition",
-      "domain": "scm",
+      "id": "eval_rmse_mae",
+      "label": "RMSE, MSE, and MAE: squared vs absolute error",
+      "area": "eval",
+      "difficulty": 0.2,
+      "importance": 3,
       "ucs": [
+        "lgd",
+        "claims",
+        "clv",
+        "pricing",
+        "los",
         "demand",
         "sales_fc",
         "energy",
-        "anomaly"
+        "inventory"
       ],
-      "difficulty": 0.52,
-      "importance": 1,
       "prereqs": [
-        "ts_decomp"
-      ],
-      "sources": [
-        {
-          "corpus": "FPP3",
-          "unit": "STL decomposition",
-          "url": "https://otexts.com/fpp3/stl.html"
-        }
-      ],
-      "area": "ts"
-    },
-    {
-      "id": "arima",
-      "label": "ARIMA models",
-      "domain": "scm",
-      "ucs": [
-        "demand",
-        "sales_fc",
-        "inventory",
-        "energy"
-      ],
-      "difficulty": 0.54,
-      "importance": 2,
-      "prereqs": [
-        "ts_decomp",
-        "stat_learning"
-      ],
-      "sources": [
-        {
-          "corpus": "FPP3",
-          "unit": "Ch.9 ARIMA models",
-          "url": "https://otexts.com/fpp3/arima.html"
-        }
-      ],
-      "area": "ts"
-    },
-    {
-      "id": "nn_basics",
-      "label": "Neural network basics (MLP)",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.54,
-      "importance": 2,
-      "prereqs": [
-        "gradient_descent",
-        "log_reg"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "Neural Networks",
-          "url": "https://developers.google.com/machine-learning/crash-course/neural-networks"
-        },
-        {
-          "corpus": "d2l.ai",
-          "unit": "Multilayer Perceptrons",
-          "url": "https://d2l.ai/chapter_multilayer-perceptrons/index.html"
-        }
-      ],
-      "area": "deep"
-    },
-    {
-      "id": "deploy",
-      "label": "Model deployment & serving",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.56,
-      "importance": 1,
-      "prereqs": [
-        "end2end",
-        "pipelines"
-      ],
-      "sources": [
-        {
-          "corpus": "fast.ai",
-          "unit": "Lesson 2: Deployment",
-          "url": "https://course.fast.ai/Lessons/lesson2.html"
-        },
-        {
-          "corpus": "Hands-On ML",
-          "unit": "Ch.19 Deploying at Scale",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch19.html"
-        }
-      ],
-      "area": "found"
-    },
-    {
-      "id": "anomaly",
-      "label": "Novelty & outlier detection",
-      "domain": "mfg",
-      "ucs": [
-        "anomaly",
-        "fraud",
-        "aml",
-        "quality"
-      ],
-      "difficulty": 0.56,
-      "importance": 2,
-      "prereqs": [
-        "density",
-        "clustering"
+        "found_ml_workflow"
       ],
       "sources": [
         {
           "corpus": "scikit-learn",
-          "unit": "Novelty & Outlier Detection",
-          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html"
-        },
-        {
-          "corpus": "PyOD",
-          "unit": "PyOD documentation",
-          "url": "https://pyod.readthedocs.io/en/latest/index.html"
-        }
-      ],
-      "area": "anomaly"
-    },
-    {
-      "id": "backprop",
-      "label": "Backpropagation",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.57,
-      "importance": 1,
-      "prereqs": [
-        "nn_basics",
-        "gradient_descent"
-      ],
-      "sources": [
-        {
-          "corpus": "DeepLearning.AI",
-          "unit": "Neural Networks & Deep Learning",
-          "url": "https://www.coursera.org/learn/neural-networks-deep-learning"
-        }
-      ],
-      "area": "deep"
-    },
-    {
-      "id": "collab_filter",
-      "label": "Collaborative filtering & recommenders",
-      "domain": "mkt",
-      "ucs": [
-        "reco",
-        "nba",
-        "xsell",
-        "churn"
-      ],
-      "difficulty": 0.58,
-      "importance": 1,
-      "prereqs": [
-        "gradient_descent",
-        "feat_eng"
-      ],
-      "sources": [
-        {
-          "corpus": "fast.ai",
-          "unit": "Lesson 7: Collaborative filtering",
-          "url": "https://course.fast.ai/Lessons/lesson7.html"
-        }
-      ],
-      "area": "deep"
-    },
-    {
-      "id": "prod_ml",
-      "label": "Production ML systems",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.58,
-      "importance": 1,
-      "prereqs": [
-        "deploy"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "Production ML Systems",
-          "url": "https://developers.google.com/machine-learning/crash-course/production-ml-systems"
-        }
-      ],
-      "area": "found"
-    },
-    {
-      "id": "embeddings",
-      "label": "Embeddings for categoricals",
-      "domain": "mkt",
-      "ucs": [
-        "nba",
-        "churn",
-        "cs",
-        "fraud",
-        "reco",
-        "xsell",
-        "lead"
-      ],
-      "difficulty": 0.6,
-      "importance": 2,
-      "prereqs": [
-        "nn_basics"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "Embeddings",
-          "url": "https://developers.google.com/machine-learning/crash-course/embeddings"
-        },
-        {
-          "corpus": "fast.ai",
-          "unit": "Lesson 7: Collaborative filtering",
-          "url": "https://course.fast.ai/Lessons/lesson7.html"
-        }
-      ],
-      "area": "deep"
-    },
-    {
-      "id": "dl_reg",
-      "label": "DL regularization & dropout",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.6,
-      "importance": 1,
-      "prereqs": [
-        "nn_basics",
-        "regularize"
-      ],
-      "sources": [
-        {
-          "corpus": "DeepLearning.AI",
-          "unit": "Improving DNNs: Practical Aspects",
-          "url": "https://www.coursera.org/learn/deep-neural-network"
-        },
-        {
-          "corpus": "Hands-On ML",
-          "unit": "Ch.11 Training Deep Neural Networks",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch11.html"
-        }
-      ],
-      "area": "deep"
-    },
-    {
-      "id": "automl",
-      "label": "AutoML & search",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.6,
-      "importance": 1,
-      "prereqs": [
-        "hyperparam"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "AutoML",
-          "url": "https://developers.google.com/machine-learning/crash-course/automl"
-        }
-      ],
-      "area": "found"
-    },
-    {
-      "id": "sarima",
-      "label": "Seasonal ARIMA",
-      "domain": "scm",
-      "ucs": [
-        "demand",
-        "sales_fc",
-        "energy"
-      ],
-      "difficulty": 0.6,
-      "importance": 1,
-      "prereqs": [
-        "arima"
-      ],
-      "sources": [
-        {
-          "corpus": "FPP3",
-          "unit": "Seasonal ARIMA",
-          "url": "https://otexts.com/fpp3/seasonal-arima.html"
-        }
-      ],
-      "area": "ts"
-    },
-    {
-      "id": "dl_optim",
-      "label": "Optimizers (momentum / Adam)",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.62,
-      "importance": 1,
-      "prereqs": [
-        "backprop"
-      ],
-      "sources": [
-        {
-          "corpus": "DeepLearning.AI",
-          "unit": "Improving DNNs: Optimization",
-          "url": "https://www.coursera.org/learn/deep-neural-network"
-        },
-        {
-          "corpus": "d2l.ai",
-          "unit": "Optimization Algorithms",
-          "url": "https://d2l.ai/chapter_optimization/index.html"
-        }
-      ],
-      "area": "deep"
-    },
-    {
-      "id": "monitoring",
-      "label": "Monitoring & drift detection",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.62,
-      "importance": 1,
-      "prereqs": [
-        "prod_ml",
-        "deploy"
-      ],
-      "sources": [
-        {
-          "corpus": "Google MLCC",
-          "unit": "Production ML Systems",
-          "url": "https://developers.google.com/machine-learning/crash-course/production-ml-systems"
-        }
-      ],
-      "area": "found"
-    },
-    {
-      "id": "dynreg",
-      "label": "Dynamic regression (ARIMA errors)",
-      "domain": "scm",
-      "ucs": [
-        "demand",
-        "sales_fc",
-        "inventory",
-        "pricing"
-      ],
-      "difficulty": 0.62,
-      "importance": 1,
-      "prereqs": [
-        "arima",
-        "lin_reg"
-      ],
-      "sources": [
-        {
-          "corpus": "FPP3",
-          "unit": "Ch.10 Dynamic regression",
-          "url": "https://otexts.com/fpp3/dynamic.html"
-        }
-      ],
-      "area": "ts"
-    },
-    {
-      "id": "survival",
-      "label": "Survival analysis & censoring",
-      "domain": "mfg",
-      "ucs": [
-        "pdm",
-        "churn",
-        "clv",
-        "readmission",
-        "los",
-        "attrition"
-      ],
-      "difficulty": 0.62,
-      "importance": 2,
-      "prereqs": [
-        "log_reg",
-        "stat_learning"
-      ],
-      "sources": [
-        {
-          "corpus": "lifelines",
-          "unit": "Introduction to survival analysis",
-          "url": "https://lifelines.readthedocs.io/en/latest/Survival%20Analysis%20intro.html"
+          "unit": "Mean squared error and mean absolute error",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#mean-squared-error"
         },
         {
           "corpus": "ISLR",
-          "unit": "Ch.11 Survival Analysis",
+          "unit": "Ch 2 Assessing model accuracy (MSE)",
           "url": "https://www.statlearning.com/"
         }
-      ],
-      "area": "survival"
+      ]
     },
     {
-      "id": "potential_outcomes",
-      "label": "Potential outcomes & causality",
-      "domain": "mkt",
+      "id": "eval_mape_wape",
+      "label": "MAPE, sMAPE, and weighted MAPE (WAPE)",
+      "area": "eval",
+      "difficulty": 0.3,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "pricing",
+        "clv"
+      ],
+      "prereqs": [
+        "eval_rmse_mae"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Mean absolute percentage error",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#mean-absolute-percentage-error"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Regression metrics overview",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#regression-metrics"
+        }
+      ]
+    },
+    {
+      "id": "eval_r2",
+      "label": "R-squared and adjusted R-squared",
+      "area": "eval",
+      "difficulty": 0.25,
+      "importance": 2,
+      "ucs": [
+        "lgd",
+        "claims",
+        "clv",
+        "los",
+        "pricing",
+        "sales_fc"
+      ],
+      "prereqs": [
+        "eval_rmse_mae"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "R^2 score, the coefficient of determination",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#r2-score"
+        },
+        {
+          "corpus": "ISLR",
+          "unit": "Ch 3 Linear Regression (R-squared)",
+          "url": "https://www.statlearning.com/"
+        }
+      ]
+    },
+    {
+      "id": "eval_pinball_quantile",
+      "label": "Pinball (quantile) loss and prediction-interval coverage",
+      "area": "eval",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "pricing",
+        "claims",
+        "los"
+      ],
+      "prereqs": [
+        "eval_rmse_mae"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Pinball loss (mean_pinball_loss)",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#pinball-loss"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Quantile regression",
+          "url": "https://scikit-learn.org/stable/modules/linear_model.html#quantile-regression"
+        }
+      ]
+    },
+    {
+      "id": "eval_timeseries_cv",
+      "label": "Time-series cross-validation, walk-forward, and backtesting",
+      "area": "eval",
+      "difficulty": 0.45,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "pdm",
+        "anomaly"
+      ],
+      "prereqs": [
+        "eval_cross_validation"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Cross validation of time series data (TimeSeriesSplit)",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Sequences, Time Series and Prediction: validation",
+          "url": "https://www.coursera.org/learn/tensorflow-sequences-time-series-and-prediction"
+        }
+      ]
+    },
+    {
+      "id": "eval_forecast_bias_mase",
+      "label": "Forecast bias, tracking signal, and MASE",
+      "area": "eval",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy"
+      ],
+      "prereqs": [
+        "eval_rmse_mae",
+        "eval_timeseries_cv"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Regression metrics",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#regression-metrics"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Time-series forecasting metrics",
+          "url": "https://www.coursera.org/learn/tensorflow-sequences-time-series-and-prediction"
+        }
+      ]
+    },
+    {
+      "id": "eval_uplift_qini",
+      "label": "Uplift evaluation: Qini, AUUC, and cumulative-gain curves",
+      "area": "eval",
+      "difficulty": 0.65,
+      "importance": 2,
       "ucs": [
         "nba",
-        "attribution",
+        "churn",
         "pricing",
-        "churn"
+        "attribution"
       ],
-      "difficulty": 0.62,
-      "importance": 2,
       "prereqs": [
-        "stat_learning",
-        "cross_val"
+        "eval_roc_auc"
       ],
       "sources": [
         {
           "corpus": "Causal Handbook",
-          "unit": "Introduction to Causality",
-          "url": "https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html"
+          "unit": "Ch 19 Evaluating Causal Models (cumulative gain, Qini)",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/19-Evaluating-Causal-Models.html"
+        },
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch 20 Plug-and-Play Estimators",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/20-Plug-and-Play-Estimators.html"
         }
-      ],
-      "area": "causal"
+      ]
     },
     {
-      "id": "batchnorm",
-      "label": "Batch norm & initialization",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.64,
-      "importance": 1,
+      "id": "eval_ranking_ndcg",
+      "label": "Ranking metrics: NDCG, MAP, MRR, and hit-rate@k",
+      "area": "eval",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "reco",
+        "xsell",
+        "lead",
+        "nba",
+        "collections"
+      ],
       "prereqs": [
-        "backprop",
-        "dl_reg"
+        "eval_precision_recall"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "NDCG / DCG score",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#dcg-score"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Recommender systems evaluation",
+          "url": "https://www.coursera.org/learn/unsupervised-learning-recommenders-reinforcement-learning"
+        }
+      ]
+    },
+    {
+      "id": "eval_cross_validation",
+      "label": "Holdout, k-fold cross-validation, and stratification",
+      "area": "eval",
+      "difficulty": 0.3,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "lgd",
+        "uw",
+        "claims",
+        "fraud",
+        "aml",
+        "churn",
+        "clv",
+        "lead",
+        "quality",
+        "attrition",
+        "readmission"
+      ],
+      "prereqs": [
+        "eval_accuracy_baseline"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Cross-validation: evaluating estimator performance",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html"
+        },
+        {
+          "corpus": "ISLR",
+          "unit": "Ch 5 Resampling Methods",
+          "url": "https://www.statlearning.com/"
+        }
+      ]
+    },
+    {
+      "id": "eval_hyperparam_search",
+      "label": "Hyperparameter search: grid, random, and Bayesian optimization",
+      "area": "eval",
+      "difficulty": 0.4,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "lgd",
+        "uw",
+        "claims",
+        "fraud",
+        "aml",
+        "churn",
+        "clv",
+        "lead",
+        "quality",
+        "attrition",
+        "readmission"
+      ],
+      "prereqs": [
+        "eval_cross_validation"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Tuning the hyper-parameters (grid & randomized search)",
+          "url": "https://scikit-learn.org/stable/modules/grid_search.html"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Improving Deep Neural Networks: Hyperparameter tuning",
+          "url": "https://www.coursera.org/learn/deep-neural-network"
+        }
+      ]
+    },
+    {
+      "id": "eval_nested_cv",
+      "label": "Nested cross-validation for unbiased model selection",
+      "area": "eval",
+      "difficulty": 0.6,
+      "importance": 1,
+      "ucs": [
+        "cs",
+        "uw",
+        "fraud",
+        "quality",
+        "readmission"
+      ],
+      "prereqs": [
+        "eval_cross_validation",
+        "eval_hyperparam_search"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Nested versus non-nested cross-validation",
+          "url": "https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html"
+        },
+        {
+          "corpus": "ISLR",
+          "unit": "Ch 5 Resampling Methods",
+          "url": "https://www.statlearning.com/"
+        }
+      ]
+    },
+    {
+      "id": "eval_leakage_aware_cv",
+      "label": "Leakage-aware and grouped cross-validation",
+      "area": "eval",
+      "difficulty": 0.55,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "fraud",
+        "aml",
+        "churn",
+        "pdm",
+        "readmission",
+        "clv",
+        "lead"
+      ],
+      "prereqs": [
+        "eval_cross_validation"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Cross-validation iterators for grouped data",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-iterators-for-grouped-data"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Dividing datasets and avoiding leakage",
+          "url": "https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets"
+        }
+      ]
+    },
+    {
+      "id": "eval_learning_curves",
+      "label": "Learning curves and bias-variance diagnosis",
+      "area": "eval",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "fraud",
+        "churn",
+        "lead",
+        "quality",
+        "demand",
+        "sales_fc",
+        "readmission"
+      ],
+      "prereqs": [
+        "eval_cross_validation",
+        "eval_accuracy_baseline"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Validation curves and learning curves",
+          "url": "https://scikit-learn.org/stable/modules/learning_curve.html"
+        },
+        {
+          "corpus": "ISLR",
+          "unit": "Ch 2 The Bias-Variance Trade-Off",
+          "url": "https://www.statlearning.com/"
+        }
+      ]
+    },
+    {
+      "id": "eval_error_analysis",
+      "label": "Error analysis and ML strategy (slicing and prioritization)",
+      "area": "eval",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "fraud",
+        "aml",
+        "churn",
+        "quality",
+        "pdm",
+        "readmission",
+        "reco"
+      ],
+      "prereqs": [
+        "eval_confusion_matrix"
       ],
       "sources": [
         {
           "corpus": "DeepLearning.AI",
-          "unit": "Improving DNNs: Batch Normalization",
-          "url": "https://www.coursera.org/learn/deep-neural-network"
-        }
-      ],
-      "area": "deep"
-    },
-    {
-      "id": "retrain",
-      "label": "Retraining strategy",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.64,
-      "importance": 1,
-      "prereqs": [
-        "monitoring"
-      ],
-      "sources": [
+          "unit": "Structuring ML Projects: Error analysis",
+          "url": "https://www.coursera.org/learn/machine-learning-projects"
+        },
         {
           "corpus": "Google MLCC",
-          "unit": "Production ML Systems",
-          "url": "https://developers.google.com/machine-learning/crash-course/production-ml-systems"
+          "unit": "ML crash course: strategy and next steps",
+          "url": "https://developers.google.com/machine-learning/crash-course"
         }
-      ],
-      "area": "found"
+      ]
     },
     {
-      "id": "kaplan_meier",
-      "label": "Kaplan-Meier & Nelson-Aalen",
-      "domain": "mfg",
+      "id": "deep_perceptron_mlp",
+      "label": "Perceptron and the multilayer perceptron (feedforward networks)",
+      "area": "deep",
+      "difficulty": 0.15,
+      "importance": 3,
       "ucs": [
-        "pdm",
+        "cs",
+        "fraud",
         "churn",
-        "readmission",
-        "los",
-        "attrition"
+        "nba",
+        "reco",
+        "xsell",
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "quality"
       ],
-      "difficulty": 0.66,
-      "importance": 1,
       "prereqs": [
-        "survival"
+        "found_ml_workflow"
       ],
       "sources": [
         {
-          "corpus": "lifelines",
-          "unit": "Estimating univariate models",
-          "url": "https://lifelines.readthedocs.io/en/latest/Survival%20analysis%20with%20lifelines.html"
+          "corpus": "d2l.ai",
+          "unit": "Multilayer Perceptrons",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 10 Introduction to Artificial Neural Networks with Keras",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Neural networks: nodes and hidden layers",
+          "url": "https://developers.google.com/machine-learning/crash-course"
         }
-      ],
-      "area": "survival"
+      ]
     },
     {
-      "id": "seq_models",
-      "label": "Sequence models (RNN / LSTM / GRU)",
-      "domain": "scm",
+      "id": "deep_activation_functions",
+      "label": "Activation functions (ReLU, sigmoid, tanh, GELU)",
+      "area": "deep",
+      "difficulty": 0.2,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "fraud",
+        "churn",
+        "nba",
+        "reco",
+        "xsell",
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "quality"
+      ],
+      "prereqs": [
+        "deep_perceptron_mlp"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Multilayer Perceptrons: activation functions",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Neural networks: activation functions",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Neural Networks and Deep Learning: activation functions",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_loss_functions",
+      "label": "Loss functions for neural networks (cross-entropy, MSE, quantile)",
+      "area": "deep",
+      "difficulty": 0.2,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "fraud",
+        "churn",
+        "nba",
+        "reco",
+        "xsell",
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "quality"
+      ],
+      "prereqs": [
+        "deep_perceptron_mlp"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Linear and Softmax Regression: loss functions",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 10 Choosing output layers and loss functions",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Neural Networks and Deep Learning: cost functions",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_backpropagation",
+      "label": "Backpropagation and automatic differentiation",
+      "area": "deep",
+      "difficulty": 0.3,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "fraud",
+        "churn",
+        "nba",
+        "reco",
+        "xsell",
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "quality"
+      ],
+      "prereqs": [
+        "deep_perceptron_mlp",
+        "deep_activation_functions"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Forward Propagation, Backward Propagation and Computational Graphs",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Neural Networks and Deep Learning: backpropagation",
+          "url": "https://www.coursera.org/"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Neural networks: backpropagation",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        }
+      ]
+    },
+    {
+      "id": "deep_sgd_minibatch",
+      "label": "Minibatch stochastic gradient descent for neural network training",
+      "area": "deep",
+      "difficulty": 0.25,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "fraud",
+        "churn",
+        "nba",
+        "reco",
+        "xsell",
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "quality"
+      ],
+      "prereqs": [
+        "deep_backpropagation",
+        "deep_loss_functions"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Optimization Algorithms: minibatch stochastic gradient descent",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 4 Gradient Descent",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Reducing loss: stochastic gradient descent",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        }
+      ]
+    },
+    {
+      "id": "deep_optimizers_momentum",
+      "label": "Momentum and Nesterov accelerated gradient",
+      "area": "deep",
+      "difficulty": 0.3,
+      "importance": 1,
+      "ucs": [
+        "quality",
+        "reco"
+      ],
+      "prereqs": [
+        "deep_sgd_minibatch"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Optimization Algorithms: momentum",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 11 Faster optimizers: momentum and Nesterov",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "deep_adaptive_optimizers",
+      "label": "Adaptive optimizers (RMSProp, Adam, AdamW)",
+      "area": "deep",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "fraud",
+        "churn",
+        "nba",
+        "reco",
+        "xsell",
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "quality"
+      ],
+      "prereqs": [
+        "deep_sgd_minibatch",
+        "deep_optimizers_momentum"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Optimization Algorithms: RMSProp and Adam",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 11 Faster optimizers: Adam and AdamW",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Improving Deep Neural Networks: optimization algorithms",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_lr_schedules",
+      "label": "Learning rate schedules and warmup",
+      "area": "deep",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "reco",
+        "demand"
+      ],
+      "prereqs": [
+        "deep_adaptive_optimizers"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Optimization Algorithms: learning rate scheduling",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 11 Learning rate scheduling",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Improving Deep Neural Networks: learning rate decay",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_weight_initialization",
+      "label": "Weight initialization (Glorot/Xavier, He)",
+      "area": "deep",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "energy",
+        "quality"
+      ],
+      "prereqs": [
+        "deep_backpropagation"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Numerical Stability and Initialization",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 11 Glorot and He initialization",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Improving Deep Neural Networks: weight initialization",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_batch_normalization",
+      "label": "Batch normalization",
+      "area": "deep",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "pdm",
+        "quality",
+        "anomaly"
+      ],
+      "prereqs": [
+        "deep_backpropagation",
+        "deep_weight_initialization"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Batch Normalization",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 11 Batch normalization",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Improving Deep Neural Networks: batch normalization",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_layer_normalization",
+      "label": "Layer normalization for sequence and transformer models",
+      "area": "deep",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "sales_fc"
+      ],
+      "prereqs": [
+        "deep_batch_normalization"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Attention Mechanisms and Transformers: layer normalization",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 16 Natural Language Processing with RNNs and Attention",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "deep_vanishing_exploding_gradients",
+      "label": "Vanishing and exploding gradients",
+      "area": "deep",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "energy"
+      ],
+      "prereqs": [
+        "deep_backpropagation",
+        "deep_weight_initialization"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Numerical Stability and Initialization: vanishing and exploding gradients",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Improving Deep Neural Networks: vanishing and exploding gradients",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_dropout",
+      "label": "Dropout regularization",
+      "area": "deep",
+      "difficulty": 0.25,
+      "importance": 3,
+      "ucs": [
+        "churn",
+        "nba",
+        "reco",
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "quality",
+        "fraud"
+      ],
+      "prereqs": [
+        "deep_perceptron_mlp"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Dropout",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 11 Dropout",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Improving Deep Neural Networks: dropout regularization",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_weight_decay",
+      "label": "Weight decay (L2 regularization) for neural networks",
+      "area": "deep",
+      "difficulty": 0.3,
+      "importance": 2,
+      "ucs": [
+        "reco",
+        "churn"
+      ],
+      "prereqs": [
+        "deep_sgd_minibatch"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Weight Decay",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 11 L1 and L2 regularization",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Improving Deep Neural Networks: L2 regularization",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_early_stopping",
+      "label": "Early stopping and validation-based training for deep networks",
+      "area": "deep",
+      "difficulty": 0.2,
+      "importance": 2,
+      "ucs": [
+        "churn",
+        "nba",
+        "reco",
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "quality",
+        "fraud"
+      ],
+      "prereqs": [
+        "deep_sgd_minibatch"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 10 Early stopping",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "d2l.ai",
+          "unit": "Linear Regression: generalization and early stopping",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Improving Deep Neural Networks: early stopping",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_entity_embeddings",
+      "label": "Entity embeddings for high-cardinality categorical features",
+      "area": "deep",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "cs",
+        "churn",
+        "nba",
+        "reco",
+        "xsell",
+        "fraud"
+      ],
+      "prereqs": [
+        "deep_perceptron_mlp"
+      ],
+      "sources": [
+        {
+          "corpus": "fast.ai",
+          "unit": "Tabular modeling deep dive: entity embeddings",
+          "url": "https://course.fast.ai/"
+        },
+        {
+          "corpus": "d2l.ai",
+          "unit": "Word Embeddings and representation of categorical entities",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Embeddings",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        }
+      ]
+    },
+    {
+      "id": "deep_tabular_mlp",
+      "label": "Deep MLPs for tabular prediction",
+      "area": "deep",
+      "difficulty": 0.3,
+      "importance": 2,
+      "ucs": [
+        "cs",
+        "churn"
+      ],
+      "prereqs": [
+        "deep_perceptron_mlp",
+        "deep_entity_embeddings"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 10 Building neural nets for tabular data",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "fast.ai",
+          "unit": "Tabular modeling deep dive",
+          "url": "https://course.fast.ai/"
+        }
+      ]
+    },
+    {
+      "id": "deep_tabtransformer",
+      "label": "Attention for tabular data (TabTransformer, FT-Transformer)",
+      "area": "deep",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "churn",
+        "nba",
+        "fraud"
+      ],
+      "prereqs": [
+        "deep_entity_embeddings",
+        "deep_transformer_architecture"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 16 Attention mechanisms for structured inputs",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "d2l.ai",
+          "unit": "Attention Mechanisms and Transformers",
+          "url": "https://d2l.ai/"
+        }
+      ]
+    },
+    {
+      "id": "deep_tabular_foundation_models",
+      "label": "Tabular foundation models and in-context learning",
+      "area": "deep",
+      "difficulty": 0.65,
+      "importance": 3,
+      "ucs": [
+        "churn",
+        "nba",
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "fraud"
+      ],
+      "prereqs": [
+        "deep_transformer_architecture",
+        "deep_tabtransformer"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Attention Mechanisms and Transformers: pretraining and in-context learning",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Sequence Models: transformers and foundation models",
+          "url": "https://www.coursera.org/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 16 Transformers and pretrained foundation models",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "deep_matrix_factorization",
+      "label": "Matrix factorization for collaborative filtering",
+      "area": "deep",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "reco",
+        "xsell"
+      ],
+      "prereqs": [
+        "deep_entity_embeddings"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Recommender Systems: matrix factorization",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "fast.ai",
+          "unit": "Collaborative filtering deep dive",
+          "url": "https://course.fast.ai/"
+        }
+      ]
+    },
+    {
+      "id": "deep_neural_collaborative_filtering",
+      "label": "Neural collaborative filtering",
+      "area": "deep",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "reco",
+        "xsell",
+        "nba"
+      ],
+      "prereqs": [
+        "deep_matrix_factorization",
+        "deep_entity_embeddings"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Recommender Systems: neural collaborative filtering",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "fast.ai",
+          "unit": "Collaborative filtering deep dive: neural network models",
+          "url": "https://course.fast.ai/"
+        }
+      ]
+    },
+    {
+      "id": "deep_two_tower",
+      "label": "Two-tower retrieval models",
+      "area": "deep",
+      "difficulty": 0.55,
+      "importance": 3,
+      "ucs": [
+        "reco",
+        "xsell",
+        "nba"
+      ],
+      "prereqs": [
+        "deep_entity_embeddings",
+        "deep_neural_collaborative_filtering"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Recommender Systems: feature-rich recommender systems",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Google MLCC",
+          "unit": "Recommendation systems: retrieval and candidate generation",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        }
+      ]
+    },
+    {
+      "id": "deep_sequential_recommenders",
+      "label": "Sequential and session-based recommenders (self-attention)",
+      "area": "deep",
+      "difficulty": 0.6,
+      "importance": 2,
+      "ucs": [
+        "reco",
+        "xsell"
+      ],
+      "prereqs": [
+        "deep_two_tower",
+        "deep_attention_mechanism"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Recommender Systems: sequence-aware recommender systems",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Sequence Models: self-attention for user sequences",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_rnn",
+      "label": "Recurrent neural networks (RNN)",
+      "area": "deep",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "sales_fc",
+        "demand"
+      ],
+      "prereqs": [
+        "deep_backpropagation"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Recurrent Neural Networks",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 Processing Sequences Using RNNs and CNNs",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Sequence Models: recurrent neural networks",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_lstm_gru",
+      "label": "LSTM and GRU gated recurrent networks",
+      "area": "deep",
+      "difficulty": 0.45,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "fraud"
+      ],
+      "prereqs": [
+        "deep_rnn",
+        "deep_vanishing_exploding_gradients"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Modern Recurrent Neural Networks: LSTM and GRU",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 LSTM and GRU cells",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Sequence Models: LSTM and GRU",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_seq2seq",
+      "label": "Encoder-decoder sequence-to-sequence models",
+      "area": "deep",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "energy"
+      ],
+      "prereqs": [
+        "deep_lstm_gru"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Modern Recurrent Neural Networks: encoder-decoder and sequence to sequence",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Sequence Models: sequence-to-sequence architectures",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_temporal_convolution",
+      "label": "Temporal convolutional networks (dilated 1D convolutions, WaveNet)",
+      "area": "deep",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "energy",
+        "pdm",
+        "anomaly"
+      ],
+      "prereqs": [
+        "deep_cnn_fundamentals"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 WaveNet and 1D convolutional sequence models",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "d2l.ai",
+          "unit": "Convolutional Neural Networks: dilated convolutions for sequences",
+          "url": "https://d2l.ai/"
+        }
+      ]
+    },
+    {
+      "id": "deep_deepar",
+      "label": "DeepAR probabilistic autoregressive forecasting",
+      "area": "deep",
+      "difficulty": 0.6,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy"
+      ],
+      "prereqs": [
+        "deep_lstm_gru"
+      ],
+      "sources": [
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Sequence Models: probabilistic sequence forecasting",
+          "url": "https://www.coursera.org/"
+        },
+        {
+          "corpus": "d2l.ai",
+          "unit": "Recurrent Neural Networks: autoregressive models for time series",
+          "url": "https://d2l.ai/"
+        }
+      ]
+    },
+    {
+      "id": "deep_nbeats",
+      "label": "N-BEATS and N-HiTS deep forecasting architectures",
+      "area": "deep",
+      "difficulty": 0.6,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy"
+      ],
+      "prereqs": [
+        "deep_perceptron_mlp",
+        "deep_backpropagation"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Multilayer Perceptrons: deep forecasting architectures",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Sequence Models: neural time series forecasting",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_temporal_fusion_transformer",
+      "label": "Temporal Fusion Transformer for multi-horizon forecasting",
+      "area": "deep",
+      "difficulty": 0.7,
+      "importance": 3,
       "ucs": [
         "demand",
         "sales_fc",
@@ -1651,182 +4925,1183 @@ window.PMM_DATA = {
         "pdm",
         "anomaly"
       ],
-      "difficulty": 0.66,
-      "importance": 2,
       "prereqs": [
-        "backprop",
-        "ts_features"
+        "deep_lstm_gru",
+        "deep_transformer_architecture"
       ],
       "sources": [
         {
-          "corpus": "DeepLearning.AI",
-          "unit": "Sequence Models: RNNs",
-          "url": "https://www.coursera.org/learn/nlp-sequence-models"
+          "corpus": "d2l.ai",
+          "unit": "Attention Mechanisms and Transformers: attention for time series",
+          "url": "https://d2l.ai/"
         },
         {
-          "corpus": "d2l.ai",
-          "unit": "Recurrent Neural Networks",
-          "url": "https://d2l.ai/chapter_recurrent-neural-networks/index.html"
+          "corpus": "DeepLearning.AI",
+          "unit": "Sequence Models: attention-based forecasting",
+          "url": "https://www.coursera.org/"
         }
-      ],
-      "area": "deep"
+      ]
     },
     {
-      "id": "autoencoders",
-      "label": "Autoencoders (representation)",
-      "domain": "mfg",
+      "id": "deep_cnn_fundamentals",
+      "label": "Convolutions, filters, strides and pooling",
+      "area": "deep",
+      "difficulty": 0.4,
+      "importance": 2,
       "ucs": [
+        "pdm",
         "anomaly",
-        "fraud",
-        "aml",
         "quality"
       ],
-      "difficulty": 0.66,
-      "importance": 1,
       "prereqs": [
-        "backprop",
-        "dim_reduce"
+        "deep_backpropagation"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Convolutional Neural Networks: convolutions, padding and pooling",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 14 Deep Computer Vision Using Convolutional Neural Networks",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Convolutional Neural Networks: foundations",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_cnn_1d_signals",
+      "label": "1D CNNs for sensor and vibration signals",
+      "area": "deep",
+      "difficulty": 0.45,
+      "importance": 3,
+      "ucs": [
+        "pdm",
+        "anomaly",
+        "quality"
+      ],
+      "prereqs": [
+        "deep_cnn_fundamentals"
       ],
       "sources": [
         {
           "corpus": "Hands-On ML",
-          "unit": "Ch.17 Autoencoders, GANs & Diffusion",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch17.html"
+          "unit": "Ch. 15 1D convolutional layers for sequences",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "d2l.ai",
+          "unit": "Convolutional Neural Networks: convolutions applied to signals",
+          "url": "https://d2l.ai/"
         }
-      ],
-      "area": "anomaly"
+      ]
     },
     {
-      "id": "hierforecast",
-      "label": "Hierarchical & grouped forecasting",
-      "domain": "scm",
+      "id": "deep_cnn_2d_images",
+      "label": "2D CNNs for images and spectrograms",
+      "area": "deep",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "quality",
+        "pdm",
+        "anomaly"
+      ],
+      "prereqs": [
+        "deep_cnn_fundamentals"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Modern Convolutional Neural Networks",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 14 CNN architectures for image data",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "fast.ai",
+          "unit": "Image classification with convolutional neural networks",
+          "url": "https://course.fast.ai/"
+        }
+      ]
+    },
+    {
+      "id": "deep_attention_mechanism",
+      "label": "Attention mechanism (queries, keys, values)",
+      "area": "deep",
+      "difficulty": 0.55,
+      "importance": 3,
+      "ucs": [
+        "reco",
+        "sales_fc",
+        "fraud",
+        "churn",
+        "nba"
+      ],
+      "prereqs": [
+        "deep_seq2seq"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Attention Mechanisms and Transformers: attention scoring functions",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Sequence Models: attention mechanism",
+          "url": "https://www.coursera.org/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 16 Attention mechanisms",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "deep_transformer_architecture",
+      "label": "Transformer architecture (multi-head self-attention)",
+      "area": "deep",
+      "difficulty": 0.6,
+      "importance": 3,
+      "ucs": [
+        "reco",
+        "sales_fc",
+        "fraud",
+        "churn",
+        "nba"
+      ],
+      "prereqs": [
+        "deep_attention_mechanism",
+        "deep_layer_normalization"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Attention Mechanisms and Transformers: the transformer architecture",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 16 The transformer architecture",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Sequence Models: self-attention and transformers",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_autoencoder",
+      "label": "Autoencoders for representation learning and reconstruction error",
+      "area": "deep",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "aml",
+        "pdm",
+        "quality"
+      ],
+      "prereqs": [
+        "deep_backpropagation",
+        "deep_perceptron_mlp"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 17 Autoencoders, GANs and Diffusion Models",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "d2l.ai",
+          "unit": "Representation learning with autoencoders",
+          "url": "https://d2l.ai/"
+        }
+      ]
+    },
+    {
+      "id": "deep_transfer_learning",
+      "label": "Transfer learning and fine-tuning of pretrained models",
+      "area": "deep",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "quality"
+      ],
+      "prereqs": [
+        "deep_cnn_fundamentals"
+      ],
+      "sources": [
+        {
+          "corpus": "fast.ai",
+          "unit": "Transfer learning and fine-tuning",
+          "url": "https://course.fast.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 11 Reusing pretrained layers",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "DeepLearning.AI",
+          "unit": "Convolutional Neural Networks: transfer learning",
+          "url": "https://www.coursera.org/"
+        }
+      ]
+    },
+    {
+      "id": "deep_gpu_training",
+      "label": "GPU training practicalities (batching, mixed precision, throughput)",
+      "area": "deep",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "reco",
+        "demand",
+        "sales_fc",
+        "energy",
+        "pdm",
+        "anomaly",
+        "quality",
+        "fraud"
+      ],
+      "prereqs": [
+        "deep_sgd_minibatch"
+      ],
+      "sources": [
+        {
+          "corpus": "d2l.ai",
+          "unit": "Computational Performance: GPUs and hardware",
+          "url": "https://d2l.ai/"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 19 Training and Deploying TensorFlow Models at Scale",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "ts_time_series_components",
+      "label": "Time series components (trend, seasonality, remainder)",
+      "area": "ts",
+      "difficulty": 0.15,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "anomaly"
+      ],
+      "prereqs": [
+        "found_ml_workflow"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 3.2 Time series components",
+          "url": "https://otexts.com/fpp3/components.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_stationarity",
+      "label": "Stationarity and unit root tests",
+      "area": "ts",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy"
+      ],
+      "prereqs": [
+        "ts_time_series_components"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 9.1 Stationarity and differencing (ADF, KPSS)",
+          "url": "https://otexts.com/fpp3/stationarity.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 Processing Sequences: stationarity and differencing",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "ts_differencing",
+      "label": "Differencing (first and seasonal)",
+      "area": "ts",
+      "difficulty": 0.4,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy"
+      ],
+      "prereqs": [
+        "ts_stationarity"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 9.1 Differencing (first and seasonal)",
+          "url": "https://otexts.com/fpp3/stationarity.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 Processing Sequences: differencing a series",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "ts_autocorrelation_acf",
+      "label": "Autocorrelation function (ACF)",
+      "area": "ts",
+      "difficulty": 0.3,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy",
+        "anomaly"
+      ],
+      "prereqs": [
+        "ts_time_series_components"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 2.8 Autocorrelation",
+          "url": "https://otexts.com/fpp3/acf.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_pacf",
+      "label": "Partial autocorrelation (PACF)",
+      "area": "ts",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy"
+      ],
+      "prereqs": [
+        "ts_autocorrelation_acf"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 9.5 ACF and PACF for order selection",
+          "url": "https://otexts.com/fpp3/non-seasonal-arima.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_seasonality_detection",
+      "label": "Seasonality identification and seasonal periods",
+      "area": "ts",
+      "difficulty": 0.3,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "anomaly"
+      ],
+      "prereqs": [
+        "ts_time_series_components",
+        "ts_autocorrelation_acf"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 3.2 Seasonal component",
+          "url": "https://otexts.com/fpp3/components.html"
+        },
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 2.8 Autocorrelation at seasonal lags",
+          "url": "https://otexts.com/fpp3/acf.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_multiple_seasonality",
+      "label": "Multiple seasonality",
+      "area": "ts",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "energy",
+        "demand",
+        "anomaly"
+      ],
+      "prereqs": [
+        "ts_seasonality_detection"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 12.1 Complex seasonality (multiple seasonal periods)",
+          "url": "https://otexts.com/fpp3/complexseasonality.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_baseline_methods",
+      "label": "Naive, seasonal naive and drift baselines",
+      "area": "ts",
+      "difficulty": 0.15,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "anomaly"
+      ],
+      "prereqs": [
+        "ts_time_series_components",
+        "ts_seasonality_detection"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 5.2 Some simple forecasting methods",
+          "url": "https://otexts.com/fpp3/simple-methods.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 Processing Sequences: naive forecasting baseline",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "ts_classical_decomposition",
+      "label": "Classical decomposition and moving averages",
+      "area": "ts",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy",
+        "anomaly"
+      ],
+      "prereqs": [
+        "ts_time_series_components",
+        "ts_seasonality_detection"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 3.4 Classical decomposition",
+          "url": "https://otexts.com/fpp3/classical-decomposition.html"
+        },
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 3.3 Moving averages",
+          "url": "https://otexts.com/fpp3/moving-averages.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_stl_decomposition",
+      "label": "STL decomposition",
+      "area": "ts",
+      "difficulty": 0.45,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "anomaly"
+      ],
+      "prereqs": [
+        "ts_classical_decomposition"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 3.6 STL decomposition",
+          "url": "https://otexts.com/fpp3/stl.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_simple_exp_smoothing",
+      "label": "Simple exponential smoothing (SES)",
+      "area": "ts",
+      "difficulty": 0.3,
+      "importance": 2,
       "ucs": [
         "demand",
         "sales_fc",
         "inventory"
       ],
-      "difficulty": 0.66,
-      "importance": 1,
       "prereqs": [
-        "arima",
-        "expsmooth"
+        "ts_baseline_methods"
       ],
       "sources": [
         {
           "corpus": "FPP3",
-          "unit": "Ch.11 Hierarchical & grouped series",
-          "url": "https://otexts.com/fpp3/hierarchical.html"
+          "unit": "Sec. 8.1 Simple exponential smoothing",
+          "url": "https://otexts.com/fpp3/ses.html"
         }
-      ],
-      "area": "ts"
+      ]
     },
     {
-      "id": "iforest",
-      "label": "Isolation Forest / One-Class SVM / LOF",
-      "domain": "mfg",
+      "id": "ts_holt_trend",
+      "label": "Holt's linear and damped trend methods",
+      "area": "ts",
+      "difficulty": 0.4,
+      "importance": 2,
       "ucs": [
-        "anomaly",
-        "fraud",
-        "aml",
-        "quality"
+        "demand",
+        "sales_fc",
+        "inventory",
+        "clv"
       ],
-      "difficulty": 0.62,
-      "importance": 1,
       "prereqs": [
-        "anomaly"
+        "ts_simple_exp_smoothing"
       ],
       "sources": [
         {
-          "corpus": "PyOD",
-          "unit": "All Models",
-          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html"
+          "corpus": "FPP3",
+          "unit": "Sec. 8.2 Methods with trend (Holt, damped)",
+          "url": "https://otexts.com/fpp3/holt.html"
         }
-      ],
-      "area": "anomaly"
+      ]
     },
     {
-      "id": "anomaly_bench",
-      "label": "Choosing detectors (ADBench)",
-      "domain": "mfg",
+      "id": "ts_holt_winters",
+      "label": "Holt-Winters seasonal method",
+      "area": "ts",
+      "difficulty": 0.5,
+      "importance": 3,
       "ucs": [
-        "anomaly",
-        "fraud",
-        "aml",
-        "quality"
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy"
       ],
-      "difficulty": 0.68,
-      "importance": 1,
       "prereqs": [
-        "anomaly",
-        "iforest"
+        "ts_holt_trend",
+        "ts_seasonality_detection"
       ],
       "sources": [
         {
-          "corpus": "PyOD",
-          "unit": "Benchmarks",
-          "url": "https://pyod.readthedocs.io/en/latest/benchmark.html"
+          "corpus": "FPP3",
+          "unit": "Sec. 8.3 Methods with seasonality (Holt-Winters)",
+          "url": "https://otexts.com/fpp3/holt-winters.html"
         }
-      ],
-      "area": "anomaly"
+      ]
     },
     {
-      "id": "cnn_signals",
-      "label": "CNNs for sensor & image signals",
-      "domain": "mfg",
+      "id": "ts_ets_state_space",
+      "label": "ETS innovations state space models",
+      "area": "ts",
+      "difficulty": 0.65,
+      "importance": 3,
       "ucs": [
-        "pdm",
-        "anomaly",
-        "quality"
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy"
       ],
-      "difficulty": 0.68,
-      "importance": 1,
       "prereqs": [
-        "backprop",
-        "ts_features"
+        "ts_holt_winters"
       ],
       "sources": [
         {
-          "corpus": "d2l.ai",
-          "unit": "Convolutional Neural Networks",
-          "url": "https://d2l.ai/chapter_convolutional-neural-networks/index.html"
+          "corpus": "FPP3",
+          "unit": "Sec. 8.5 Innovations state space models for exponential smoothing",
+          "url": "https://otexts.com/fpp3/ets.html"
+        },
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 8.4 A taxonomy of exponential smoothing methods",
+          "url": "https://otexts.com/fpp3/taxonomy.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_ar_ma_models",
+      "label": "Autoregressive and moving average models (AR, MA, ARMA)",
+      "area": "ts",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy"
+      ],
+      "prereqs": [
+        "ts_autocorrelation_acf",
+        "ts_pacf"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 9.3-9.4 Autoregressive and moving average models",
+          "url": "https://otexts.com/fpp3/AR.html"
         },
         {
           "corpus": "Hands-On ML",
-          "unit": "Ch.14 Deep Computer Vision (CNNs)",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch14.html"
+          "unit": "Ch. 15 Processing Sequences: ARMA models",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
         }
-      ],
-      "area": "deep"
+      ]
     },
     {
-      "id": "propensity",
-      "label": "Propensity scores & IPW",
-      "domain": "mkt",
+      "id": "ts_arima",
+      "label": "Non-seasonal ARIMA",
+      "area": "ts",
+      "difficulty": 0.6,
+      "importance": 3,
       "ucs": [
-        "nba",
-        "attribution",
-        "pricing",
-        "churn"
+        "demand",
+        "sales_fc",
+        "energy",
+        "anomaly"
       ],
-      "difficulty": 0.7,
-      "importance": 1,
       "prereqs": [
-        "potential_outcomes",
-        "log_reg"
+        "ts_ar_ma_models",
+        "ts_differencing"
       ],
       "sources": [
         {
-          "corpus": "Causal Handbook",
-          "unit": "Propensity Score",
-          "url": "https://matheusfacure.github.io/python-causality-handbook/11-Propensity-Score.html"
+          "corpus": "FPP3",
+          "unit": "Sec. 9.5 Non-seasonal ARIMA models",
+          "url": "https://otexts.com/fpp3/non-seasonal-arima.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 Processing Sequences: ARIMA",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
         }
-      ],
-      "area": "causal"
+      ]
     },
     {
-      "id": "cox",
-      "label": "Cox proportional hazards",
-      "domain": "mfg",
+      "id": "ts_sarima",
+      "label": "Seasonal ARIMA (SARIMA)",
+      "area": "ts",
+      "difficulty": 0.7,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy"
+      ],
+      "prereqs": [
+        "ts_arima",
+        "ts_seasonality_detection"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 9.9 Seasonal ARIMA models",
+          "url": "https://otexts.com/fpp3/seasonal-arima.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 Processing Sequences: SARIMA",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "ts_dynamic_regression",
+      "label": "Dynamic regression / ARIMA with exogenous regressors (ARIMAX)",
+      "area": "ts",
+      "difficulty": 0.65,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy"
+      ],
+      "prereqs": [
+        "ts_arima"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 10.2 Regression with ARIMA errors",
+          "url": "https://otexts.com/fpp3/regarima.html"
+        },
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 10.5 Dynamic harmonic regression (Fourier terms)",
+          "url": "https://otexts.com/fpp3/dhr.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_prophet",
+      "label": "Prophet",
+      "area": "ts",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy",
+        "anomaly"
+      ],
+      "prereqs": [
+        "ts_stl_decomposition",
+        "ts_multiple_seasonality"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 12.2 Prophet model",
+          "url": "https://otexts.com/fpp3/prophet.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_tbats",
+      "label": "TBATS for complex seasonality",
+      "area": "ts",
+      "difficulty": 0.75,
+      "importance": 1,
+      "ucs": [
+        "energy",
+        "demand"
+      ],
+      "prereqs": [
+        "ts_ets_state_space",
+        "ts_multiple_seasonality"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 12.1 Complex seasonality (TBATS)",
+          "url": "https://otexts.com/fpp3/complexseasonality.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_croston_intermittent",
+      "label": "Croston's method for intermittent demand",
+      "area": "ts",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "inventory",
+        "demand",
+        "sales_fc"
+      ],
+      "prereqs": [
+        "ts_simple_exp_smoothing"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Intermittent demand and Croston's method",
+          "url": "https://otexts.com/fpp3/"
+        }
+      ]
+    },
+    {
+      "id": "ts_hierarchical_structures",
+      "label": "Hierarchical and grouped time series",
+      "area": "ts",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory"
+      ],
+      "prereqs": [
+        "ts_baseline_methods"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 11.1 Hierarchical and grouped time series",
+          "url": "https://otexts.com/fpp3/hts.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_forecast_reconciliation",
+      "label": "Forecast reconciliation (bottom-up, top-down, MinT)",
+      "area": "ts",
+      "difficulty": 0.75,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory"
+      ],
+      "prereqs": [
+        "ts_hierarchical_structures"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 11.3 Forecast reconciliation (MinT)",
+          "url": "https://otexts.com/fpp3/reconciliation.html"
+        },
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 11.2 Single level approaches (bottom-up, top-down)",
+          "url": "https://otexts.com/fpp3/single-level.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_backtesting_rolling_origin",
+      "label": "Backtesting with rolling-origin evaluation",
+      "area": "ts",
+      "difficulty": 0.4,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "clv",
+        "pdm"
+      ],
+      "prereqs": [
+        "ts_baseline_methods"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 5.10 Time series cross-validation",
+          "url": "https://otexts.com/fpp3/tscv.html"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Cross validation of time series data: TimeSeriesSplit",
+          "url": "https://scikit-learn.org/stable/modules/cross_validation.html#time-series-split"
+        }
+      ]
+    },
+    {
+      "id": "ts_point_forecast_metrics",
+      "label": "Point forecast accuracy metrics (MASE, MAPE, RMSE)",
+      "area": "ts",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "clv"
+      ],
+      "prereqs": [
+        "ts_baseline_methods",
+        "ts_backtesting_rolling_origin"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 5.8 Evaluating point forecast accuracy (MASE, RMSE)",
+          "url": "https://otexts.com/fpp3/accuracy.html"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Mean absolute percentage error",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#mean-absolute-percentage-error"
+        }
+      ]
+    },
+    {
+      "id": "ts_probabilistic_forecasting",
+      "label": "Probabilistic forecasting and prediction intervals",
+      "area": "ts",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "clv",
+        "anomaly"
+      ],
+      "prereqs": [
+        "ts_point_forecast_metrics"
+      ],
+      "sources": [
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 5.5 Distributional forecasts and prediction intervals",
+          "url": "https://otexts.com/fpp3/prediction-intervals.html"
+        },
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 5.9 Evaluating distributional forecast accuracy",
+          "url": "https://otexts.com/fpp3/distaccuracy.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_quantile_pinball",
+      "label": "Quantile forecasting and pinball loss",
+      "area": "ts",
+      "difficulty": 0.6,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "inventory",
+        "energy",
+        "clv"
+      ],
+      "prereqs": [
+        "ts_probabilistic_forecasting"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Pinball loss (mean_pinball_loss) and quantile regression",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html#pinball-loss"
+        },
+        {
+          "corpus": "FPP3",
+          "unit": "Sec. 5.9 Quantile score for distributional accuracy",
+          "url": "https://otexts.com/fpp3/distaccuracy.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_forecast_combination",
+      "label": "Forecast combination",
+      "area": "ts",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy"
+      ],
+      "prereqs": [
+        "ts_point_forecast_metrics"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 7 Ensemble Learning and Random Forests (averaging models)",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "ts_lag_features",
+      "label": "Lag features",
+      "area": "ts",
+      "difficulty": 0.25,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "clv",
+        "pdm"
+      ],
+      "prereqs": [
+        "ts_autocorrelation_acf"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Lagged features for time series forecasting",
+          "url": "https://scikit-learn.org/stable/auto_examples/applications/plot_time_series_lagged_features.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 Processing Sequences: input windows and lags",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "ts_rolling_window_features",
+      "label": "Rolling and expanding window features",
+      "area": "ts",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "energy",
+        "clv",
+        "pdm",
+        "anomaly"
+      ],
+      "prereqs": [
+        "ts_lag_features"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Lagged features for time series forecasting (rolling aggregates)",
+          "url": "https://scikit-learn.org/stable/auto_examples/applications/plot_time_series_lagged_features.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 Processing Sequences: moving-window features",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "ts_calendar_features",
+      "label": "Calendar and holiday features",
+      "area": "ts",
+      "difficulty": 0.3,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy"
+      ],
+      "prereqs": [
+        "ts_seasonality_detection"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Time-related feature engineering (cyclical calendar encoding)",
+          "url": "https://scikit-learn.org/stable/auto_examples/applications/plot_cyclical_feature_engineering.html"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Preprocessing: SplineTransformer (periodic splines)",
+          "url": "https://scikit-learn.org/stable/modules/preprocessing.html#spline-transformer"
+        }
+      ]
+    },
+    {
+      "id": "ts_ml_forecasting",
+      "label": "Feature-based ML forecasting (direct vs recursive multi-step)",
+      "area": "ts",
+      "difficulty": 0.55,
+      "importance": 3,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "clv"
+      ],
+      "prereqs": [
+        "ts_lag_features",
+        "ts_rolling_window_features",
+        "ts_backtesting_rolling_origin"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 Processing Sequences: forecasting several steps ahead",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Lagged features for time series forecasting (direct multi-step)",
+          "url": "https://scikit-learn.org/stable/auto_examples/applications/plot_time_series_lagged_features.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_global_vs_local_models",
+      "label": "Global vs local forecasting models",
+      "area": "ts",
+      "difficulty": 0.6,
+      "importance": 2,
+      "ucs": [
+        "demand",
+        "sales_fc",
+        "inventory",
+        "energy",
+        "clv"
+      ],
+      "prereqs": [
+        "ts_ml_forecasting"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 Processing Sequences: one model across many series",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Lagged features for time series forecasting (pooled estimator)",
+          "url": "https://scikit-learn.org/stable/auto_examples/applications/plot_time_series_lagged_features.html"
+        }
+      ]
+    },
+    {
+      "id": "ts_degradation_features",
+      "label": "Degradation and RUL trend features",
+      "area": "ts",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "pdm"
+      ],
+      "prereqs": [
+        "ts_rolling_window_features"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Lagged features for time series forecasting (rolling trend/health indicators)",
+          "url": "https://scikit-learn.org/stable/auto_examples/applications/plot_time_series_lagged_features.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 15 Processing Sequences: trend and moving-window signals",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "survival_censoring_truncation",
+      "label": "Censoring and truncation",
+      "area": "survival",
+      "difficulty": 0.2,
+      "importance": 3,
       "ucs": [
         "pdm",
         "churn",
@@ -1835,315 +6110,1972 @@ window.PMM_DATA = {
         "los",
         "attrition"
       ],
-      "difficulty": 0.72,
-      "importance": 2,
       "prereqs": [
-        "kaplan_meier",
-        "survival",
-        "log_reg"
-      ],
-      "sources": [
-        {
-          "corpus": "lifelines",
-          "unit": "Survival regression (CoxPHFitter)",
-          "url": "https://lifelines.readthedocs.io/en/latest/fitters/regression/CoxPHFitter.html"
-        }
-      ],
-      "area": "survival"
-    },
-    {
-      "id": "attention",
-      "label": "Attention & Transformers",
-      "domain": "scm",
-      "ucs": [
-        "demand",
-        "sales_fc",
-        "energy",
-        "pdm",
-        "anomaly"
-      ],
-      "difficulty": 0.74,
-      "importance": 2,
-      "prereqs": [
-        "seq_models"
-      ],
-      "sources": [
-        {
-          "corpus": "DeepLearning.AI",
-          "unit": "Sequence Models: Transformer Network",
-          "url": "https://www.coursera.org/learn/nlp-sequence-models"
-        },
-        {
-          "corpus": "d2l.ai",
-          "unit": "Attention Mechanisms & Transformers",
-          "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/index.html"
-        }
-      ],
-      "area": "deep"
-    },
-    {
-      "id": "did",
-      "label": "Difference-in-differences",
-      "domain": "mkt",
-      "ucs": [
-        "attribution",
-        "pricing",
-        "nba"
-      ],
-      "difficulty": 0.76,
-      "importance": 1,
-      "prereqs": [
-        "potential_outcomes"
-      ],
-      "sources": [
-        {
-          "corpus": "Causal Handbook",
-          "unit": "Difference-in-Differences",
-          "url": "https://matheusfacure.github.io/python-causality-handbook/13-Difference-in-Differences.html"
-        }
-      ],
-      "area": "causal"
-    },
-    {
-      "id": "weibull_aft",
-      "label": "Weibull AFT (parametric survival)",
-      "domain": "mfg",
-      "ucs": [
-        "pdm",
-        "readmission",
-        "los"
-      ],
-      "difficulty": 0.76,
-      "importance": 1,
-      "prereqs": [
-        "cox"
-      ],
-      "sources": [
-        {
-          "corpus": "lifelines",
-          "unit": "WeibullAFTFitter",
-          "url": "https://lifelines.readthedocs.io/en/latest/fitters/regression/WeibullAFTFitter.html"
-        }
-      ],
-      "area": "survival"
-    },
-    {
-      "id": "tabular_fm",
-      "label": "Tabular deep learning & foundation models",
-      "domain": "fnd",
-      "ucs": "ALL",
-      "difficulty": 0.8,
-      "importance": 2,
-      "prereqs": [
-        "attention",
-        "gbm"
+        "found_ml_workflow"
       ],
       "sources": [
         {
           "corpus": "ISLR",
-          "unit": "Ch.10 Deep Learning",
+          "unit": "Ch. 11.1 Survival and Censoring Times; 11.2 A Closer Look at Censoring",
           "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "lifelines",
+          "unit": "Censoring, truncation, and the survival dataset format",
+          "url": "https://lifelines.readthedocs.io/"
         }
-      ],
-      "area": "deep"
+      ]
     },
     {
-      "id": "iv",
-      "label": "Instrumental variables",
-      "domain": "mkt",
+      "id": "survival_functions_hazard",
+      "label": "Survival, hazard, and cumulative hazard functions",
+      "area": "survival",
+      "difficulty": 0.3,
+      "importance": 3,
       "ucs": [
-        "attribution",
-        "pricing",
-        "nba"
+        "pdm",
+        "churn",
+        "clv",
+        "readmission",
+        "los",
+        "attrition"
       ],
-      "difficulty": 0.8,
-      "importance": 1,
       "prereqs": [
-        "potential_outcomes",
-        "lin_reg"
+        "survival_censoring_truncation"
       ],
       "sources": [
         {
-          "corpus": "Causal Handbook",
-          "unit": "Instrumental Variables",
-          "url": "https://matheusfacure.github.io/python-causality-handbook/08-Instrumental-Variables.html"
+          "corpus": "ISLR",
+          "unit": "Ch. 11.5.1 The Hazard Function",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "lifelines",
+          "unit": "Survival, hazard and cumulative hazard functions",
+          "url": "https://lifelines.readthedocs.io/"
         }
-      ],
-      "area": "causal"
+      ]
     },
     {
-      "id": "cate",
-      "label": "Heterogeneous effects (CATE)",
-      "domain": "mkt",
+      "id": "survival_kaplan_meier",
+      "label": "Kaplan-Meier survival estimator",
+      "area": "survival",
+      "difficulty": 0.25,
+      "importance": 3,
+      "ucs": [
+        "churn",
+        "clv",
+        "readmission",
+        "los",
+        "attrition"
+      ],
+      "prereqs": [
+        "survival_functions_hazard",
+        "survival_censoring_truncation"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 11.3 The Kaplan-Meier Survival Curve",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "lifelines",
+          "unit": "KaplanMeierFitter (product-limit estimator)",
+          "url": "https://lifelines.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "id": "survival_nelson_aalen",
+      "label": "Nelson-Aalen cumulative hazard estimator",
+      "area": "survival",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "pdm",
+        "readmission"
+      ],
+      "prereqs": [
+        "survival_functions_hazard"
+      ],
+      "sources": [
+        {
+          "corpus": "lifelines",
+          "unit": "NelsonAalenFitter (non-parametric cumulative hazard)",
+          "url": "https://lifelines.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "id": "survival_logrank_test",
+      "label": "Log-rank test",
+      "area": "survival",
+      "difficulty": 0.3,
+      "importance": 2,
+      "ucs": [
+        "churn",
+        "attrition",
+        "readmission",
+        "los"
+      ],
+      "prereqs": [
+        "survival_kaplan_meier"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 11.4 The Log-Rank Test",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "lifelines",
+          "unit": "logrank_test: comparing survival across groups",
+          "url": "https://lifelines.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "id": "survival_cox_ph",
+      "label": "Cox proportional hazards model",
+      "area": "survival",
+      "difficulty": 0.45,
+      "importance": 3,
+      "ucs": [
+        "churn",
+        "readmission",
+        "los",
+        "attrition",
+        "pdm"
+      ],
+      "prereqs": [
+        "survival_functions_hazard",
+        "survival_censoring_truncation"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 11.5.2 Proportional Hazards; the Cox model and partial likelihood",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "lifelines",
+          "unit": "CoxPHFitter (semi-parametric regression)",
+          "url": "https://lifelines.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "id": "survival_ph_diagnostics",
+      "label": "Proportional-hazards assumption, diagnostics, and stratification",
+      "area": "survival",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "churn",
+        "readmission",
+        "los",
+        "attrition",
+        "pdm"
+      ],
+      "prereqs": [
+        "survival_cox_ph"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 11.7 Checking the Proportional Hazards Assumption",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "lifelines",
+          "unit": "check_assumptions, Schoenfeld residuals, and strata for stratified Cox",
+          "url": "https://lifelines.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "id": "survival_time_varying_covariates",
+      "label": "Time-varying covariates",
+      "area": "survival",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "pdm",
+        "churn",
+        "readmission",
+        "attrition"
+      ],
+      "prereqs": [
+        "survival_cox_ph"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 11.7 Time-Dependent Covariates",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "lifelines",
+          "unit": "CoxTimeVaryingFitter (counting-process / long format)",
+          "url": "https://lifelines.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "id": "survival_weibull_aft",
+      "label": "Weibull accelerated failure time (AFT) model",
+      "area": "survival",
+      "difficulty": 0.45,
+      "importance": 3,
+      "ucs": [
+        "pdm",
+        "clv",
+        "churn"
+      ],
+      "prereqs": [
+        "survival_functions_hazard",
+        "survival_censoring_truncation"
+      ],
+      "sources": [
+        {
+          "corpus": "lifelines",
+          "unit": "WeibullAFTFitter (parametric accelerated failure time)",
+          "url": "https://lifelines.readthedocs.io/"
+        },
+        {
+          "corpus": "PHM/NASA C-MAPSS",
+          "unit": "Weibull life models for component reliability and turbofan failure times",
+          "url": "https://data.phmsociety.org/nasa/"
+        }
+      ]
+    },
+    {
+      "id": "survival_lognormal_loglogistic_aft",
+      "label": "Log-normal and log-logistic AFT models",
+      "area": "survival",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "los",
+        "clv",
+        "attrition"
+      ],
+      "prereqs": [
+        "survival_weibull_aft"
+      ],
+      "sources": [
+        {
+          "corpus": "lifelines",
+          "unit": "LogNormalAFTFitter and LogLogisticAFTFitter (non-monotonic hazards for skewed durations)",
+          "url": "https://lifelines.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "id": "survival_competing_risks",
+      "label": "Competing risks and cumulative incidence",
+      "area": "survival",
+      "difficulty": 0.6,
+      "importance": 2,
+      "ucs": [
+        "churn",
+        "readmission"
+      ],
+      "prereqs": [
+        "survival_functions_hazard",
+        "survival_kaplan_meier"
+      ],
+      "sources": [
+        {
+          "corpus": "lifelines",
+          "unit": "AalenJohansenFitter: cause-specific hazards and cumulative incidence functions",
+          "url": "https://lifelines.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "id": "survival_discrete_time",
+      "label": "Discrete-time and piecewise-constant hazard models",
+      "area": "survival",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "churn",
+        "clv",
+        "attrition"
+      ],
+      "prereqs": [
+        "survival_functions_hazard"
+      ],
+      "sources": [
+        {
+          "corpus": "lifelines",
+          "unit": "PiecewiseExponentialRegressionFitter (period-wise / piecewise-constant hazard)",
+          "url": "https://lifelines.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "id": "survival_random_survival_forest",
+      "label": "Random survival forests",
+      "area": "survival",
+      "difficulty": 0.6,
+      "importance": 2,
+      "ucs": [
+        "pdm",
+        "readmission",
+        "churn",
+        "attrition"
+      ],
+      "prereqs": [
+        "survival_logrank_test",
+        "survival_cox_ph"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 11.7 Survival Trees",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "PHM/NASA C-MAPSS",
+          "unit": "Random survival forests for RUL on turbofan degradation data",
+          "url": "https://data.phmsociety.org/nasa/"
+        }
+      ]
+    },
+    {
+      "id": "survival_gradient_boosted_survival",
+      "label": "Gradient-boosted survival models",
+      "area": "survival",
+      "difficulty": 0.65,
+      "importance": 2,
+      "ucs": [
+        "churn",
+        "readmission",
+        "pdm",
+        "attrition"
+      ],
+      "prereqs": [
+        "survival_cox_ph",
+        "survival_random_survival_forest"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 11.5.2 Cox partial-likelihood loss (boosting objective)",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "PHM/NASA C-MAPSS",
+          "unit": "Gradient boosting for RUL estimation on C-MAPSS",
+          "url": "https://data.phmsociety.org/nasa/"
+        }
+      ]
+    },
+    {
+      "id": "survival_deepsurv_neural",
+      "label": "DeepSurv and neural survival models",
+      "area": "survival",
+      "difficulty": 0.75,
+      "importance": 2,
+      "ucs": [
+        "pdm",
+        "readmission",
+        "churn"
+      ],
+      "prereqs": [
+        "survival_cox_ph",
+        "survival_gradient_boosted_survival"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 11.5.2 Cox proportional hazards (DeepSurv as a deep Cox risk function)",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "PHM/NASA C-MAPSS",
+          "unit": "Deep neural networks for RUL and prognostics on turbofan sensor sequences",
+          "url": "https://data.phmsociety.org/nasa/"
+        }
+      ]
+    },
+    {
+      "id": "survival_concordance_index",
+      "label": "Concordance index (C-index) evaluation",
+      "area": "survival",
+      "difficulty": 0.4,
+      "importance": 3,
+      "ucs": [
+        "churn",
+        "readmission",
+        "pdm",
+        "attrition",
+        "los"
+      ],
+      "prereqs": [
+        "survival_cox_ph"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 11.7 Area Under the Curve for Survival Analysis",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "lifelines",
+          "unit": "concordance_index (Harrell's C for censored data)",
+          "url": "https://lifelines.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "id": "survival_rul_estimation",
+      "label": "Remaining useful life (RUL) estimation",
+      "area": "survival",
+      "difficulty": 0.6,
+      "importance": 3,
+      "ucs": [
+        "pdm"
+      ],
+      "prereqs": [
+        "survival_functions_hazard",
+        "survival_censoring_truncation"
+      ],
+      "sources": [
+        {
+          "corpus": "PHM/NASA C-MAPSS",
+          "unit": "C-MAPSS turbofan RUL prediction benchmark (suspended units as right-censored)",
+          "url": "https://data.phmsociety.org/nasa/"
+        }
+      ]
+    },
+    {
+      "id": "survival_degradation_modeling",
+      "label": "Degradation modeling",
+      "area": "survival",
+      "difficulty": 0.65,
+      "importance": 2,
+      "ucs": [
+        "pdm"
+      ],
+      "prereqs": [
+        "survival_rul_estimation",
+        "survival_functions_hazard"
+      ],
+      "sources": [
+        {
+          "corpus": "PHM/NASA C-MAPSS",
+          "unit": "Sensor degradation trajectories, health-index construction, and threshold first-passage to failure",
+          "url": "https://data.phmsociety.org/nasa/"
+        }
+      ]
+    },
+    {
+      "id": "survival_prognostic_horizon",
+      "label": "Prognostic horizon and RUL metrics",
+      "area": "survival",
+      "difficulty": 0.6,
+      "importance": 2,
+      "ucs": [
+        "pdm"
+      ],
+      "prereqs": [
+        "survival_rul_estimation"
+      ],
+      "sources": [
+        {
+          "corpus": "PHM/NASA C-MAPSS",
+          "unit": "Prognostics performance metrics: prognostic horizon, alpha-lambda accuracy, and timeliness (Saxena et al.)",
+          "url": "https://data.phmsociety.org/nasa/"
+        }
+      ]
+    },
+    {
+      "id": "causal_potential_outcomes",
+      "label": "Potential outcomes framework (Rubin model)",
+      "area": "causal",
+      "difficulty": 0.15,
+      "importance": 3,
       "ucs": [
         "nba",
-        "churn",
+        "attribution",
         "pricing",
-        "attribution"
+        "churn"
       ],
-      "difficulty": 0.82,
-      "importance": 2,
       "prereqs": [
-        "propensity",
-        "gbm"
+        "found_ml_workflow"
       ],
       "sources": [
         {
           "corpus": "Causal Handbook",
-          "unit": "Heterogeneous Treatment Effects",
+          "unit": "Ch. 1: Introduction to Causality",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/01-Introduction-To-Causality.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_ate_att",
+      "label": "Average treatment effect (ATE, ATT, ATC)",
+      "area": "causal",
+      "difficulty": 0.2,
+      "importance": 3,
+      "ucs": [
+        "nba",
+        "attribution",
+        "pricing",
+        "churn"
+      ],
+      "prereqs": [
+        "causal_potential_outcomes"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 2: Randomised Experiments",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_cate",
+      "label": "Conditional average treatment effect (CATE)",
+      "area": "causal",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "nba",
+        "pricing",
+        "churn",
+        "xsell"
+      ],
+      "prereqs": [
+        "causal_ate_att"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 18: Heterogeneous Treatment Effects and Personalization",
           "url": "https://matheusfacure.github.io/python-causality-handbook/18-Heterogeneous-Treatment-Effects-and-Personalization.html"
         },
         {
           "corpus": "EconML",
-          "unit": "ML-based estimation of HTE",
-          "url": "https://www.pywhy.org/EconML/spec/motivation.html"
+          "unit": "CATE estimators overview",
+          "url": "https://www.pywhy.org/EconML/"
         }
-      ],
-      "area": "causal"
+      ]
     },
     {
-      "id": "rul",
-      "label": "Remaining useful life (RUL) / prognostics",
-      "domain": "mfg",
-      "ucs": [
-        "pdm"
-      ],
-      "difficulty": 0.84,
-      "importance": 2,
-      "prereqs": [
-        "cox",
-        "seq_models"
-      ],
-      "sources": [
-        {
-          "corpus": "PHM",
-          "unit": "NASA PCoE Data Repository",
-          "url": "https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/"
-        },
-        {
-          "corpus": "PHM",
-          "unit": "C-MAPSS (Saxena & Goebel, 2008)",
-          "url": "https://doi.org/10.1109/PHM.2008.4711414"
-        }
-      ],
-      "area": "survival"
-    },
-    {
-      "id": "uplift_eval",
-      "label": "Uplift evaluation (Qini)",
-      "domain": "mkt",
+      "id": "causal_confounding_backdoor",
+      "label": "Confounding and the backdoor criterion",
+      "area": "causal",
+      "difficulty": 0.3,
+      "importance": 3,
       "ucs": [
         "nba",
+        "attribution",
+        "pricing",
         "churn"
       ],
-      "difficulty": 0.84,
-      "importance": 1,
       "prereqs": [
-        "cate"
+        "causal_potential_outcomes"
       ],
       "sources": [
         {
           "corpus": "Causal Handbook",
-          "unit": "Evaluating Causal Models",
-          "url": "https://matheusfacure.github.io/python-causality-handbook/19-Evaluating-Causal-Models.html"
+          "unit": "Ch. 4: Graphical Causal Models",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/04-Graphical-Causal-Models.html"
         }
-      ],
-      "area": "causal"
+      ]
     },
     {
-      "id": "metalearners",
-      "label": "Uplift meta-learners (S/T/X)",
-      "domain": "mkt",
+      "id": "causal_unconfoundedness_positivity",
+      "label": "Unconfoundedness, positivity and SUTVA",
+      "area": "causal",
+      "difficulty": 0.4,
+      "importance": 2,
       "ucs": [
         "nba",
-        "churn",
-        "pricing"
+        "attribution",
+        "pricing",
+        "churn"
       ],
-      "difficulty": 0.84,
-      "importance": 1,
       "prereqs": [
-        "cate",
-        "gbm"
+        "causal_confounding_backdoor"
       ],
       "sources": [
         {
-          "corpus": "EconML",
-          "unit": "Meta-Learners",
-          "url": "https://www.pywhy.org/EconML/spec/estimation/metalearners.html"
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 4: Graphical Causal Models",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/04-Graphical-Causal-Models.html"
+        },
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 11: Propensity Score",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/11-Propensity-Score.html"
         }
-      ],
-      "area": "causal"
+      ]
     },
     {
-      "id": "dml",
-      "label": "Double ML / R-learner",
-      "domain": "mkt",
+      "id": "causal_ab_testing",
+      "label": "Randomized experiments and A/B testing",
+      "area": "causal",
+      "difficulty": 0.2,
+      "importance": 3,
       "ucs": [
         "nba",
+        "attribution",
+        "pricing",
+        "churn",
+        "xsell",
+        "reco"
+      ],
+      "prereqs": [
+        "causal_potential_outcomes"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 2: Randomised Experiments",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_propensity_score",
+      "label": "Propensity score estimation",
+      "area": "causal",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "nba",
+        "attribution",
+        "pricing",
+        "churn"
+      ],
+      "prereqs": [
+        "causal_unconfoundedness_positivity"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 11: Propensity Score",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/11-Propensity-Score.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_ps_matching",
+      "label": "Propensity score matching",
+      "area": "causal",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "attribution",
+        "churn"
+      ],
+      "prereqs": [
+        "causal_propensity_score"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 10: Matching",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/10-Matching.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_ipw",
+      "label": "Inverse propensity weighting (IPW)",
+      "area": "causal",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "attribution",
+        "pricing",
+        "churn"
+      ],
+      "prereqs": [
+        "causal_propensity_score"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 11: Propensity Score",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/11-Propensity-Score.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_regression_adjustment",
+      "label": "Regression adjustment and g-computation",
+      "area": "causal",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "attribution",
+        "pricing",
+        "churn"
+      ],
+      "prereqs": [
+        "causal_unconfoundedness_positivity"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 5: The Unreasonable Effectiveness of Linear Regression",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/05-The-Unreasonable-Effectiveness-of-Linear-Regression.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_doubly_robust",
+      "label": "Doubly robust estimation (AIPW)",
+      "area": "causal",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "attribution",
+        "pricing",
+        "churn"
+      ],
+      "prereqs": [
+        "causal_ipw",
+        "causal_regression_adjustment"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 12: Doubly Robust Estimation",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/12-Doubly-Robust-Estimation.html"
+        },
+        {
+          "corpus": "EconML",
+          "unit": "DRLearner (doubly robust)",
+          "url": "https://www.pywhy.org/EconML/"
+        }
+      ]
+    },
+    {
+      "id": "causal_did",
+      "label": "Difference-in-differences",
+      "area": "causal",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "attribution",
+        "pricing",
+        "churn"
+      ],
+      "prereqs": [
+        "causal_ate_att"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 13: Difference-in-Differences",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/13-Difference-in-Differences.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_synthetic_control",
+      "label": "Synthetic control",
+      "area": "causal",
+      "difficulty": 0.6,
+      "importance": 1,
+      "ucs": [
+        "attribution",
+        "pricing"
+      ],
+      "prereqs": [
+        "causal_did"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 15: Synthetic Control",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/15-Synthetic-Control.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_iv_2sls",
+      "label": "Instrumental variables and 2SLS",
+      "area": "causal",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
         "pricing",
         "attribution"
       ],
-      "difficulty": 0.86,
-      "importance": 1,
       "prereqs": [
-        "cate",
-        "propensity"
+        "causal_confounding_backdoor"
       ],
       "sources": [
         {
-          "corpus": "EconML",
-          "unit": "Orthogonal / Double ML",
-          "url": "https://www.pywhy.org/EconML/spec/estimation/dml.html"
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 8: Instrumental Variables",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/08-Instrumental-Variables.html"
         }
-      ],
-      "area": "causal"
+      ]
     },
     {
-      "id": "causal_forest",
-      "label": "Causal forests",
-      "domain": "mkt",
+      "id": "causal_rdd",
+      "label": "Regression discontinuity design",
+      "area": "causal",
+      "difficulty": 0.55,
+      "importance": 1,
+      "ucs": [
+        "pricing",
+        "nba"
+      ],
+      "prereqs": [
+        "causal_ate_att"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 16: Regression Discontinuity Design",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/16-Regression-Discontinuity-Design.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_uplift_modeling",
+      "label": "Uplift modeling and response segmentation",
+      "area": "causal",
+      "difficulty": 0.4,
+      "importance": 3,
+      "ucs": [
+        "nba",
+        "pricing",
+        "churn",
+        "xsell"
+      ],
+      "prereqs": [
+        "causal_cate",
+        "causal_ab_testing"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 18: Heterogeneous Treatment Effects and Personalization",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/18-Heterogeneous-Treatment-Effects-and-Personalization.html"
+        },
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 19: Evaluating Causal Models",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/19-Evaluating-Causal-Models.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_s_learner",
+      "label": "S-learner (single-model meta-learner)",
+      "area": "causal",
+      "difficulty": 0.4,
+      "importance": 2,
       "ucs": [
         "nba",
         "churn",
-        "pricing"
+        "xsell"
       ],
-      "difficulty": 0.86,
-      "importance": 1,
       "prereqs": [
-        "cate",
-        "rforest"
+        "causal_uplift_modeling",
+        "causal_regression_adjustment"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 20: Plug-and-Play Estimators",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/20-Plug-and-Play-Estimators.html"
+        },
+        {
+          "corpus": "EconML",
+          "unit": "Metalearners (S/T/X-Learner)",
+          "url": "https://www.pywhy.org/EconML/"
+        }
+      ]
+    },
+    {
+      "id": "causal_t_learner",
+      "label": "T-learner (two-model meta-learner)",
+      "area": "causal",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "churn",
+        "xsell"
+      ],
+      "prereqs": [
+        "causal_uplift_modeling"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 20: Plug-and-Play Estimators",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/20-Plug-and-Play-Estimators.html"
+        },
+        {
+          "corpus": "EconML",
+          "unit": "Metalearners (S/T/X-Learner)",
+          "url": "https://www.pywhy.org/EconML/"
+        }
+      ]
+    },
+    {
+      "id": "causal_x_learner",
+      "label": "X-learner (cross meta-learner)",
+      "area": "causal",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "churn",
+        "xsell"
+      ],
+      "prereqs": [
+        "causal_t_learner"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 21: Meta Learners",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/21-Meta-Learners.html"
+        },
+        {
+          "corpus": "EconML",
+          "unit": "Metalearners (S/T/X-Learner)",
+          "url": "https://www.pywhy.org/EconML/"
+        }
+      ]
+    },
+    {
+      "id": "causal_double_ml",
+      "label": "Double/debiased machine learning (DML)",
+      "area": "causal",
+      "difficulty": 0.7,
+      "importance": 3,
+      "ucs": [
+        "nba",
+        "pricing",
+        "attribution",
+        "churn"
+      ],
+      "prereqs": [
+        "causal_doubly_robust",
+        "causal_propensity_score"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 22: Debiased/Orthogonal Machine Learning",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/22-Debiased-Orthogonal-Machine-Learning.html"
+        },
+        {
+          "corpus": "EconML",
+          "unit": "DML estimators (LinearDML, CausalForestDML)",
+          "url": "https://www.pywhy.org/EconML/"
+        }
+      ]
+    },
+    {
+      "id": "causal_r_learner",
+      "label": "R-learner (Robinson residualization)",
+      "area": "causal",
+      "difficulty": 0.7,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "pricing",
+        "churn"
+      ],
+      "prereqs": [
+        "causal_double_ml",
+        "causal_uplift_modeling"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 22: Debiased/Orthogonal Machine Learning",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/22-Debiased-Orthogonal-Machine-Learning.html"
+        },
+        {
+          "corpus": "EconML",
+          "unit": "Orthogonal/DML learners (R-learner)",
+          "url": "https://www.pywhy.org/EconML/"
+        }
+      ]
+    },
+    {
+      "id": "causal_causal_forest",
+      "label": "Causal forests",
+      "area": "causal",
+      "difficulty": 0.7,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "pricing",
+        "churn"
+      ],
+      "prereqs": [
+        "causal_double_ml",
+        "causal_cate"
       ],
       "sources": [
         {
           "corpus": "EconML",
-          "unit": "Forest-based estimators",
-          "url": "https://www.pywhy.org/EconML/spec/estimation/forest.html"
+          "unit": "CausalForestDML",
+          "url": "https://www.pywhy.org/EconML/"
+        },
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 18: Heterogeneous Treatment Effects and Personalization",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/18-Heterogeneous-Treatment-Effects-and-Personalization.html"
         }
-      ],
-      "area": "causal"
+      ]
     },
     {
-      "id": "rl_bandits",
-      "label": "Contextual bandits / RL",
-      "domain": "mkt",
+      "id": "causal_orthogonal_forest",
+      "label": "Orthogonal random forests",
+      "area": "causal",
+      "difficulty": 0.8,
+      "importance": 1,
       "ucs": [
         "nba",
-        "reco"
+        "pricing"
       ],
-      "difficulty": 0.88,
-      "importance": 1,
       "prereqs": [
-        "propensity",
-        "nn_basics"
+        "causal_causal_forest",
+        "causal_double_ml"
+      ],
+      "sources": [
+        {
+          "corpus": "EconML",
+          "unit": "OrthoForest / Orthogonal Random Forest",
+          "url": "https://www.pywhy.org/EconML/"
+        }
+      ]
+    },
+    {
+      "id": "causal_qini",
+      "label": "Qini curve and Qini coefficient",
+      "area": "causal",
+      "difficulty": 0.4,
+      "importance": 3,
+      "ucs": [
+        "nba",
+        "churn",
+        "xsell",
+        "pricing"
+      ],
+      "prereqs": [
+        "causal_uplift_modeling"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 19: Evaluating Causal Models",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/19-Evaluating-Causal-Models.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_auuc",
+      "label": "AUUC and cumulative gain curves",
+      "area": "causal",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "churn",
+        "xsell"
+      ],
+      "prereqs": [
+        "causal_qini"
+      ],
+      "sources": [
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 19: Evaluating Causal Models",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/19-Evaluating-Causal-Models.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_policy_learning",
+      "label": "Policy learning and targeting rules",
+      "area": "causal",
+      "difficulty": 0.6,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "churn",
+        "xsell",
+        "pricing"
+      ],
+      "prereqs": [
+        "causal_cate",
+        "causal_qini"
+      ],
+      "sources": [
+        {
+          "corpus": "EconML",
+          "unit": "Policy learning (PolicyTree, DRPolicyTree)",
+          "url": "https://www.pywhy.org/EconML/"
+        },
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 18: Heterogeneous Treatment Effects and Personalization",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/18-Heterogeneous-Treatment-Effects-and-Personalization.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_price_elasticity",
+      "label": "Price elasticity estimation",
+      "area": "causal",
+      "difficulty": 0.5,
+      "importance": 3,
+      "ucs": [
+        "pricing"
+      ],
+      "prereqs": [
+        "causal_double_ml",
+        "causal_iv_2sls"
+      ],
+      "sources": [
+        {
+          "corpus": "EconML",
+          "unit": "Case study: pricing and price elasticity",
+          "url": "https://www.pywhy.org/EconML/"
+        },
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 22: Debiased/Orthogonal Machine Learning",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/22-Debiased-Orthogonal-Machine-Learning.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_marketing_mix",
+      "label": "Marketing mix modeling (MMM)",
+      "area": "causal",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "attribution",
+        "pricing"
+      ],
+      "prereqs": [
+        "causal_regression_adjustment"
+      ],
+      "sources": [
+        {
+          "corpus": "EconML",
+          "unit": "Case study: customer segmentation and marketing",
+          "url": "https://www.pywhy.org/EconML/"
+        },
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 5: The Unreasonable Effectiveness of Linear Regression",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/05-The-Unreasonable-Effectiveness-of-Linear-Regression.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_multi_touch_attribution",
+      "label": "Multi-touch attribution",
+      "area": "causal",
+      "difficulty": 0.5,
+      "importance": 3,
+      "ucs": [
+        "attribution"
+      ],
+      "prereqs": [
+        "causal_ate_att",
+        "causal_ab_testing"
+      ],
+      "sources": [
+        {
+          "corpus": "EconML",
+          "unit": "Case study: multi-touch attribution",
+          "url": "https://www.pywhy.org/EconML/"
+        },
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 2: Randomised Experiments",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/02-Randomised-Experiments.html"
+        }
+      ]
+    },
+    {
+      "id": "causal_contextual_bandits",
+      "label": "Contextual bandits",
+      "area": "causal",
+      "difficulty": 0.6,
+      "importance": 3,
+      "ucs": [
+        "nba",
+        "reco",
+        "xsell",
+        "pricing"
+      ],
+      "prereqs": [
+        "causal_ab_testing",
+        "causal_cate"
       ],
       "sources": [
         {
           "corpus": "Hands-On ML",
-          "unit": "Ch.18 Reinforcement Learning",
-          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/ch18.html"
+          "unit": "Ch. 18: Reinforcement Learning (exploration vs exploitation)",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
         }
+      ]
+    },
+    {
+      "id": "causal_thompson_sampling",
+      "label": "Thompson sampling",
+      "area": "causal",
+      "difficulty": 0.6,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "reco",
+        "pricing"
       ],
-      "area": "causal"
+      "prereqs": [
+        "causal_contextual_bandits"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 18: Reinforcement Learning (exploration vs exploitation)",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "causal_off_policy_evaluation",
+      "label": "Off-policy evaluation",
+      "area": "causal",
+      "difficulty": 0.7,
+      "importance": 2,
+      "ucs": [
+        "nba",
+        "reco",
+        "churn"
+      ],
+      "prereqs": [
+        "causal_contextual_bandits",
+        "causal_ipw"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 18: Reinforcement Learning (temporal difference and off-policy)",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "Causal Handbook",
+          "unit": "Ch. 11: Propensity Score",
+          "url": "https://matheusfacure.github.io/python-causality-handbook/11-Propensity-Score.html"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_outlier_vs_novelty",
+      "label": "Outlier vs novelty detection framing",
+      "area": "anomaly",
+      "difficulty": 0.15,
+      "importance": 3,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "quality",
+        "pdm"
+      ],
+      "prereqs": [
+        "found_ml_workflow"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Novelty and Outlier Detection (overview)",
+          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html"
+        },
+        {
+          "corpus": "PyOD",
+          "unit": "PyOD overview and model taxonomy",
+          "url": "https://pyod.readthedocs.io/en/latest/index.html"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_kmeans",
+      "label": "K-means clustering for segmentation",
+      "area": "anomaly",
+      "difficulty": 0.2,
+      "importance": 3,
+      "ucs": [
+        "churn",
+        "clv",
+        "nba",
+        "reco"
+      ],
+      "prereqs": [
+        "found_ml_workflow"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 12.4.1 K-Means Clustering",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Clustering: K-means",
+          "url": "https://scikit-learn.org/stable/modules/clustering.html#k-means"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_choosing_k",
+      "label": "Choosing the number of clusters",
+      "area": "anomaly",
+      "difficulty": 0.3,
+      "importance": 2,
+      "ucs": [
+        "churn",
+        "clv",
+        "reco"
+      ],
+      "prereqs": [
+        "anomaly_kmeans"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Clustering performance evaluation: Silhouette Coefficient",
+          "url": "https://scikit-learn.org/stable/modules/clustering.html#silhouette-coefficient"
+        },
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 12.4.3 Practical Issues in Clustering",
+          "url": "https://www.statlearning.com/"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_hierarchical",
+      "label": "Hierarchical (agglomerative) clustering",
+      "area": "anomaly",
+      "difficulty": 0.35,
+      "importance": 2,
+      "ucs": [
+        "churn",
+        "clv",
+        "reco"
+      ],
+      "prereqs": [
+        "anomaly_kmeans"
+      ],
+      "sources": [
+        {
+          "corpus": "ISLR",
+          "unit": "Ch. 12.4.2 Hierarchical Clustering",
+          "url": "https://www.statlearning.com/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Clustering: Hierarchical clustering",
+          "url": "https://scikit-learn.org/stable/modules/clustering.html#hierarchical-clustering"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_dbscan",
+      "label": "DBSCAN density clustering",
+      "area": "anomaly",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "churn",
+        "reco",
+        "quality"
+      ],
+      "prereqs": [
+        "anomaly_kmeans"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Clustering: DBSCAN",
+          "url": "https://scikit-learn.org/stable/modules/clustering.html#dbscan"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 9 Unsupervised Learning: DBSCAN",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_hdbscan",
+      "label": "HDBSCAN varying-density clustering",
+      "area": "anomaly",
+      "difficulty": 0.5,
+      "importance": 1,
+      "ucs": [
+        "churn",
+        "reco"
+      ],
+      "prereqs": [
+        "anomaly_dbscan"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Clustering: HDBSCAN",
+          "url": "https://scikit-learn.org/stable/modules/clustering.html#hdbscan"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_gmm_clustering",
+      "label": "Gaussian mixture models for soft clustering",
+      "area": "anomaly",
+      "difficulty": 0.45,
+      "importance": 2,
+      "ucs": [
+        "churn",
+        "clv",
+        "reco"
+      ],
+      "prereqs": [
+        "anomaly_kmeans"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Gaussian mixture models",
+          "url": "https://scikit-learn.org/stable/modules/mixture.html"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 9 Unsupervised Learning: Gaussian Mixtures",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_gaussian_density",
+      "label": "Parametric Gaussian density for anomaly",
+      "area": "anomaly",
+      "difficulty": 0.3,
+      "importance": 2,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "quality",
+        "pdm"
+      ],
+      "prereqs": [
+        "anomaly_outlier_vs_novelty"
+      ],
+      "sources": [
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 9 Unsupervised Learning: Anomaly Detection with Gaussian Mixtures",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Covariance estimation and Mahalanobis distances",
+          "url": "https://scikit-learn.org/stable/modules/covariance.html"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_gmm_scoring",
+      "label": "GMM likelihood anomaly scoring",
+      "area": "anomaly",
+      "difficulty": 0.5,
+      "importance": 1,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "pdm"
+      ],
+      "prereqs": [
+        "anomaly_gmm_clustering",
+        "anomaly_gaussian_density"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Gaussian mixture models: density scoring (score_samples)",
+          "url": "https://scikit-learn.org/stable/modules/mixture.html"
+        },
+        {
+          "corpus": "PyOD",
+          "unit": "GMM detector (pyod.models.gmm)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.gmm"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_robust_covariance",
+      "label": "Robust covariance / elliptic envelope (MCD)",
+      "area": "anomaly",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "anomaly",
+        "quality",
+        "pdm"
+      ],
+      "prereqs": [
+        "anomaly_gaussian_density"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Robust covariance estimation (Minimum Covariance Determinant)",
+          "url": "https://scikit-learn.org/stable/modules/covariance.html#robust-covariance-estimation"
+        },
+        {
+          "corpus": "PyOD",
+          "unit": "MCD detector (pyod.models.mcd)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.mcd"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_knn",
+      "label": "kNN distance-based outlier detection",
+      "area": "anomaly",
+      "difficulty": 0.3,
+      "importance": 2,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "quality",
+        "pdm"
+      ],
+      "prereqs": [
+        "anomaly_outlier_vs_novelty"
+      ],
+      "sources": [
+        {
+          "corpus": "PyOD",
+          "unit": "kNN detector (pyod.models.knn)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.knn"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Nearest Neighbors",
+          "url": "https://scikit-learn.org/stable/modules/neighbors.html"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_lof",
+      "label": "Local Outlier Factor (LOF)",
+      "area": "anomaly",
+      "difficulty": 0.45,
+      "importance": 3,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "aml",
+        "quality"
+      ],
+      "prereqs": [
+        "anomaly_knn"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Local Outlier Factor",
+          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html#local-outlier-factor"
+        },
+        {
+          "corpus": "PyOD",
+          "unit": "LOF detector (pyod.models.lof)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.lof"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_ecod",
+      "label": "ECOD empirical-CDF outlier detection",
+      "area": "anomaly",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "quality"
+      ],
+      "prereqs": [
+        "anomaly_outlier_vs_novelty"
+      ],
+      "sources": [
+        {
+          "corpus": "PyOD",
+          "unit": "ECOD detector (pyod.models.ecod)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.ecod"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_copod",
+      "label": "COPOD copula-based outlier detection",
+      "area": "anomaly",
+      "difficulty": 0.5,
+      "importance": 1,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "aml"
+      ],
+      "prereqs": [
+        "anomaly_ecod"
+      ],
+      "sources": [
+        {
+          "corpus": "PyOD",
+          "unit": "COPOD detector (pyod.models.copod)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.copod"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_isolation_forest",
+      "label": "Isolation Forest",
+      "area": "anomaly",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "aml",
+        "quality",
+        "pdm"
+      ],
+      "prereqs": [
+        "anomaly_outlier_vs_novelty"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Isolation Forest",
+          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html#isolation-forest"
+        },
+        {
+          "corpus": "PyOD",
+          "unit": "IForest detector (pyod.models.iforest)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.iforest"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_ocsvm",
+      "label": "One-Class SVM",
+      "area": "anomaly",
+      "difficulty": 0.55,
+      "importance": 2,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "quality",
+        "pdm"
+      ],
+      "prereqs": [
+        "anomaly_outlier_vs_novelty"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Density estimation, novelty detection (One-Class SVM)",
+          "url": "https://scikit-learn.org/stable/modules/svm.html#density-estimation-novelty-detection"
+        },
+        {
+          "corpus": "PyOD",
+          "unit": "OCSVM detector (pyod.models.ocsvm)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.ocsvm"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_pca_reconstruction",
+      "label": "PCA reconstruction-error anomaly detection",
+      "area": "anomaly",
+      "difficulty": 0.4,
+      "importance": 2,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "aml"
+      ],
+      "prereqs": [
+        "anomaly_outlier_vs_novelty"
+      ],
+      "sources": [
+        {
+          "corpus": "PyOD",
+          "unit": "PCA detector (pyod.models.pca)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.pca"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 8 Dimensionality Reduction: PCA",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_tsne_umap",
+      "label": "t-SNE / UMAP for anomaly visualization",
+      "area": "anomaly",
+      "difficulty": 0.45,
+      "importance": 1,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "aml"
+      ],
+      "prereqs": [
+        "anomaly_pca_reconstruction"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Manifold learning: t-SNE",
+          "url": "https://scikit-learn.org/stable/modules/manifold.html#t-sne"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 8 Dimensionality Reduction: t-SNE and manifold learning",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_autoencoder",
+      "label": "Autoencoder reconstruction anomaly detection",
+      "area": "anomaly",
+      "difficulty": 0.55,
+      "importance": 3,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "pdm",
+        "quality"
+      ],
+      "prereqs": [
+        "anomaly_pca_reconstruction"
+      ],
+      "sources": [
+        {
+          "corpus": "PyOD",
+          "unit": "AutoEncoder detector (pyod.models.auto_encoder)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.auto_encoder"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 17 Autoencoders, GANs, and Diffusion Models",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_vae",
+      "label": "Variational autoencoder (VAE) anomaly detection",
+      "area": "anomaly",
+      "difficulty": 0.7,
+      "importance": 1,
+      "ucs": [
+        "anomaly",
+        "fraud"
+      ],
+      "prereqs": [
+        "anomaly_autoencoder"
+      ],
+      "sources": [
+        {
+          "corpus": "PyOD",
+          "unit": "VAE detector (pyod.models.vae)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.vae"
+        },
+        {
+          "corpus": "Hands-On ML",
+          "unit": "Ch. 17 Autoencoders: Variational Autoencoders",
+          "url": "https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125967/"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_deep_svdd",
+      "label": "Deep SVDD (deep one-class)",
+      "area": "anomaly",
+      "difficulty": 0.75,
+      "importance": 1,
+      "ucs": [
+        "anomaly",
+        "fraud"
+      ],
+      "prereqs": [
+        "anomaly_autoencoder",
+        "anomaly_ocsvm"
+      ],
+      "sources": [
+        {
+          "corpus": "PyOD",
+          "unit": "DeepSVDD detector (pyod.models.deep_svdd)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.deep_svdd"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_graph_network",
+      "label": "Graph / entity-network anomaly detection",
+      "area": "anomaly",
+      "difficulty": 0.65,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "aml"
+      ],
+      "prereqs": [
+        "anomaly_outlier_vs_novelty"
+      ],
+      "sources": [
+        {
+          "corpus": "PyOD",
+          "unit": "PyGOD: graph outlier detection (PyOD ecosystem)",
+          "url": "https://pyod.readthedocs.io/en/latest/index.html"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_pu_semisupervised",
+      "label": "PU learning and semi-supervised anomaly detection",
+      "area": "anomaly",
+      "difficulty": 0.6,
+      "importance": 2,
+      "ucs": [
+        "fraud",
+        "aml",
+        "anomaly"
+      ],
+      "prereqs": [
+        "anomaly_outlier_vs_novelty"
+      ],
+      "sources": [
+        {
+          "corpus": "scikit-learn",
+          "unit": "Semi-supervised learning",
+          "url": "https://scikit-learn.org/stable/modules/semi_supervised.html"
+        },
+        {
+          "corpus": "PyOD",
+          "unit": "XGBOD: semi-supervised outlier detection (pyod.models.xgbod)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.xgbod"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_ensembles",
+      "label": "Detector score ensembles",
+      "area": "anomaly",
+      "difficulty": 0.5,
+      "importance": 2,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "aml",
+        "quality"
+      ],
+      "prereqs": [
+        "anomaly_isolation_forest",
+        "anomaly_lof"
+      ],
+      "sources": [
+        {
+          "corpus": "PyOD",
+          "unit": "Outlier score combination (pyod.models.combination)",
+          "url": "https://pyod.readthedocs.io/en/latest/pyod.models.html#module-pyod.models.combination"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_score_threshold",
+      "label": "Anomaly score thresholding and contamination",
+      "area": "anomaly",
+      "difficulty": 0.35,
+      "importance": 3,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "aml",
+        "quality"
+      ],
+      "prereqs": [
+        "anomaly_outlier_vs_novelty"
+      ],
+      "sources": [
+        {
+          "corpus": "PyOD",
+          "unit": "API: contamination, threshold_ and decision_function",
+          "url": "https://pyod.readthedocs.io/en/latest/api_cc.html"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Outlier detection: contamination parameter",
+          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html"
+        }
+      ]
+    },
+    {
+      "id": "anomaly_detector_selection",
+      "label": "Detector selection and benchmarking (ADBench)",
+      "area": "anomaly",
+      "difficulty": 0.4,
+      "importance": 3,
+      "ucs": [
+        "anomaly",
+        "fraud",
+        "aml",
+        "quality"
+      ],
+      "prereqs": [
+        "anomaly_isolation_forest",
+        "anomaly_lof",
+        "anomaly_autoencoder"
+      ],
+      "sources": [
+        {
+          "corpus": "PyOD",
+          "unit": "Benchmarks (ADBench)",
+          "url": "https://pyod.readthedocs.io/en/latest/benchmark.html"
+        },
+        {
+          "corpus": "scikit-learn",
+          "unit": "Overview of outlier detection methods (comparison)",
+          "url": "https://scikit-learn.org/stable/modules/outlier_detection.html#overview-of-outlier-detection-methods"
+        }
+      ]
     }
   ],
   "areas": [
