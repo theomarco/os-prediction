@@ -82,8 +82,8 @@
 <div id="stage"><canvas id="c"></canvas></div>
 
 <div class="overlay tl">
-  <h1>Everything it<br>takes to predict</h1>
-  <p class="lede"><b>Every prediction problem needs its own body of knowledge, and no one has ever mapped it.</b> Courses teach you all of ML. Use-case guides teach you one trick. Nothing connects them into what a given problem actually requires, in what order. So teams rebuild it from scratch, every time. <b>Here's the map</b>, for the humans and agents who have to.</p>
+  <h1>What it takes<br>to predict</h1>
+  <p class="lede"><b>A map of what each common prediction problem actually takes to solve.</b> The hard part usually isn't the model, it's framing the problem: most predictive projects fail because it's hard to connect a business use case to the foundational data science it actually needs. In this map, every block is a core concept, linked to open resources you can access.</p>
   <p class="stat"><b id="nNodes">0</b> knowledge blocks · <b id="nEdges">0</b> prerequisite links · <b id="nUC">0</b> use cases</p>
 </div>
 
@@ -96,7 +96,7 @@
 </div>
 
 <div class="overlay br">
-  <b>Drag</b> to spin · <b>right-drag</b> to pan<br><b>Scroll</b> to zoom · <b>tap</b> a dot · <b>double-click</b> reset
+  <b>Drag</b> to rotate · <b>right-drag</b> to pan<br><b>Scroll</b> to zoom · <b>tap</b> a dot to focus it · <b>double-click</b> reset
 </div>
 
 <div class="tip" id="tip"></div>
@@ -120,45 +120,48 @@ function ancestors(id){const seen=new Set(),eset=new Set(),st=[id];while(st.leng
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 const rand=mulberry32(20260712);
 
-/* layout: cluster by knowledge area, height by difficulty */
-const ANCH=210, WY=600;
-const areaAngle={};REALAREAS.forEach((k,i)=>areaAngle[k]=Math.PI*2*i/REALAREAS.length-Math.PI/2);
+/* layout: a helix. the spiral climbs by complexity (foundations at the base, frontier at the top);
+   colour is the knowledge area. an asymmetric shape reads well under rotation. */
+const TWO=Math.PI*2;
+const AREA_TIER={found:0.00,classical:0.30,eval:0.33,ts:0.48,deep:0.58,anomaly:0.62,survival:0.80,causal:0.90};
+const DMIN=0.2,DMAX=0.8;
+NODES.forEach(n=>{const t=(AREA_TIER[n.area]!=null?AREA_TIER[n.area]:0.5);const dn=(n.diff-DMIN)/(DMAX-DMIN);n._cx=0.68*t+0.32*(dn<0?0:dn>1?1:dn);});
+const byC=[...NODES].sort((a,b)=>a._cx-b._cx);byC.forEach((n,i)=>{n._h=byC.length>1?i/(byC.length-1):0.5;});
+const HELIX_R=185, HELIX_H=850, TURNS=3.15;
 NODES.forEach(n=>{
-  const isF=n.area==="found";
-  const ang=isF?rand()*Math.PI*2:areaAngle[n.area]+(rand()-.5)*0.7;
-  const r=isF?40+rand()*62:ANCH*(0.5+rand()*0.6);
-  n.x=Math.cos(ang)*r;n.z=Math.sin(ang)*r;n.y=(n.diff-0.5)*WY+(rand()-.5)*34;n.vx=0;n.vz=0;
-  n.ax=isF?0:Math.cos(areaAngle[n.area])*ANCH;n.az=isF?0:Math.sin(areaAngle[n.area])*ANCH;
+  const th=n._h*TURNS*TWO+(rand()-.5)*0.5;       // wind up the spiral by complexity
+  const rr=HELIX_R*(0.80+0.36*rand());           // a little radial thickness
+  n.x=Math.cos(th)*rr; n.z=Math.sin(th)*rr; n.y=(n._h-0.5)*HELIX_H+(rand()-.5)*18;
+  n.revealT=n._h;                                // reveal climbs the spiral, foundations first
 });
-(function simulate(){
-  const KR=1700,KS=.022,REST=66,KC=.021,KG=.0045,DT=.42,DAMP=.82;
-  for(let it=0;it<340;it++){
-    for(const n of NODES){n.fx=0;n.fz=0;}
-    for(let i=0;i<NODES.length;i++)for(let j=i+1;j<NODES.length;j++){const a=NODES[i],b=NODES[j];let dx=a.x-b.x,dz=a.z-b.z,dy=a.y-b.y;let d2=dx*dx+dz*dz+dy*dy+12;let d=Math.sqrt(d2);let f=KR/d2;let ux=dx/d,uz=dz/d;a.fx+=f*ux;a.fz+=f*uz;b.fx-=f*ux;b.fz-=f*uz;}
-    for(const [aid,bid] of EDGES){const a=NMAP[aid],b=NMAP[bid];let dx=a.x-b.x,dz=a.z-b.z,dy=a.y-b.y;let d=Math.sqrt(dx*dx+dz*dz+dy*dy)+.01;let f=KS*(d-REST);let ux=dx/d,uz=dz/d;a.fx-=f*ux;a.fz-=f*uz;b.fx+=f*ux;b.fz+=f*uz;}
-    for(const n of NODES){n.fx+=(n.ax-n.x)*KC;n.fz+=(n.az-n.z)*KC;n.fx+=-n.x*KG;n.fz+=-n.z*KG;n.vx=(n.vx+n.fx*DT)*DAMP;n.vz=(n.vz+n.fz*DT)*DAMP;n.x+=n.vx;n.z+=n.vz;n.x=Math.max(-520,Math.min(520,n.x));n.z=Math.max(-520,Math.min(520,n.z));}
-  }
-})();
 
 const cv=document.getElementById("c"),ctx=cv.getContext("2d");
 let W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
 function resize(){W=cv.clientWidth;H=cv.clientHeight;cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);}
 window.addEventListener("resize",resize);resize();
 
-let yaw=0.5,pitch=0.16,zoom=1.25,panX=0,panY=0,autoRot=true;
-const FOCAL=780;
+let yaw=0.5,pitch=0.12,zoom=0.72,panX=0,panY=0,autoRot=true;
+let yawTarget=null,pitchTarget=null;   // smooth orient-to-node on click
+const FOCAL=1400;
+let revealStart=null,wave=0,revealDone=false;
+const REVEAL_MS=2300,REVEAL_BAND=0.30;
+function revAmt(n){if(revealDone)return 1;const v=(wave-n.revealT)/REVEAL_BAND;return v<0?0:v>1?1:v;}
 function project(n){
   let x=n.x,y=n.y,z=n.z;
   let x1=x*Math.cos(yaw)-z*Math.sin(yaw), z1=x*Math.sin(yaw)+z*Math.cos(yaw);
   let y2=y*Math.cos(pitch)-z1*Math.sin(pitch), z2=y*Math.sin(pitch)+z1*Math.cos(pitch);
   let f=FOCAL/(FOCAL+z2);
-  return {sx:W*0.60+panX + x1*f*zoom, sy:H*0.50+panY - y2*f*zoom, sr:(3.0+n.imp*2.0)*f*zoom, z:z2, f};
+  return {sx:W*0.60+panX + x1*f*zoom, sy:H*0.47+panY - y2*f*zoom, sr:(3.0+n.imp*2.0)*f*zoom, z:z2, f};
 }
 const state={filter:new Set(ALLUC),areaOn:new Set(DATA.areas.map(a=>a.k)),sel:null,hover:null};
 function nodeActive(n){ if(!state.areaOn.has(n.area)) return false; if(n.shared) return true; for(const u of n.ucs) if(state.filter.has(u)) return true; return false; }
 
 function draw(){
-  if(autoRot && !drag.on && !state.hover){yaw+=0.0022;}
+  if(revealStart===null)revealStart=performance.now();
+  if(!revealDone){let t=(performance.now()-revealStart)/REVEAL_MS;if(t>1)t=1;wave=(1-Math.pow(1-t,3))*(1+REVEAL_BAND);if(t>=1)revealDone=true;}
+  if(yawTarget!==null){yaw+=(yawTarget-yaw)*0.12; if(Math.abs(yawTarget-yaw)<0.002){yaw=yawTarget;yawTarget=null;}}
+  if(pitchTarget!==null){pitch+=(pitchTarget-pitch)*0.12; if(Math.abs(pitchTarget-pitch)<0.002){pitch=pitchTarget;pitchTarget=null;}}
+  if(autoRot && !drag.on && !state.hover && yawTarget===null){yaw+=0.0024;}  /* asymmetric shape: a plain vertical spin already reads as 3D */
   ctx.clearRect(0,0,W,H);
   const g=ctx.createRadialGradient(W/2,H*0.42,80,W/2,H*0.5,Math.max(W,H)*0.75);
   g.addColorStop(0,"#0b0f15");g.addColorStop(1,"#06080b");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
@@ -169,18 +172,20 @@ function draw(){
   for(const [aid,bid] of EDGES){
     const a=NMAP[aid],b=NMAP[bid];const act=nodeActive(a)&&nodeActive(b);const inTr=tr&&tr.edges.has(aid+">"+bid);
     let al=0.10;if(!act)al=0.03;if(tr){al=inTr?0.55:0.02;}
-    const depth=(a._f+b._f)/2;al*=(0.5+depth*0.6);
+    const depth=(a._f+b._f)/2;al*=(0.5+depth*0.6)*Math.min(revAmt(a),revAmt(b));
     ctx.strokeStyle=inTr?"rgba(230,238,246,"+al+")":"rgba(150,164,182,"+al+")";
     ctx.beginPath();ctx.moveTo(a._sx,a._sy);ctx.lineTo(b._sx,b._sy);ctx.stroke();
   }
   for(const n of order){
-    const act=nodeActive(n);let al=(0.35+0.65*Math.min(1,n._f*0.95));
+    const rev=revAmt(n);if(rev<=0)continue;
+    const act=nodeActive(n);let al=(0.35+0.65*Math.min(1,n._f*0.95))*rev;
     if(!act)al*=0.09;
     if(tr){ if(n.id===state.sel){} else if(tr.nodes.has(n.id)){} else al*=0.12; }
+    const rsc=0.4+0.6*rev;
     const col=AREAMAP[n.area].color;const isFocus=n.id===state.sel||n.id===state.hover;const inTr=tr&&tr.nodes.has(n.id);
-    ctx.globalAlpha=al*(isFocus?0.9:0.5);ctx.fillStyle=col;ctx.beginPath();ctx.arc(n._sx,n._sy,n._sr*(isFocus?2.6:1.9),0,7);ctx.fill();
-    ctx.globalAlpha=Math.min(1,al*(isFocus||inTr?1.5:1));ctx.fillStyle=col;ctx.beginPath();ctx.arc(n._sx,n._sy,n._sr,0,7);ctx.fill();
-    if(isFocus||inTr){ctx.globalAlpha=1;ctx.lineWidth=1.5;ctx.strokeStyle="rgba(255,255,255,"+(isFocus?.95:.5)+")";ctx.beginPath();ctx.arc(n._sx,n._sy,n._sr+2.5,0,7);ctx.stroke();}
+    ctx.globalAlpha=al*(isFocus?0.9:0.5);ctx.fillStyle=col;ctx.beginPath();ctx.arc(n._sx,n._sy,n._sr*rsc*(isFocus?2.6:1.9),0,7);ctx.fill();
+    ctx.globalAlpha=Math.min(1,al*(isFocus||inTr?1.5:1));ctx.fillStyle=col;ctx.beginPath();ctx.arc(n._sx,n._sy,n._sr*rsc,0,7);ctx.fill();
+    if(isFocus||inTr){ctx.globalAlpha=1;ctx.lineWidth=1.5;ctx.strokeStyle="rgba(255,255,255,"+(isFocus?.95:.5)+")";ctx.beginPath();ctx.arc(n._sx,n._sy,n._sr*rsc+2.5,0,7);ctx.stroke();}
     ctx.globalAlpha=1;
   }
   const fid=state.hover||state.sel;
@@ -195,23 +200,24 @@ const drag={on:false,pan:false,x:0,y:0,moved:0};
 cv.addEventListener("pointerdown",e=>{drag.on=true;drag.pan=(e.button===2||e.shiftKey);drag.x=e.clientX;drag.y=e.clientY;drag.moved=0;cv.classList.add("drag");cv.setPointerCapture(e.pointerId);});
 cv.addEventListener("pointermove",e=>{
   if(drag.on){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;drag.moved+=Math.abs(dx)+Math.abs(dy);
-    if(drag.pan){panX+=dx;panY+=dy;}else{yaw+=dx*0.006;autoRot=false;}/* spin only around the vertical axis */
+    if(drag.pan){panX+=dx;panY+=dy;}else{yaw+=dx*0.006;pitch+=dy*0.006;pitch=Math.max(-0.5,Math.min(1.0,pitch));autoRot=false;yawTarget=null;pitchTarget=null;}/* drag: horizontal spins, vertical tilts */
   } else { hitTest(e); }
 });
 cv.addEventListener("pointerup",e=>{drag.on=false;cv.classList.remove("drag");if(drag.moved<5){clickAt(e);}});
 cv.addEventListener("wheel",e=>{e.preventDefault();zoom=Math.max(0.5,Math.min(2.8,zoom*(1-e.deltaY*0.0012)));},{passive:false});
 cv.addEventListener("contextmenu",e=>e.preventDefault());
-cv.addEventListener("dblclick",()=>{yaw=0.5;pitch=0.16;zoom=1.25;panX=0;panY=0;autoRot=true;state.sel=null;updatePanel();});
+cv.addEventListener("dblclick",()=>{yaw=0.5;pitch=0.12;zoom=0.72;panX=0;panY=0;autoRot=true;yawTarget=null;pitchTarget=null;state.sel=null;updatePanel();});
 
 const tip=document.getElementById("tip");
-function pick(e){let best=null,bd=1e9;for(const n of NODES){if(!nodeActive(n))continue;const dx=e.clientX-n._sx,dy=e.clientY-n._sy;const d=Math.hypot(dx,dy);if(d<n._sr+6 && d-n._sr<bd){bd=d-n._sr;best=n;}}return best;}
+function pick(e){let best=null,bd=1e9;for(const n of NODES){if(!nodeActive(n))continue;if(!revealDone&&revAmt(n)<0.5)continue;const dx=e.clientX-n._sx,dy=e.clientY-n._sy;const d=Math.hypot(dx,dy);if(d<n._sr+6 && d-n._sr<bd){bd=d-n._sr;best=n;}}return best;}
 function hitTest(e){const n=pick(e);state.hover=n?n.id:null;
   if(n){tip.classList.add("show");tip.style.left=Math.min(window.innerWidth-262,e.clientX+16)+"px";tip.style.top=(e.clientY+14)+"px";
     const a=AREAMAP[n.area];const s0=n.src&&n.src[0];
     tip.innerHTML=`<div class="tn">${n.label}</div><div class="tarea" style="color:${a.color}"><span class="dd" style="background:${a.color}"></span>${a.label}</div>${s0?`<div class="tsrc">${s0.corpus} · ${s0.unit}</div>`:""}`;
   } else tip.classList.remove("show");
 }
-function clickAt(e){const n=pick(e);state.sel=n?n.id:null;updatePanel();}
+function clickAt(e){const n=pick(e);state.sel=n?n.id:null;updatePanel();
+  if(n){const rh=Math.hypot(n.x,n.z)||1;let want=-Math.PI/2-Math.atan2(n.z,n.x);let d=(want-yaw+Math.PI)%(TWO);if(d<0)d+=TWO;d-=Math.PI;yawTarget=yaw+d;pitchTarget=Math.max(-0.3,Math.min(0.5,Math.atan2(-n.y,rh)*0.3));autoRot=false;}}
 
 const panel=document.getElementById("panel"),pInner=document.getElementById("pInner");
 document.getElementById("pClose").addEventListener("click",()=>{state.sel=null;updatePanel();});
